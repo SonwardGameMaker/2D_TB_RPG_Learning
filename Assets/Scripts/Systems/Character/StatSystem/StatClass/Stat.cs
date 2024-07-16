@@ -17,12 +17,12 @@ public class Stat : CharParameterBase, IMinValUnmod, ICurrValModifiable, IMaxVal
         _maxValue.IsLowerBounded = true;
         _maxValue.LowerBound = minValue;
 
-        //_currentValue.ValueChanged += HandleCurrentValEvents;
+        _currentValue.ValueChanged += HandleCurrentValEvents;
         _maxValue.ValueChanged += HandleMaxValEvents;
     }
     ~Stat() // дивна поведінка, перевірити
     {
-        //_currentValue.ValueChanged -= HandleCurrentValEvents;
+        _currentValue.ValueChanged -= HandleCurrentValEvents;
         _maxValue.ValueChanged -= HandleMaxValEvents;
     }
     public Stat( float maxValue, float minValue) : this(maxValue, minValue, maxValue) { }
@@ -81,11 +81,12 @@ public class Stat : CharParameterBase, IMinValUnmod, ICurrValModifiable, IMaxVal
     {
         _maxValue.LowerBound = _minValue;
     }
-    //private void HandleCurrentValEvents() => CurrentValChangedInvoke();
+    private void HandleCurrentValEvents() => CurrentValChangedInvoke();
     private void HandleMaxValEvents()
     {
         if (_currentValue.BaseValue > _maxValue.RealValue)
             _currentValue.BaseValue = _maxValue.RealValue;
+        MaxValChangedInvoke();
     } 
 
     public override string ToString()
