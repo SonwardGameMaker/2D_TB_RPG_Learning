@@ -39,7 +39,7 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
         {
             if (value > _maxValue.RealValue) _minValue = _maxValue.RealValue;
             else _minValue = value;
-            MinValChanged();
+            MinValChangedInvoke();
         }
     }
     public float CurrentValue
@@ -50,7 +50,7 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
             if (value > _maxValue.RealValue) _currentValue = _maxValue.RealValue;
             else if (value < _minValue) _currentValue = _minValue;
             else _currentValue = value;
-            CurrentValChanged?.Invoke();
+            CurrentValChangedInvoke();
         }
     }
     public ModVar MaxValue
@@ -67,13 +67,9 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
 
     public void AddMaxValueModifier(Modifier modifier) => _maxValue.AddModifier(modifier);
 
-    public event Action MinValChanged;
-    public event Action CurrentValChanged;
-    public event Action MaxValChanged;
-
     protected virtual void HandleMaxValEvents()
     {
-        MaxValChanged?.Invoke();
+        MaxValChangedInvoke();
         if (_currentValue > _maxValue.RealValue)
             _currentValue = _maxValue.RealValue;
     }

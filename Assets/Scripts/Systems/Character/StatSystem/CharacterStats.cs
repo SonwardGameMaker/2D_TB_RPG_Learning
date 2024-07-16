@@ -114,11 +114,9 @@ public class CharacterStats
             new ParInteraction(new List<CharParameterBase> { Strength, Charisma}, Intimidation)
         };
         Affectors[0].CalculateLogic = LevelAffectionOnSkills;
-        Affectors[0].Affect();
         for (int i = 1; i < Affectors.Count; i++)
         {
             Affectors[i].CalculateLogic = AttributeAffectionOnSkills;
-            Affectors[i].Affect();
         }
         ExternalAffectors = new List<ParInteraction>();
     }
@@ -136,7 +134,6 @@ public class CharacterStats
     public void AddAffector(ParInteraction interaction)
     {
         ExternalAffectors.Add(interaction);
-        interaction.Affect();
         //Debug.Log("External added; External count: " + ExternalAffectors.Count);
     }
     public void AddAffector(
@@ -144,8 +141,7 @@ public class CharacterStats
         List<CharParameterBase> targets,
         ModValueCalculateLogic modValueCalculateLogic)
     {
-        ParInteraction parInteraction = new ParInteraction(affectors, targets);
-        parInteraction.CalculateLogic = modValueCalculateLogic;
+        ParInteraction parInteraction = new ParInteraction(affectors, targets, modValueCalculateLogic);
         AddAffector(parInteraction);
     }
     public void AddAffector(
@@ -169,30 +165,6 @@ public class CharacterStats
         attribute.SetCurrentValueBase(increase ? attribute.CurrentValue.BaseValue + 1
             : attribute.CurrentValue.BaseValue - 1);
         //Debug.Log("Max value: " + attribute.MaxValue.RealValue);
-        AffectSkills(attribute);
-    }
-    private void AffectSkills(Stat attribute)
-    {
-        
-        foreach (ParInteraction affector in Affectors)
-        {
-            if (affector.Affectors.Contains(attribute))
-            {
-                affector.Affect();
-                //Debug.Log("InternalAffectors");
-            }
-                
-        }
-        //Debug.Log("External count: " + ExternalAffectors.Count);
-        foreach (ParInteraction affector in ExternalAffectors)
-        {
-            if (affector.Affectors.Contains(attribute))
-            {
-                affector.Affect();
-                //Debug.Log("Affected");
-            }
-                
-        }
     }
     #endregion
 
