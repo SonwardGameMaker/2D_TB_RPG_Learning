@@ -1,19 +1,16 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMaxValModifiable
+public class CharLevel : CharParameterBase, IMaxValModifiable, IMinValUnmod, ICurrValUnmod
 {
-    [SerializeField] protected float _minValue;
-    [SerializeField] protected float _currentValue;
-    [SerializeField] protected ModVar _maxValue;
+    protected new const string DEFAULT_NAME = "Level";
 
-    protected bool _isCurrValCanReachBelowMinVal = false;
-    protected bool _isCurrValCanReachAboveMaxVal = false;
+    [SerializeField] private float _minValue;
+    [SerializeField] private float _currentValue;
+    [SerializeField] private ModVar _maxValue;
 
-    #region constructors and destructor
-    public CharResource(float maxValue, float minValue, float currentValue)
+    public CharLevel(float maxValue, float minValue, float currentValue) : base(DEFAULT_NAME)
     {
         _minValue = minValue;
         _maxValue = new ModVar(maxValue);
@@ -23,23 +20,26 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
         _maxValue.LowerBound = minValue;
 
         _maxValue.ValueChanged += HandleMaxValEvents;
+
+        _maxValue.IsLowerBounded = true;
+        _maxValue.IsUpperBounded = true;
+        _maxValue.LowerBound = 20;
+        _maxValue.UpperBound = 20;
     }
-    public CharResource(float maxValue, float minValue) : this(maxValue, minValue, maxValue) { }
+    public CharLevel(float maxValue, float minValue) : this(maxValue, minValue, maxValue) { }
     /// <summary>
     /// Default min value is 0. Default current value is max value
     /// </summary>
-    public CharResource(float maxValue) : this(DEFAULT_MIN_VALUE, maxValue, maxValue) { }
+    public CharLevel(float maxValue) : this(DEFAULT_MIN_VALUE, maxValue, maxValue) { }
     /// <summary>
     /// Default min value is 0 and default max value is 30. Default current value is max value
     /// </summary>
-    public CharResource() : this(DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, DEFAULT_MAX_VALUE) { }
-    ~CharResource() // дивна поведінка, перевірити
+    public CharLevel() : this(DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, DEFAULT_MAX_VALUE) { }
+    ~CharLevel() // дивна поведінка, перевірити
     {
         _maxValue.ValueChanged -= HandleMaxValEvents;
     }
-    #endregion
 
-    #region properties
     public float MinValue
     {
         get => _minValue;
@@ -50,18 +50,19 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
             MinValChangedInvoke();
         }
     }
-    public float CurrentValue
+
+    public float CurrentValue 
     {
-        get => _currentValue;
+        get => _currentValue; 
         set
         {
-            if (value > _maxValue.RealValue && !_isCurrValCanReachAboveMaxVal) _currentValue = _maxValue.RealValue;
-            else if (value < _minValue && !_isCurrValCanReachBelowMinVal) _currentValue = _minValue;
-            else _currentValue = value;
+            if (value > _maxValue.RealValue) _currentValue = _maxValue.RealValue;
+            else if (value < _minValue) _currentValue = _minValue;
+            else _minValue = value;
             CurrentValChangedInvoke();
         }
     }
-    public float MaxValue { get => _maxValue.RealValue; }
+
     public float MaxValueBase
     {
         get => _maxValue.BaseValue;
@@ -71,25 +72,19 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
             else _maxValue.BaseValue = value;
         }
     }
-    #endregion
+    public float MaxValue { get => _maxValue.RealValue; }
 
-    #region modifers operations
+    // Max value modifiers
     public void AddMaxValueModifier(Modifier modifier) => _maxValue.AddModifier(modifier);
     public IReadOnlyList<Modifier> GetMaxValueModifiers() => _maxValue.GetModifiers();
     public IReadOnlyList<Modifier> GetMaxValueModifiers(ModifierType modifierType) => _maxValue.GetModifiers(modifierType);
     public bool TryRemoveMaxValueModifier(Modifier modifier) => _maxValue.TryRemoveModifier(modifier);
     public bool TryRemoveMaxValueAllModifiersOf(object source) => _maxValue.TryRemoveAllModifiersOf(source);
-    #endregion
 
-    protected virtual void HandleMaxValEvents()
+    private void HandleMaxValEvents()
     {
-        MaxValChangedInvoke();
         if (_currentValue > _maxValue.RealValue)
             _currentValue = _maxValue.RealValue;
-    }
-
-    public override string ToString()
-    {
-        return "Stat can have values from " + _minValue + " to " + _maxValue.RealValue + "; Current value is " + _currentValue;
+        MaxValChangedInvoke();
     }
 }

@@ -10,6 +10,7 @@ public sealed class ModVar
     private const int DEFAULT_DIGIT_ACCURACY = 2;
     internal const int MAXIMUM_ROUND_DIGITS = 8;
 
+    #region fields
     [SerializeField] private float baseValue;
 
     [SuppressMessage("NDepend", "ND1902:AvoidStaticFieldsWithAMutableFieldType", Justification = "Cannot mutate after Instantiation of Stat, will throw.")]
@@ -31,7 +32,9 @@ public sealed class ModVar
     public float LowerBound = 0.0f;
     public bool IsUpperBounded = false;
     public float UpperBound = 30.0f;
+    #endregion
 
+    #region constructors
     public ModVar(float baseValue, int digitAccuracy, int modsMaxCapacity)
     {
         this.baseValue = baseValue;
@@ -51,7 +54,9 @@ public sealed class ModVar
     }
     public ModVar(float baseValue) : this(baseValue, DEFAULT_DIGIT_ACCURACY, DEFAULT_LIST_CAPACITY) { }
     public ModVar(float baseValue, int digitAccuracy) : this(baseValue, digitAccuracy, DEFAULT_LIST_CAPACITY) { }
+    #endregion
 
+    #region properties
     public float BaseValue
     {
         get => baseValue;
@@ -87,10 +92,12 @@ public sealed class ModVar
                 OnModifiersChanged();
         }
     }
+    #endregion
 
     public event Action ValueChanged;
     public event Action ModifiersChanged;
 
+    #region modifiers operations
     public void AddModifier(Modifier modifier)
     {
         IsDirty = true;
@@ -186,6 +193,7 @@ public sealed class ModVar
 
         return (float)Math.Round(finalValue, digitAccuracy);
     }
+    #endregion
 
     private void OnValueChanged() => ValueChanged?.Invoke();
     private void OnModifiersChanged() => ModifiersChanged?.Invoke();

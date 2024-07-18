@@ -4,7 +4,12 @@ using UnityEngine;
 
 public interface IMaxValModifiable
 {
-    public ModVar MaxValue { get; set; }
-    public void SetMaxValueBase(float baseValue);
+    public float MaxValue { get; }
+    public float MaxValueBase { get; set; }
+
     public void AddMaxValueModifier(Modifier modifier);
+    public IReadOnlyList<Modifier> GetMaxValueModifiers();
+    public IReadOnlyList<Modifier> GetMaxValueModifiers(ModifierType modifierType);
+    public bool TryRemoveMaxValueModifier(Modifier modifier);
+    public bool TryRemoveMaxValueAllModifiersOf(object source);
 }

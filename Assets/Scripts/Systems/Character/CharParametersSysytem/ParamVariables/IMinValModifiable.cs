@@ -4,7 +4,12 @@ using UnityEngine;
 
 public interface IMinValModifiable
 {
-    public ModVar MinValue { get; set; }
-    public void SetMinBase(float baseValue);
+    public float MinValue { get; }
+    public float MinValueBase { get; set; }
+
     public void AddMinValueModifier(Modifier modifier);
+    public IReadOnlyList<Modifier> GetMinValueModifiers();
+    public IReadOnlyList<Modifier> GetMinValueModifiers(ModifierType modifierType);
+    public bool TryRemoveMinValueModifier(Modifier modifier);
+    public bool TryRemoveMinValueAllModifiersOf(object source);
 }

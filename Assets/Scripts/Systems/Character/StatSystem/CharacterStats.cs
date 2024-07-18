@@ -50,38 +50,30 @@ public class CharacterStats
     public CharacterStats()
     {
         // Level
-        Level = new Stat(20, 1, 1);
-        Level.MaxValue.IsLowerBounded = true;
-        Level.MaxValue.IsUpperBounded = true;
-        Level.MaxValue.LowerBound = 20;
-        Level.MaxValue.UpperBound = 20;
-        Level.CurrentValue.IsLowerBounded = true;
-        Level.CurrentValue.IsUpperBounded = true;
-        Level.CurrentValue.LowerBound = 1;
-        Level.CurrentValue.UpperBound = 20;
+        Level = new Stat("Level", 20, 1, 1);
 
         // Attributes
-        Strength = InitDefautAttribute();
-        Dexterity = InitDefautAttribute();
-        Agility = InitDefautAttribute();
-        Constitution = InitDefautAttribute();
-        Perception = InitDefautAttribute();
-        Charisma = InitDefautAttribute();
-        Intelligence = InitDefautAttribute();
+        Strength = InitDefautAttribute(nameof(Strength));
+        Dexterity = InitDefautAttribute(nameof(Dexterity));
+        Agility = InitDefautAttribute(nameof(Agility));
+        Constitution = InitDefautAttribute(nameof(Constitution));
+        Perception = InitDefautAttribute(nameof(Perception));
+        Charisma = InitDefautAttribute(nameof(Charisma));
+        Intelligence = InitDefautAttribute(nameof(Intelligence));
 
         // Skills
-        LightFirearm = InitDdefaultSkill();
-        Firearm = InitDdefaultSkill();
-        Melee = InitDdefaultSkill();
-        HeavyMelee = InitDdefaultSkill();
-        Dodge = InitDdefaultSkill();
-        Stealth = InitDdefaultSkill();
-        Hacking = InitDdefaultSkill();
-        Lockpicking = InitDdefaultSkill();
-        Pickpocketing = InitDdefaultSkill();
-        Persuasion = InitDdefaultSkill();
-        Intimidation = InitDdefaultSkill();
-        Mercantile = InitDdefaultSkill();
+        LightFirearm = InitDdefaultSkill(nameof(LightFirearm));
+        Firearm = InitDdefaultSkill(nameof(Firearm));
+        Melee = InitDdefaultSkill(nameof(Melee));
+        HeavyMelee = InitDdefaultSkill(nameof(HeavyMelee));
+        Dodge = InitDdefaultSkill(nameof(Dodge));
+        Stealth = InitDdefaultSkill(nameof(Stealth));
+        Hacking = InitDdefaultSkill(nameof(Hacking));
+        Lockpicking = InitDdefaultSkill(nameof(Lockpicking));
+        Pickpocketing = InitDdefaultSkill(nameof(Pickpocketing));
+        Persuasion = InitDdefaultSkill(nameof(Persuasion));
+        Intimidation = InitDdefaultSkill(nameof(Intimidation));
+        Mercantile = InitDdefaultSkill(nameof(Mercantile));
 
         Affectors = new List<ParInteraction>
         {
@@ -126,8 +118,8 @@ public class CharacterStats
         // Create initialization by Scriptable Object
     }
 
-    private Stat InitDefautAttribute() => new Stat(DEFAULT_MAX_VALUE_FOR_ATTRIBUTE, DEFAULT_MIN_VALUE_FOR_ATTRIBUTE, DEFAULT_CURRENT_VALUE_FOR_ATTRIBUTE);
-    private Stat InitDdefaultSkill() => new Stat(DEFAULT_MAX_VALUE_FOR_SKILL, DEFAULT_MIN_VALUE_FOR_SKILL, DEFAULT_CURRENT_VALUE_FOR_SKILL);
+    private Stat InitDefautAttribute(string name) => new Stat(name, DEFAULT_MAX_VALUE_FOR_ATTRIBUTE, DEFAULT_MIN_VALUE_FOR_ATTRIBUTE, DEFAULT_CURRENT_VALUE_FOR_ATTRIBUTE);
+    private Stat InitDdefaultSkill(string name) => new Stat(name, DEFAULT_MAX_VALUE_FOR_SKILL, DEFAULT_MIN_VALUE_FOR_SKILL, DEFAULT_CURRENT_VALUE_FOR_SKILL);
     #endregion
 
     #region external_interaction
@@ -162,28 +154,28 @@ public class CharacterStats
 
     public void UpDownAttribute(Stat attribute, bool increase)
     {
-        attribute.SetCurrentValueBase(increase ? attribute.CurrentValue.BaseValue + 1
-            : attribute.CurrentValue.BaseValue - 1);
+        attribute.CurrentValueBase = increase ? attribute.CurrentValueBase + 1
+            : attribute.CurrentValueBase- 1;
         //Debug.Log("Max value: " + attribute.MaxValue.RealValue);
     }
     #endregion
 
     #region calculation_methods
     private static void LevelAffectionOnSkills(ref List<CharParameterBase> level, ref List<CharParameterBase> skills)
-        => UtilityFunctionsParam.ParamModifyingValueSelectively(ref level, ref skills, UtilityFunctionsParam.GetCurrentValFloat, UtilityFunctionsParam.GetMaxVal, CalculateLevelLogic);
+        => UtilityFunctionsParam.AffectorsCompareTargetsEvery(ref level, ref skills, UtilityFunctionsParam.GetCurrentValFloat, UtilityFunctionsParam.GetMaxValueMod, CalculateLevelLogic);
     private static void AttributeAffectionOnSkills(ref List<CharParameterBase> attributes, ref List<CharParameterBase> skills)
-        => UtilityFunctionsParam.ParamModifyingValueSelectively(ref attributes, ref skills, UtilityFunctionsParam.GetCurrentValFloat, UtilityFunctionsParam.GetCurrentVal, CalculateLogic);
+        => UtilityFunctionsParam.AffectorsCompareTargetsEvery(ref attributes, ref skills, UtilityFunctionsParam.GetCurrentValFloat, UtilityFunctionsParam.GetCurrValueMod, CalculateLogic);
 
     private static (float, ModifierType) CalculateLevelLogic(CharParameterBase affector)
     {
         float mod = 5;
-        float levels = UtilityFunctionsParam.GetCurrentVal(affector).RealValue - 1;
+        float levels = UtilityFunctionsParam.GetCurrentValFloat(affector) - 1;
         float result = mod * levels;
         return new(result, ModifierType.Flat);
     }
     private static (float, ModifierType) CalculateLogic(CharParameterBase affector)
     {
-        float mod = UtilityFunctionsParam.GetCurrentVal(affector).RealValue - 5;
+        float mod = UtilityFunctionsParam.GetCurrentValFloat(affector) - 5;
         float percentPerPoint = 0.1f;
         float result = mod * percentPerPoint;
         return (result, ModifierType.Multiplicative);

@@ -42,7 +42,7 @@ public class AttributeController : MonoBehaviour
     {
         stats = characterBlank.Stats;
         currentStat = TypeToStat();
-        currentStat.CurrentValue.ValueChanged += OnStatValueChangedHandler;
+        currentStat.CurrentValChanged += OnStatValueChangedHandler;
         Transform IncButton = transform.Find("IncreaseBaseValueBtn");
         if (IncButton != null)
         {
@@ -57,7 +57,7 @@ public class AttributeController : MonoBehaviour
     }
     public void OnDestroy()
     {
-        currentStat.CurrentValue.ValueChanged -= OnStatValueChangedHandler;
+        currentStat.CurrentValChanged -= OnStatValueChangedHandler;
         Transform IncButton = transform.Find("IncreaseBaseValueBtn");
         if (IncButton != null)
         {
@@ -92,15 +92,15 @@ public class AttributeController : MonoBehaviour
         Transform baseValue = transform.Find("BaseValue");
         if (baseValue != null)
         {
-            int number = (int)currentStat.CurrentValue.BaseValue;
+            int number = (int)currentStat.CurrentValueBase;
             baseValue.GetComponent<TMP_Text>().text = number.ToString();
         }
         Transform realValue = transform.Find("RealValue");
         if (realValue != null)
         {
-            if ((int)currentStat.CurrentValue.BaseValue != (int)currentStat.CurrentValue.RealValue)
+            if ((int)currentStat.CurrentValueBase != (int)currentStat.CurrentValue)
             {
-                int number = (int)currentStat.CurrentValue.RealValue;
+                int number = (int)currentStat.CurrentValue;
                 realValue.GetComponent<TMP_Text>().text = number.ToString();
             }
             else realValue.GetComponent<TMP_Text>().text = "";

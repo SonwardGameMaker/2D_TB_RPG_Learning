@@ -5,8 +5,12 @@ using UnityEngine;
 
 public interface ICurrValModifiable
 {
-    public ModVar CurrentValue { get; set; }
+    public float CurrentValue { get; }
+    public float CurrentValueBase { get; set; }
 
-    public void SetCurrentValueBase(float baseValue);
     public void AddCurrentValueModifier(Modifier modifier);
+    public IReadOnlyList<Modifier> GetCurrentValueModifiers();
+    public IReadOnlyList<Modifier> GetCurrentValueModifiers(ModifierType modifierType);
+    public bool TryRemoveCurrentValueModifier(Modifier modifier);
+    public bool TryRemoveCurrentValueAllModifiersOf(object source);
 }

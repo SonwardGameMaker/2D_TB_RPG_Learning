@@ -17,8 +17,8 @@ public class CharacterBlank : MonoBehaviour
 
         ParInteraction levelConstToHp = new ParInteraction(
             new List<CharParameterBase> { _stats.Level, _stats.Constitution },
-            _health);
-        levelConstToHp.CalculateLogic = _health.LevelConstAffectHp;
+            _health,
+            _health.LevelConstAffectHp);
         _stats.AddAffector(levelConstToHp);
     }
 

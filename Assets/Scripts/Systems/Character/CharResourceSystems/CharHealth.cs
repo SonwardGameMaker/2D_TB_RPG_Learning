@@ -14,6 +14,7 @@ public class CharHealth : CharResource
 
     public CharHealth() : base(DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE)
     {
+        _isCurrValCanReachBelowMinVal = true;
         IsAlive = true;
         _isHealthFull = IsHealthFull();
     }
@@ -26,7 +27,7 @@ public class CharHealth : CharResource
     public void ChangeHp(float amount)
     {
         CurrentValue += amount;
-        if (CurrentValue < MinValue)
+        if (CurrentValue <= MinValue)
             Death();
         _isHealthFull = IsHealthFull();
 
@@ -37,29 +38,29 @@ public class CharHealth : CharResource
         CharDeath?.Invoke();
     }
 
-    public Action CharDeath;
+    public event Action CharDeath;
 
     public void LevelConstAffectHp(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
-        => UtilityFunctionsParam.ParamModifyingValueSimultaneously(
+        => UtilityFunctionsParam.AffectorsAllTargetsEvery(
             ref affectors,
             ref targets, 
             UtilityFunctionsParam.GetCurrentValFloat,
-            UtilityFunctionsParam.GetMaxVal,
-            LevelConstAffectionLogic
+            UtilityFunctionsParam.GetMaxValueMod,
+            LevelConstAffectingLogic
             );
     #endregion
 
     private bool IsHealthFull()
     {
-        return CurrentValue == MaxValue.RealValue;
+        return CurrentValue == MaxValue;
     }
     protected override void HandleMaxValEvents()
     {
         if (_isHealthFull)
-            CurrentValue = MaxValue.RealValue;
+            CurrentValue = MaxValue;
         base.HandleMaxValEvents();
     }
-    private List<Modifier> LevelConstAffectionLogic(List<CharParameterBase> affectors)
+    private List<Modifier> LevelConstAffectingLogic(List<CharParameterBase> affectors)
     {
         float constMod = UtilityFunctionsParam.GetCurrentValFloat(affectors[1]) - 5.0f;
         float ConstModFirstLvl = constMod * 4.0f;

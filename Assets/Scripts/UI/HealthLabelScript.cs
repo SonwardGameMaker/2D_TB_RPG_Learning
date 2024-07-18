@@ -17,9 +17,10 @@ public class HealthLabelScript : MonoBehaviour
     {
         _health = characterBlank.Health;
         transform.GetChild(0).GetComponent<TMP_Text>().text = _health.CurrentValue.ToString();
-        transform.GetChild(2).GetComponent<TMP_Text>().text = _health.MaxValue.RealValue.ToString();
-        _health.MaxValue.ValueChanged += OnHealthValueChanged;
+        transform.GetChild(2).GetComponent<TMP_Text>().text = _health.MaxValue.ToString();
+        _health.MaxValChanged += OnHealthValueChanged;
         _health.CurrentValChanged += OnHealthValueChanged;
+        _health.CharDeath += CharDeathEventHandler;
         Transform IncButton = transform.Find("PlusHpBtn");
         if (IncButton != null)
         {
@@ -38,8 +39,9 @@ public class HealthLabelScript : MonoBehaviour
     }
     private void OnDestroy()
     {
-        _health.MaxValue.ValueChanged -= OnHealthValueChanged;
+        _health.MaxValChanged -= OnHealthValueChanged;
         _health.CurrentValChanged -= OnHealthValueChanged;
+        _health.CharDeath -= CharDeathEventHandler;
         Transform IncButton = transform.Find("PlusHpBtn");
         if (IncButton != null)
         {
@@ -63,8 +65,9 @@ public class HealthLabelScript : MonoBehaviour
     private void OnHealthValueChanged()
     {
         transform.GetChild(0).GetComponent<TMP_Text>().text = _health.CurrentValue.ToString();
-        transform.GetChild(2).GetComponent<TMP_Text>().text = _health.MaxValue.RealValue.ToString();
+        transform.GetChild(2).GetComponent<TMP_Text>().text = _health.MaxValue.ToString();
     }
     private void OnClickPlusHandler() => _health.ChangeHp(_amount);
     private void OnClickMinusHanddler() => _health.ChangeHp(-_amount);
+    private void CharDeathEventHandler() => Debug.Log("Character is dead");
 }
