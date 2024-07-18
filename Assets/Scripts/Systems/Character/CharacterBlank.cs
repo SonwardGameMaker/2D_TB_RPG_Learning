@@ -7,6 +7,8 @@ public class CharacterBlank : MonoBehaviour
     [SerializeField] private CharacterStats _stats;
     [SerializeField] private CharHealth _health;
 
+    private List<ParInteraction> _interactions;
+
     public CharacterStats Stats { get { return _stats; } }
     public CharHealth Health { get { return _health; } }
 
@@ -14,12 +16,9 @@ public class CharacterBlank : MonoBehaviour
     {
         _stats = new CharacterStats();
         _health = new CharHealth();
+        _interactions = new List<ParInteraction>();
 
-        ParInteraction levelConstToHp = new ParInteraction(
-            new List<CharParameterBase> { _stats.Level, _stats.Constitution },
-            _health,
-            _health.LevelConstAffectHp);
-        _stats.AddAffector(levelConstToHp);
+        _interactions.Add(_health.LevelConstAffectHp(_stats.Level, _stats.Constitution));
     }
 
 }

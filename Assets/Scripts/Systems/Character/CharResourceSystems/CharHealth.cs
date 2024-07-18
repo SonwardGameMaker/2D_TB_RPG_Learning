@@ -40,7 +40,9 @@ public class CharHealth : CharResource
 
     public event Action CharDeath;
 
-    public void LevelConstAffectHp(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
+    public ParInteraction LevelConstAffectHp(Stat level, Stat constitution)
+        => new ParInteraction(new List<CharParameterBase> { level, constitution}, this, LevelConstAffectHelath);
+    private void LevelConstAffectHelath(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
         => UtilityFunctionsParam.AffectorsAllTargetsEvery(
             ref affectors,
             ref targets, 
