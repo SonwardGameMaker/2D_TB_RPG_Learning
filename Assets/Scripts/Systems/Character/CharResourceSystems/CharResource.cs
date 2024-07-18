@@ -9,11 +9,11 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
     [SerializeField] protected float _currentValue;
     [SerializeField] protected ModVar _maxValue;
 
-    protected bool _isCurrValCanReachBelowMinVal = false;
-    protected bool _isCurrValCanReachAboveMaxVal = false;
+    public bool _isCurrValCanReachBelowMinVal = false;
+    public bool _isCurrValCanReachAboveMaxVal = false;
 
     #region constructors and destructor
-    public CharResource(float maxValue, float minValue, float currentValue)
+    public CharResource(string name, float maxValue, float minValue, float currentValue)
     {
         _minValue = minValue;
         _maxValue = new ModVar(maxValue);
@@ -24,15 +24,16 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
 
         _maxValue.ValueChanged += HandleMaxValEvents;
     }
-    public CharResource(float maxValue, float minValue) : this(maxValue, minValue, maxValue) { }
+    public CharResource(string name, float maxValue, float minValue) : this(name, maxValue, minValue, maxValue) { }
     /// <summary>
     /// Default min value is 0. Default current value is max value
     /// </summary>
-    public CharResource(float maxValue) : this(DEFAULT_MIN_VALUE, maxValue, maxValue) { }
+    public CharResource(string name, float maxValue) : this(name, DEFAULT_MIN_VALUE, maxValue, maxValue) { }
     /// <summary>
     /// Default min value is 0 and default max value is 30. Default current value is max value
     /// </summary>
-    public CharResource() : this(DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, DEFAULT_MAX_VALUE) { }
+    public CharResource(string name) : this(name, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, DEFAULT_MAX_VALUE) { }
+    public CharResource() : this(DEFAULT_NAME, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, DEFAULT_MAX_VALUE) { }
     ~CharResource() // дивна поведінка, перевірити
     {
         _maxValue.ValueChanged -= HandleMaxValEvents;
