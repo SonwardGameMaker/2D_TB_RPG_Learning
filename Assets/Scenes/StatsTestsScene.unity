@@ -1244,15 +1244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24df24cadf74954f88aacab63a1baf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health:
-    _minValue: 0
-    _currentValue: 100
-    _maxValue:
-      baseValue: 100
-      IsLowerBounded: 1
-      LowerBound: 0
-      IsUpperBounded: 0
-      UpperBound: 30
 --- !u!1001 &1753726259
 PrefabInstance:
   m_ObjectHideFlags: 0

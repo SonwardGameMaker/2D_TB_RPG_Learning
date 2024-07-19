@@ -9,9 +9,6 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
     [SerializeField] protected float _currentValue;
     [SerializeField] protected ModVar _maxValue;
 
-    public bool _isCurrValCanReachBelowMinVal = false;
-    public bool _isCurrValCanReachAboveMaxVal = false;
-
     #region constructors and destructor
     public CharResource(string name, float maxValue, float minValue, float currentValue)
     {
@@ -56,8 +53,8 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
         get => _currentValue;
         set
         {
-            if (value > _maxValue.RealValue && !_isCurrValCanReachAboveMaxVal) _currentValue = _maxValue.RealValue;
-            else if (value < _minValue && !_isCurrValCanReachBelowMinVal) _currentValue = _minValue;
+            if (value > _maxValue.RealValue) _currentValue = _maxValue.RealValue;
+            else if (value < _minValue) _currentValue = _minValue;
             else _currentValue = value;
             CurrentValChangedInvoke();
         }

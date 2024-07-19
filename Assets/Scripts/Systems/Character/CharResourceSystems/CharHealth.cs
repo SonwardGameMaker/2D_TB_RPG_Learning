@@ -6,9 +6,9 @@ using UnityEngine;
 [Serializable]
 public class CharHealth
 {
+    private const string DEFAULT_NAME = "Health";
     private const float DEFAULT_MIN_VALUE = 0.0f;
     private const float DEFAULT_MAX_VALUE = 100.0f;
-    private const string DEFAULT_NAME = "Health";
 
     private CharResource _health;
 
@@ -16,10 +16,10 @@ public class CharHealth
 
     private bool _isHealthFull;
 
+    #region constructors and destructor
     public CharHealth()
     {
         _health = new CharResource(DEFAULT_NAME, DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE);
-        _health._isCurrValCanReachBelowMinVal = true;
         _health.MinValChanged += HealthValCahgeHanddler;
         _health.CurrentValChanged += HealthValCahgeHanddler;
         _health.MaxValChanged += HealthMaxValChangedHandler;
@@ -37,6 +37,7 @@ public class CharHealth
     {
         // Create initialization by Scriptable Object
     }
+    #endregion
 
     #region properties
     public float MinHp 
@@ -55,7 +56,7 @@ public class CharHealth
     }
     #endregion
 
-    #region extrnal_interation
+    #region extrnal interation
     public void ChangeHp(float amount)
     {
         _health.CurrentValue += amount;
@@ -78,9 +79,10 @@ public class CharHealth
 
     public event Action HealthChanged;
 
+    #region calculation methods
     private bool IsHealthFull()
     {
-        return _health.CurrentValue >= _health.MaxValue;
+        return _health.CurrentValue == _health.MaxValue;
     }
     private void HealthValCahgeHanddler()
     {
@@ -88,7 +90,6 @@ public class CharHealth
     }
     private void HealthMaxValChangedHandler()
     {
-        _isHealthFull = IsHealthFull();
         if (_isHealthFull)
             _health.CurrentValue = _health.MaxValue;
         HealthChanged?.Invoke();
@@ -111,4 +112,5 @@ public class CharHealth
 
         return new List<Modifier> { new Modifier(result, ModifierType.Flat, affectors[1])};
     }
+    #endregion
 }
