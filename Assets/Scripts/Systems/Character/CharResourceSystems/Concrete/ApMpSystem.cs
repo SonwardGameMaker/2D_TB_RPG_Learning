@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ApMpSystem
+public class ApMpSystem : ICharResourseFieldGettable
 {
     private const string DEFAULT_AP_NAME = "Action Points";
     private const string DEFAULT_MP_NAME = "Movement Points";
@@ -60,6 +61,13 @@ public class ApMpSystem
     #endregion
 
     #region extrnal interation
+    public CharResource GetFieldByEnum(CharResourceFieldType fieldType)
+    {
+        CharResource result = (CharResource)GetType().GetProperty(fieldType.ToString()).GetValue(this);
+        if (result != null) return result;
+        else throw new Exception($"Field with name {fieldType.ToString()} doesn't exist in current class");
+    }
+
     public bool TryChangeCurrAp(float amount)
     {
         if (_actionPoints.CurrentValue - amount < 0) return false;

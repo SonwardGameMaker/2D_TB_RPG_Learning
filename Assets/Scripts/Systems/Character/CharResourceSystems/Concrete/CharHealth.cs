@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 [Serializable]
-public class CharHealth
+public class CharHealth : ICharResourseFieldGettable
 {
     private const string DEFAULT_NAME = "Health";
     private const float DEFAULT_MIN_VALUE = 0.0f;
@@ -58,6 +59,13 @@ public class CharHealth
     #endregion
 
     #region extrnal interation
+    public CharResource GetFieldByEnum(CharResourceFieldType fieldType)
+    {
+        CharResource result = (CharResource)GetType().GetProperty(fieldType.ToString()).GetValue(this);
+        if (result != null) return result;
+        else throw new Exception($"Field with name {fieldType.ToString()} doesn't exist in current class");
+    }
+
     public void ChangeHp(float amount)
     {
         _health.CurrentValue += amount;
