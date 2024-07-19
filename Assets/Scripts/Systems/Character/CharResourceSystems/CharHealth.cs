@@ -11,6 +11,7 @@ public class CharHealth
     private const float DEFAULT_MAX_VALUE = 100.0f;
 
     private CharResource _health;
+    private FlatParameter _hpBonusPerLevel;
 
     public bool IsAlive { get; set; }
 
@@ -40,8 +41,8 @@ public class CharHealth
     #endregion
 
     #region properties
-    public float MinHp 
-    { 
+    public float MinHp
+    {
         get => _health.MinValue;
         set => _health.MinValue = value;
     }
@@ -72,6 +73,15 @@ public class CharHealth
     }
 
     public event Action CharDeath;
+
+    public ParInteraction CreateHealthPointsEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
+        => new ParInteraction(affectors, _health, CalculateLogic);
+    public ParInteraction CreateHealthPointsEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
+        => CreateHealthPointsEffect(new List<CharParameterBase> { affector }, CalculateLogic);
+    public ParInteraction CreateHpBonusPLevelEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
+        => new ParInteraction(affectors, _hpBonusPerLevel, CalculateLogic);
+    public ParInteraction CreateHpBonusPLevelEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
+        => CreateHpBonusPLevelEffect(new List<CharParameterBase> { affector }, CalculateLogic);
 
     public ParInteraction LevelConstAffectHp(Stat level, Stat constitution)
         => new ParInteraction(new List<CharParameterBase> { level, constitution}, _health, LevelConstAffectHelath);

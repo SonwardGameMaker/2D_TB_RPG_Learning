@@ -87,31 +87,35 @@ public class ApMpSystem
     }
     public ParInteraction CreateApEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(affectors, _actionPoints, CalculateLogic);
+    public ParInteraction CreateApEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
+        => CreateApEffect(new List<CharParameterBase> { affector }, CalculateLogic);
     public ParInteraction CreateMpEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(affectors, _movementPoints, CalculateLogic);
-    public ParInteraction MpMaxValAffection(CharParameterBase affector, ModifierBaseCreation ModifierCreator)
-    {
-        void CalculateLogic(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
-            => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
-                ref affectors,
-                ref targets,
-                UtilityFunctionsParam.GetCurrentValFloat,
-                UtilityFunctionsParam.GetMaxValueMod,
-                ModifierCreator);
-        return new ParInteraction(affector, _movementPoints, CalculateLogic);
-    }
-    public ParInteraction ApMaxValAffection(CharParameterBase affector)
-        => MpMaxValAffection(affector, AgilityAffectsMp);
+    public ParInteraction CreateMpEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
+        => CreateMpEffect(new List<CharParameterBase> { affector }, CalculateLogic);
+    //public ParInteraction MpMaxValAffection(CharParameterBase affector, ModifierBaseCreation ModifierCreator)
+    //{
+    //    void CalculateLogic(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
+    //        => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
+    //            ref affectors,
+    //            ref targets,
+    //            UtilityFunctionsParam.GetCurrentValFloat,
+    //            UtilityFunctionsParam.GetMaxValueMod,
+    //            ModifierCreator);
+    //    return new ParInteraction(affector, _movementPoints, CalculateLogic);
+    //}
+    //public ParInteraction ApMaxValAffection(CharParameterBase affector)
+    //    => MpMaxValAffection(affector, AgilityAffectsMp);
     #endregion
 
 
     #region calculation methods
-    private (float, ModifierType) AgilityAffectsMp(CharParameterBase agility)
-    {
-        float agilMod = UtilityFunctionsParam.GetCurrentValFloat(agility) - 5;
-        float mod = 10;
-        float result = mod * 10;
-        return new(result, ModifierType.Flat);
-    }
+    //private (float, ModifierType) AgilityAffectsMp(CharParameterBase agility)
+    //{
+    //    float agilMod = UtilityFunctionsParam.GetCurrentValFloat(agility) - 5;
+    //    float mod = 10;
+    //    float result = mod * 10;
+    //    return new(result, ModifierType.Flat);
+    //}
     #endregion
 }

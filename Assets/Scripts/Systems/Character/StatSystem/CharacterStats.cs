@@ -42,8 +42,7 @@ public class CharacterStats
     public Stat Mercantile { get; private set; }
 
     // Affecters
-    [SerializeField] private readonly List<ParInteraction> Affectors;
-    [SerializeField] private readonly List<ParInteraction> ExternalAffectors;
+    private readonly List<ParInteraction> _interactions;
     #endregion
 
     #region init
@@ -75,7 +74,7 @@ public class CharacterStats
         Intimidation = InitDdefaultSkill(nameof(Intimidation));
         Mercantile = InitDdefaultSkill(nameof(Mercantile));
 
-        Affectors = new List<ParInteraction>
+        _interactions = new List<ParInteraction>
         {
             new ParInteraction(Level, new List<CharParameterBase>
             {
@@ -105,12 +104,11 @@ public class CharacterStats
             new ParInteraction(new List<CharParameterBase> { Strength, Charisma}, Intimidation),
             new ParInteraction(new List<CharParameterBase> { Strength, Charisma}, Intimidation)
         };
-        Affectors[0].CalculateLogic = LevelAffectionOnSkills;
-        for (int i = 1; i < Affectors.Count; i++)
+        _interactions[0].CalculateLogic = LevelAffectionOnSkills;
+        for (int i = 1; i < _interactions.Count; i++)
         {
-            Affectors[i].CalculateLogic = AttributeAffectionOnSkills;
+            _interactions[i].CalculateLogic = AttributeAffectionOnSkills;
         }
-        ExternalAffectors = new List<ParInteraction>();
     }
 
     public void SetUp()
@@ -123,41 +121,28 @@ public class CharacterStats
     #endregion
 
     #region external_interaction
-    public void AddAffector(ParInteraction interaction)
-    {
-        ExternalAffectors.Add(interaction);
-        //Debug.Log("External added; External count: " + ExternalAffectors.Count);
-    }
-    public void AddAffector(
-        List<CharParameterBase> affectors,
-        List<CharParameterBase> targets,
-        ModValueCalculateLogic modValueCalculateLogic)
-    {
-        ParInteraction parInteraction = new ParInteraction(affectors, targets, modValueCalculateLogic);
-        AddAffector(parInteraction);
-    }
-    public void AddAffector(
-        CharParameterBase affector,
-        List<CharParameterBase> targets,
-        ModValueCalculateLogic modValueCalculateLogic)
-        => AddAffector(new List<CharParameterBase> { affector }, targets, modValueCalculateLogic);
-    public void AddAffector(
-        List<CharParameterBase> affectors,
-        CharParameterBase target,
-        ModValueCalculateLogic modValueCalculateLogic)
-        => AddAffector(affectors, new List<CharParameterBase> { target }, modValueCalculateLogic);
-    public void AddAffector(
-        CharParameterBase affector,
-        CharParameterBase target,
-        ModValueCalculateLogic modValueCalculateLogic)
-        => AddAffector(new List<CharParameterBase> { affector }, new List<CharParameterBase> { target }, modValueCalculateLogic);
-
     public void UpDownAttribute(Stat attribute, bool increase)
     {
         attribute.CurrentValueBase = increase ? attribute.CurrentValueBase + 1
             : attribute.CurrentValueBase- 1;
         //Debug.Log("Max value: " + attribute.MaxValue.RealValue);
     }
+
+    public void LevelConstAffectHelath(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
+  => UtilityFunctionsParam.AffectorsAllTargetsEvery(
+      ref affectors,
+      ref targets,
+      UtilityFunctionsParam.GetCurrentValFloat,
+      UtilityFunctionsParam.GetMaxValueMod,
+      LevelConstAffectingLogic
+      );
+    public void AgilityAffectMovementPoints(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
+            => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
+                ref affectors,
+                ref targets,
+                UtilityFunctionsParam.GetCurrentValFloat,
+                UtilityFunctionsParam.GetMaxValueMod,
+                AgilityAffectsMpModBase);
     #endregion
 
     #region calculation_methods
@@ -179,6 +164,28 @@ public class CharacterStats
         float percentPerPoint = 0.1f;
         float result = mod * percentPerPoint;
         return (result, ModifierType.Multiplicative);
+    }
+
+    private List<Modifier> LevelConstAffectingLogic(List<CharParameterBase> affectors)
+    {
+        CharParameterBase level = affectors.Find(a => a.Name == Level.Name);
+        CharParameterBase constitution = affectors.Find(a => a.Name == Constitution.Name);
+        if (level == null || constitution == null) throw new Exception($"{nameof(LevelConstAffectingLogic)} didn't find correct properties");
+
+        float constMod = UtilityFunctionsParam.GetCurrentValFloat(constitution) - 5.0f;
+        float ConstModFirstLvl = constMod * 4.0f;
+        float result = ConstModFirstLvl;
+        for (int i = 2; i <= UtilityFunctionsParam.GetCurrentValFloat(level); i++)
+            result += constMod + 5.0f;
+
+        return new List<Modifier> { new Modifier(result, ModifierType.Flat, constitution) };
+    }
+    private (float, ModifierType) AgilityAffectsMpModBase(CharParameterBase agility)
+    {
+        float agilMod = UtilityFunctionsParam.GetCurrentValFloat(agility) - 5;
+        float mod = 10;
+        float result = mod * 10;
+        return new(result, ModifierType.Flat);
     }
     #endregion
 }
