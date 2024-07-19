@@ -33,20 +33,11 @@ public class HealthLabelScript : MonoBehaviour
         _health.HealthChanged -= OnHealthValueChanged;
         _health.CharDeath -= CharDeathEventHandler;
         Transform IncButton = transform.Find("PlusHpBtn");
-        if (IncButton != null)
-        {
-            IncButton.GetComponent<Button>().onClick.RemoveAllListeners();
-        }
+        IncButton?.GetComponent<Button>().onClick.RemoveAllListeners();
         Transform DecButton = transform.Find("MinusHpBtn");
-        if (DecButton != null)
-        {
-            DecButton.GetComponent<Button>().onClick.RemoveAllListeners();
-        }
+        DecButton?.GetComponent<Button>().onClick.RemoveAllListeners();
         Transform InputAmount = transform.Find("InputField (Amount HP)");
-        if (InputAmount != null)
-        {
-            InputAmount.GetComponent<TMP_InputField>().onValueChanged.RemoveAllListeners();
-        }
+        InputAmount?.GetComponent<TMP_InputField>().onValueChanged.RemoveAllListeners();
     }
     private void OnInputValueChanged(string value)
     {

@@ -61,9 +61,11 @@ public class CharHealth : ICharResourseFieldGettable
     #region extrnal interation
     public CharResource GetFieldByEnum(CharResourceFieldType fieldType)
     {
-        CharResource result = (CharResource)GetType().GetProperty(fieldType.ToString()).GetValue(this);
-        if (result != null) return result;
-        else throw new Exception($"Field with name {fieldType.ToString()} doesn't exist in current class");
+        //CharResource result = (CharResource)GetType().GetField(fieldType.ToString()).GetValue(this);
+        //if (result != null) return result;
+        //else throw new Exception($"Field with name {fieldType.ToString()} doesn't exist in current class");
+        if (fieldType == CharResourceFieldType._health) return _health;
+        throw new Exception($"Field with name {fieldType.ToString()} doesn't exist in current class");
     }
 
     public void ChangeHp(float amount)

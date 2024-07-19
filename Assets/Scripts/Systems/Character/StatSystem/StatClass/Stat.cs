@@ -12,6 +12,7 @@ public class Stat : CharParameterBase, IMaxValModifiable, IMinValUnmod, ICurrVal
     #region constructors and destructor
     public Stat(string name, float maxValue, float minValue, float currentValue) : base(name)
     {
+        _name = name;
         _minValue = minValue;
         _maxValue = new ModVar(maxValue);
         _currentValue = new ModVar(currentValue);

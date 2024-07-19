@@ -10,7 +10,7 @@ public abstract class CharParameterBase
     protected const float DEFAULT_CURR_VALUE = 30.0f;
     protected const string DEFAULT_NAME = "Default_Name";
 
-    private string _name;
+    protected string _name;
 
     public string Name { get { return _name; } }
 

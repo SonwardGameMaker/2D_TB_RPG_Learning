@@ -16,8 +16,8 @@ public class ApMpSystem : ICharResourseFieldGettable
     #region constructors and destructor
     public ApMpSystem()
     {
-        _actionPoints = new CharResource(DEFAULT_AP_NAME, DEFAULT_AP_MAX_VALUE);
-        _movementPoints = new CharResource(DEFAULT_MP_NAME, DEFAULT_MP_MAX_VALUE);
+        _actionPoints = new CharResource(DEFAULT_AP_NAME, DEFAULT_AP_MAX_VALUE, 0.0f, DEFAULT_AP_MAX_VALUE);
+        _movementPoints = new CharResource(DEFAULT_MP_NAME, DEFAULT_MP_MAX_VALUE, 0.0f, DEFAULT_MP_MAX_VALUE);
 
         _actionPoints.MaxValChanged += HandleApEvents;
         _actionPoints.MinValChanged += HandleApEvents;
@@ -49,40 +49,48 @@ public class ApMpSystem : ICharResourseFieldGettable
     public float CurrentMp { get => _movementPoints.CurrentValue; }
     #endregion
 
+    public event Action ApChanged;
+    public event Action MpChanged;
+
     #region event handlers
     private void HandleApEvents()
     {
-        
+        ApChanged?.Invoke();
     }
     private void HandleMpEvents()
     {
-
+        MpChanged?.Invoke();
     }
     #endregion
 
     #region extrnal interation
     public CharResource GetFieldByEnum(CharResourceFieldType fieldType)
     {
-        CharResource result = (CharResource)GetType().GetProperty(fieldType.ToString()).GetValue(this);
-        if (result != null) return result;
-        else throw new Exception($"Field with name {fieldType.ToString()} doesn't exist in current class");
+        //CharResource result = (CharResource)GetType().GetField(fieldType.ToString()).GetValue(this);
+        //if (result != null) return result;
+        //else throw new Exception($"Field with name {fieldType.ToString()} doesn't exist in current class");
+        if (fieldType == CharResourceFieldType._actionPoints) return _actionPoints;
+        if (fieldType == CharResourceFieldType._movementPoints) return _movementPoints;
+        throw new Exception($"Field with name {fieldType.ToString()} doesn't exist in current class");
     }
 
     public bool TryChangeCurrAp(float amount)
     {
-        if (_actionPoints.CurrentValue - amount < 0) return false;
+        //Debug.Log("AP changing");
+        if (_actionPoints.CurrentValue + amount < 0) return false;
         else
         {
-            _actionPoints.CurrentValue -= amount;
+            _actionPoints.CurrentValue += amount;
             return true;
         }
     }
     public bool TryChangeCurrMp(float amount)
     {
-        if (_movementPoints.CurrentValue - amount < 0) return false;
+        //Debug.Log("MP changing");
+        if (_movementPoints.CurrentValue + amount < 0) return false;
         else
         {
-            _movementPoints.CurrentValue -= amount;
+            _movementPoints.CurrentValue += amount;
             return true;
         }
     }
@@ -101,29 +109,9 @@ public class ApMpSystem : ICharResourseFieldGettable
         => new ParInteraction(affectors, _movementPoints, CalculateLogic);
     public ParInteraction CreateMpEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
         => CreateMpEffect(new List<CharParameterBase> { affector }, CalculateLogic);
-    //public ParInteraction MpMaxValAffection(CharParameterBase affector, ModifierBaseCreation ModifierCreator)
-    //{
-    //    void CalculateLogic(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
-    //        => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
-    //            ref affectors,
-    //            ref targets,
-    //            UtilityFunctionsParam.GetCurrentValFloat,
-    //            UtilityFunctionsParam.GetMaxValueMod,
-    //            ModifierCreator);
-    //    return new ParInteraction(affector, _movementPoints, CalculateLogic);
-    //}
-    //public ParInteraction ApMaxValAffection(CharParameterBase affector)
-    //    => MpMaxValAffection(affector, AgilityAffectsMp);
     #endregion
 
 
     #region calculation methods
-    //private (float, ModifierType) AgilityAffectsMp(CharParameterBase agility)
-    //{
-    //    float agilMod = UtilityFunctionsParam.GetCurrentValFloat(agility) - 5;
-    //    float mod = 10;
-    //    float result = mod * 10;
-    //    return new(result, ModifierType.Flat);
-    //}
     #endregion
 }

@@ -12,6 +12,7 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
     #region constructors and destructor
     public CharResource(string name, float maxValue, float minValue, float currentValue)
     {
+        _name = name;
         _minValue = minValue;
         _maxValue = new ModVar(maxValue);
         _currentValue = currentValue;

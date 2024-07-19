@@ -7,16 +7,17 @@ using UnityEngine.UI;
 
 public class CharResourceControllerBase : MonoBehaviour
 {
-    public ICharResourseFieldGettable charResourceSystem;
-    [SerializeField] CharResourceFieldType crFieldType;
+    public CharacterBlank blank;
+    [SerializeField] protected CharResourceFieldType crFieldType;
 
-    private CharResource _currentCrField;
-    private Transform _valueTextHolder;
-    private int _amount = 0;
+    //protected ICharResourseFieldGettable charResourceSystem;
+    protected CharResource _currentCrField;
+    protected Transform _valueTextHolder;
+    protected int _amount = 0;
 
-    public void Start()
+    protected void Init()
     {
-        _currentCrField = charResourceSystem.GetFieldByEnum(crFieldType);
+        //_currentCrField = charResourceSystem.GetFieldByEnum(crFieldType);
         _currentCrField.MaxValChanged += OnResourceValueChanged;
         _currentCrField.MinValChanged += OnResourceValueChanged;
         _currentCrField.CurrentValChanged += OnResourceValueChanged;
@@ -28,7 +29,7 @@ public class CharResourceControllerBase : MonoBehaviour
         Transform InputAmount = transform.Find("InputField (Amount)");
         InputAmount?.GetComponent<TMP_InputField>().onValueChanged.AddListener(OnInputValueChanged);
     }
-    private void OnDestroy()
+    protected void MyDestroy()
     {
         _currentCrField.MaxValChanged -= OnResourceValueChanged;
         _currentCrField.MinValChanged -= OnResourceValueChanged;
@@ -44,7 +45,7 @@ public class CharResourceControllerBase : MonoBehaviour
     }
     private void OnResourceValueChanged()
     {
-        _valueTextHolder.GetChild(0).GetComponent<TMP_Text>().text = _currentCrField.CurrentValue.ToString();
-        _valueTextHolder.GetChild(2).GetComponent<TMP_Text>().text = _currentCrField.MaxValue.ToString();
+        _valueTextHolder.GetChild(0).GetComponent<TMP_Text>().text = _currentCrField.MaxValue.ToString();
+        _valueTextHolder.GetChild(2).GetComponent<TMP_Text>().text = _currentCrField.CurrentValue.ToString();
     }
 }
