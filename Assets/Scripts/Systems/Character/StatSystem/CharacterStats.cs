@@ -183,8 +183,8 @@ public class CharacterStats
     private (float, ModifierType) AgilityAffectsMpModBase(CharParameterBase agility)
     {
         float agilMod = UtilityFunctionsParam.GetCurrentValFloat(agility) - 5;
-        float mod = 10;
-        float result = mod * 10;
+        float mod = 4;
+        float result = agilMod * mod;
         return new(result, ModifierType.Flat);
     }
     #endregion

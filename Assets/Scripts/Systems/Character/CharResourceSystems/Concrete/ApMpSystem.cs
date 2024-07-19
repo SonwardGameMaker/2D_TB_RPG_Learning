@@ -8,7 +8,7 @@ public class ApMpSystem : ICharResourseFieldGettable
     private const string DEFAULT_AP_NAME = "Action Points";
     private const string DEFAULT_MP_NAME = "Movement Points";
     private const float DEFAULT_AP_MAX_VALUE = 50.0f;
-    private const float DEFAULT_MP_MAX_VALUE = 20.0f;
+    private const float DEFAULT_MP_MAX_VALUE = 30.0f;
 
     [SerializeField] private CharResource _actionPoints;
     [SerializeField] private CharResource _movementPoints;
@@ -87,7 +87,15 @@ public class ApMpSystem : ICharResourseFieldGettable
     public bool TryChangeCurrMp(float amount)
     {
         //Debug.Log("MP changing");
-        if (_movementPoints.CurrentValue + amount < 0) return false;
+        if (_movementPoints.CurrentValue + amount < 0)
+        {
+            if (TryChangeCurrAp(_movementPoints.CurrentValue + amount))
+            {
+                _movementPoints.CurrentValue = 0.0f;
+                return true;
+            }
+            else return false;
+        }  
         else
         {
             _movementPoints.CurrentValue += amount;
