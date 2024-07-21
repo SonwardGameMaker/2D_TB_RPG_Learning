@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IArmorTrashholdMod
 {
     public float Trashhold { get; }
-    public float TrashholdBase { get; set; }
+    public float TrashholdBase { get; }
 
     public void AddTrashholdValueModifier(Modifier modifier);
     public IReadOnlyList<Modifier> GetTrashholdValueModifiers();

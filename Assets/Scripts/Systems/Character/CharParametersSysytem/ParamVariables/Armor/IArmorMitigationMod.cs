@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IArmorMitigationMod
 {
     public float Mitigation { get; }
-    public float MitigationBase { get; set; }
+    public float MitigationBase { get; }
 
     public void AddMitigationValueModifier(Modifier modifier);
     public IReadOnlyList<Modifier> GetMitigationValueModifiers();

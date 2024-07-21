@@ -31,14 +31,14 @@ public class DamageResistance : CharParameterBase, IArmorTrashholdMod, IArmorMit
     public float TrashholdBase 
     {
         get => _trashhold.BaseValue;
-        set => _trashhold.BaseValue = value;
+        private set => _trashhold.BaseValue = value;
     }
 
     public float Mitigation { get => _mitigation.RealValue; }
     public float MitigationBase 
     { 
         get => _mitigation.BaseValue;
-        set => _mitigation.BaseValue = value;
+        private set => _mitigation.BaseValue = value;
     }
 
 
