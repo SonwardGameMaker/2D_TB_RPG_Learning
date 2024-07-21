@@ -36,7 +36,7 @@ public class AttributeController : MonoBehaviour
     [SerializeField] StatType statType;
     [SerializeField] Stat currentStat;
 
-    private CharacterStats stats;
+    private CharacterStatsSystem stats;
 
     public void Start()
     {

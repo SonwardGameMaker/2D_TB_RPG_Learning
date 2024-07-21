@@ -92,9 +92,6 @@ public class CharHealth : ICharResourseFieldGettable
         => new ParInteraction(affectors, _hpBonusPerLevel, CalculateLogic);
     public ParInteraction CreateHpBonusPLevelEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
         => CreateHpBonusPLevelEffect(new List<CharParameterBase> { affector }, CalculateLogic);
-
-    public ParInteraction LevelConstAffectHp(Stat level, Stat constitution)
-        => new ParInteraction(new List<CharParameterBase> { level, constitution}, _health, LevelConstAffectHelath);
     #endregion
 
     public event Action HealthChanged;
@@ -113,24 +110,6 @@ public class CharHealth : ICharResourseFieldGettable
         if (_isHealthFull)
             _health.CurrentValue = _health.MaxValue;
         HealthChanged?.Invoke();
-    }
-    private void LevelConstAffectHelath(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
-    => UtilityFunctionsParam.AffectorsAllTargetsEvery(
-        ref affectors,
-        ref targets,
-        UtilityFunctionsParam.GetCurrentValFloat,
-        UtilityFunctionsParam.GetMaxValueMod,
-        LevelConstAffectingLogic
-        );
-    private List<Modifier> LevelConstAffectingLogic(List<CharParameterBase> affectors)
-    {
-        float constMod = UtilityFunctionsParam.GetCurrentValFloat(affectors[1]) - 5.0f;
-        float ConstModFirstLvl = constMod * 4.0f;
-        float result = ConstModFirstLvl;
-        for (int i = 2; i <= UtilityFunctionsParam.GetCurrentValFloat(affectors[0]); i++)
-            result += constMod + 5.0f;
-
-        return new List<Modifier> { new Modifier(result, ModifierType.Flat, affectors[1])};
     }
     #endregion
 }

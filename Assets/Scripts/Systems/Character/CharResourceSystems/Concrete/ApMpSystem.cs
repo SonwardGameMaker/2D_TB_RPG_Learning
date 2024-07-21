@@ -13,7 +13,7 @@ public class ApMpSystem : ICharResourseFieldGettable
     [SerializeField] private CharResource _actionPoints;
     [SerializeField] private CharResource _movementPoints;
 
-    #region constructors and destructor
+    #region constructor and destructor
     public ApMpSystem()
     {
         _actionPoints = new CharResource(DEFAULT_AP_NAME, DEFAULT_AP_MAX_VALUE, 0.0f, DEFAULT_AP_MAX_VALUE);

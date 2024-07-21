@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class CharacterStats
+public class CharacterStatsSystem
 {
     private const float DEFAULT_MIN_VALUE_FOR_ATTRIBUTE = 3.0f;
     private const float DEFAULT_CURRENT_VALUE_FOR_ATTRIBUTE = 5.0f;
@@ -46,7 +46,7 @@ public class CharacterStats
     #endregion
 
     #region init
-    public CharacterStats()
+    public CharacterStatsSystem()
     {
         // Level
         Level = new Stat("Level", 20, 1, 1);
