@@ -27,13 +27,18 @@ public class DamageResistance : CharParameterBase, IArmorTrashholdMod, IArmorMit
         : this(damageResistanceType, DEFAULT_TRASHHOLD_VALUE , DEFAULT_MITIGATION_VALUE, $"{damageResistanceType.ToString()}_Resistance") { }
     public DamageResistance()
         : this(DamageType.Mechanical, DEFAULT_TRASHHOLD_VALUE, DEFAULT_MITIGATION_VALUE, $"{DamageType.Mechanical.ToString()}_Resistance") { }
+    
+    public DamageType DamageType
+    {
+        get => _damageResistanceType;
+        private set => _damageResistanceType = value;
+    }
     public float Trashhold { get => _trashhold.RealValue; }
     public float TrashholdBase 
     {
         get => _trashhold.BaseValue;
         private set => _trashhold.BaseValue = value;
     }
-
     public float Mitigation { get => _mitigation.RealValue; }
     public float MitigationBase 
     { 
