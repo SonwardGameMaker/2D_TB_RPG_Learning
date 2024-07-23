@@ -19,6 +19,7 @@ public class CharacterIngameParameters
         _damageResistances = new List<DamageResistance>();
         foreach (DamageType damageType in Enum.GetValues(typeof(DamageType)))
         {
+            Debug.Log(damageType);
             _damageResistances.Add(new DamageResistance(damageType));
         }
         _meleeDamageIncreaseCoef = new FlatParameter("Melee Damage Increasing Coeficient", DEFAULT_CHARACTER_RSISTANCE_VALUE);

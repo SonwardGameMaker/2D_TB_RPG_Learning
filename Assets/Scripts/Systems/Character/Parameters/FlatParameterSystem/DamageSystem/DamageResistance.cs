@@ -15,8 +15,8 @@ public class DamageResistance : CharParameterBase, IArmorTrashholdMod, IArmorMit
     public DamageResistance(DamageType damageResistanceType, float trashhold, float mitigation, string name)
     {
         _damageResistanceType = damageResistanceType;
-        _trashhold.BaseValue = trashhold;
-        _mitigation.BaseValue = mitigation;
+        _trashhold = new ModVar(trashhold);
+        _mitigation = new ModVar(mitigation);
         _name = name;
     }
     public DamageResistance(DamageType damageResistanceType, float trashhold, float mitigation) 
