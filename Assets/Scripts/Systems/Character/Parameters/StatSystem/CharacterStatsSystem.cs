@@ -129,16 +129,7 @@ public class CharacterStatsSystem
 
     // Affection Logic
     public (List<CharParameterBase>, ModValueCalculateLogic) LevelConstAffectHelath()
-        => (new List<CharParameterBase>() { Level, Constitution }, LevelConstAffectHelath);
-    
-    private void LevelConstAffectHelath(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
-  => UtilityFunctionsParam.AffectorsAllTargetsEvery(
-      ref affectors,
-      ref targets,
-      UtilityFunctionsParam.GetCurrentValFloat,
-      UtilityFunctionsParam.GetMaxValueMod,
-      LevelConstAffectingLogic
-      );
+        => (new List<CharParameterBase>() { Level, Constitution }, LevelConstAffectHelathLogic);
     
     public void AgilityAffectMovementPoints(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
             => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
@@ -195,11 +186,21 @@ public class CharacterStatsSystem
         return (result, ModifierType.Multiplicative);
     }
 
-    private List<Modifier> LevelConstAffectingLogic(List<CharParameterBase> affectors)
+    // Level Constitution affect HP
+    private void LevelConstAffectHelathLogic(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
+    => UtilityFunctionsParam.AffectorsAllTargetsEvery(
+        ref affectors,
+        ref targets,
+        UtilityFunctionsParam.GetCurrentValFloat,
+        UtilityFunctionsParam.GetMaxValueMod,
+        LevelConstAffectingModCalculating
+    );
+
+    private List<Modifier> LevelConstAffectingModCalculating(List<CharParameterBase> affectors)
     {
         CharParameterBase level = affectors.Find(a => a.Name == Level.Name);
         CharParameterBase constitution = affectors.Find(a => a.Name == Constitution.Name);
-        if (level == null || constitution == null) throw new Exception($"{nameof(LevelConstAffectingLogic)} didn't find correct properties");
+        if (level == null || constitution == null) throw new Exception($"{nameof(LevelConstAffectingModCalculating)} didn't find correct properties");
 
         float constMod = UtilityFunctionsParam.GetCurrentValFloat(constitution) - 5.0f;
         float ConstModFirstLvl = constMod * 4.0f;
@@ -209,6 +210,7 @@ public class CharacterStatsSystem
 
         return new List<Modifier> { new Modifier(result, ModifierType.Flat, constitution) };
     }
+
     private (float, ModifierType) AgilityAffectsMpModBase(CharParameterBase agility)
     {
         float agilMod = UtilityFunctionsParam.GetCurrentValFloat(agility) - 5;
