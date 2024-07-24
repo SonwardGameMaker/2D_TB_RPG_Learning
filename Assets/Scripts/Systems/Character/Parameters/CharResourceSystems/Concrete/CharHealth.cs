@@ -85,10 +85,14 @@ public class CharHealth : ICharResourseFieldGettable
         => new ParInteraction(affectors, _health, CalculateLogic);
     public ParInteraction CreateHealthPointsEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
         => CreateHealthPointsEffect(new List<CharParameterBase> { affector }, CalculateLogic);
+    public ParInteraction CreateHealthPointsEffect((List<CharParameterBase>, ModValueCalculateLogic) parameters)
+        => new ParInteraction(parameters.Item1, _health, parameters.Item2);
     public ParInteraction CreateHpBonusPLevelEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(affectors, _hpBonusPerLevel, CalculateLogic);
     public ParInteraction CreateHpBonusPLevelEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
         => CreateHpBonusPLevelEffect(new List<CharParameterBase> { affector }, CalculateLogic);
+    public ParInteraction CreateHpBonusPLevelEffect((List<CharParameterBase>, ModValueCalculateLogic) parameters)
+        => new ParInteraction(parameters.Item1, _hpBonusPerLevel, parameters.Item2);
     #endregion
 
     public event Action HealthChanged;

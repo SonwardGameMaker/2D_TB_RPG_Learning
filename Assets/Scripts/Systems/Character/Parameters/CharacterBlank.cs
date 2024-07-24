@@ -25,9 +25,7 @@ public class CharacterBlank : MonoBehaviour
 
         _interactions = new List<ParInteraction>();
 
-        _interactions.Add(_health.CreateHealthPointsEffect(
-            new List<CharParameterBase> { _stats.Level, _stats.Constitution },
-            _stats.LevelConstAffectHelath));
+        _interactions.Add(_health.CreateHealthPointsEffect(_stats.LevelConstAffectHelath()));
         _interactions.Add(_apMpSystem.CreateMpEffect(_stats.Agility, _stats.AgilityAffectMovementPoints));
         _interactions.Add(_ingameParameters.CreateMeleeDamageCoefEffect(_stats.Strength, _stats.StrengthAffectMeleeDamage));
         _interactions.Add(_ingameParameters.CreateLightMeleeCriticalChanceCoefEffect(_stats.Strength, _stats.DexterityAffectLightMeleeCritChance));

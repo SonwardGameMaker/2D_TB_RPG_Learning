@@ -128,7 +128,10 @@ public class CharacterStatsSystem
     }
 
     // Affection Logic
-    public void LevelConstAffectHelath(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
+    public (List<CharParameterBase>, ModValueCalculateLogic) LevelConstAffectHelath()
+        => (new List<CharParameterBase>() { Level, Constitution }, LevelConstAffectHelath);
+    
+    private void LevelConstAffectHelath(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
   => UtilityFunctionsParam.AffectorsAllTargetsEvery(
       ref affectors,
       ref targets,
