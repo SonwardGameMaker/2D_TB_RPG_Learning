@@ -55,7 +55,6 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
         set
         {
             if (value > _maxValue.RealValue) _currentValue = _maxValue.RealValue;
-            else if (value < _minValue) _currentValue = _minValue;
             else _currentValue = value;
             CurrentValChangedInvoke();
         }
