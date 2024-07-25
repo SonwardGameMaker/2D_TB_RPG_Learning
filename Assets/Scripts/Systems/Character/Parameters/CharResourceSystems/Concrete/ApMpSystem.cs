@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class ApMpSystem : ICharResourseFieldGettable
@@ -113,10 +114,14 @@ public class ApMpSystem : ICharResourseFieldGettable
         => new ParInteraction(affectors, _actionPoints, CalculateLogic);
     public ParInteraction CreateApEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
         => CreateApEffect(new List<CharParameterBase> { affector }, CalculateLogic);
+    public ParInteraction CreateApEffect((List<CharParameterBase>, ModValueCalculateLogic) parameters)
+        => new ParInteraction(parameters.Item1, _actionPoints, parameters.Item2);
     public ParInteraction CreateMpEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(affectors, _movementPoints, CalculateLogic);
     public ParInteraction CreateMpEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
         => CreateMpEffect(new List<CharParameterBase> { affector }, CalculateLogic);
+    public ParInteraction CreateMpEffect((List<CharParameterBase>, ModValueCalculateLogic) parameters)
+        => new ParInteraction(parameters.Item1, _movementPoints, parameters.Item2);
     #endregion
 
 

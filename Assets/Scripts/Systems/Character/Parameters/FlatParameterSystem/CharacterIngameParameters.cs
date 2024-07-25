@@ -46,20 +46,34 @@ public class CharacterIngameParameters
         => new ParInteraction(affectors, _damageResistances.First(dt=>dt.DamageType == type), CalculateLogic);
     public ParInteraction CreateDamageResistanceEffect(DamageType type, CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(new List<CharParameterBase> { affector }, _damageResistances.First(dt => dt.DamageType == type), CalculateLogic);
+    public ParInteraction CreateDamageResistanceEffect(DamageType type, (List<CharParameterBase>, ModValueCalculateLogic) parameters)
+        => new ParInteraction(
+            parameters.Item1, 
+            _damageResistances.First(dt => dt.DamageType == type), 
+            parameters.Item2);
+
     // Melee damage
     public ParInteraction CreateMeleeDamageCoefEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(affectors, _meleeDamageIncreaseCoef, CalculateLogic);
     public ParInteraction CreateMeleeDamageCoefEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(new List<CharParameterBase> { affector }, _meleeDamageIncreaseCoef, CalculateLogic);
+    public ParInteraction CreateMeleeDamageCoefEffect((List<CharParameterBase>, ModValueCalculateLogic) parameters)
+        => new ParInteraction(parameters.Item1, _meleeDamageIncreaseCoef, parameters.Item2);
+
     // Melee crit
     public ParInteraction CreateLightMeleeCriticalChanceCoefEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(affectors, _lightMeleeCriticalChanceIncreaceCoef, CalculateLogic);
     public ParInteraction CreateLightMeleeCriticalChanceCoefEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(new List<CharParameterBase> { affector }, _lightMeleeCriticalChanceIncreaceCoef, CalculateLogic);
+    public ParInteraction CreateLightMeleeCriticalChanceCoefEffect((List<CharParameterBase>, ModValueCalculateLogic) parameters)
+        => new ParInteraction(parameters.Item1, _lightMeleeCriticalChanceIncreaceCoef, parameters.Item2);
+
     // Firearm crit
     public ParInteraction CreateFirearmCriticalChanceCoefEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(affectors, _firearmsCriticalChanceIncreaceCoef, CalculateLogic);
     public ParInteraction CreateFirearmCriticalChanceCoefEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(new List<CharParameterBase> { affector }, _firearmsCriticalChanceIncreaceCoef, CalculateLogic);
+    public ParInteraction CreateFirearmCriticalChanceCoefEffect((List<CharParameterBase>, ModValueCalculateLogic) parameters)
+        => new ParInteraction(parameters.Item1, _firearmsCriticalChanceIncreaceCoef, parameters.Item2);
     #endregion
 }

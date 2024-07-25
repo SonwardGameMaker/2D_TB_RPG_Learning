@@ -26,10 +26,10 @@ public class CharacterBlank : MonoBehaviour
         _interactions = new List<ParInteraction>();
 
         _interactions.Add(_health.CreateHealthPointsEffect(_stats.LevelConstAffectHelath()));
-        _interactions.Add(_apMpSystem.CreateMpEffect(_stats.Agility, _stats.AgilityAffectMovementPoints));
-        _interactions.Add(_ingameParameters.CreateMeleeDamageCoefEffect(_stats.Strength, _stats.StrengthAffectMeleeDamage));
-        _interactions.Add(_ingameParameters.CreateLightMeleeCriticalChanceCoefEffect(_stats.Strength, _stats.DexterityAffectLightMeleeCritChance));
-        _interactions.Add(_ingameParameters.CreateFirearmCriticalChanceCoefEffect(_stats.Strength, _stats.PerceptionAffectFirearmCritChance));
+        _interactions.Add(_apMpSystem.CreateMpEffect(_stats.AgilityAffectMovementPoints()));
+        _interactions.Add(_ingameParameters.CreateMeleeDamageCoefEffect(_stats.StrengthAffectMeleeDamage()));
+        _interactions.Add(_ingameParameters.CreateLightMeleeCriticalChanceCoefEffect(_stats.DexterityAffectLightMeleeCritChance()));
+        _interactions.Add(_ingameParameters.CreateFirearmCriticalChanceCoefEffect(_stats.PerceptionAffectFirearmCritChance()));
     }
 
 }

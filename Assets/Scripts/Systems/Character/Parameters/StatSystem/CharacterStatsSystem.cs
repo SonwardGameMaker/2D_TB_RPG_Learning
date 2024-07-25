@@ -124,45 +124,24 @@ public class CharacterStatsSystem
     {
         attribute.CurrentValueBase = increase ? attribute.CurrentValueBase + 1
             : attribute.CurrentValueBase- 1;
-        //Debug.Log("Max value: " + attribute.MaxValue.RealValue);
     }
 
     // Affection Logic
     public (List<CharParameterBase>, ModValueCalculateLogic) LevelConstAffectHelath()
         => (new List<CharParameterBase>() { Level, Constitution }, LevelConstAffectHelathLogic);
-    
-    public void AgilityAffectMovementPoints(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
-            => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
-                ref affectors,
-                ref targets,
-                UtilityFunctionsParam.GetCurrentValFloat,
-                UtilityFunctionsParam.GetMaxValueMod,
-                AgilityAffectsMpModBase);
 
-    public void StrengthAffectMeleeDamage(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
-        => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
-            ref affectors,
-            ref targets,
-            UtilityFunctionsParam.GetCurrentValFloat,
-            UtilityFunctionsParam.GetCurrValueMod,
-            StrengthAffectMeleeDamage
-            );
-    public void DexterityAffectLightMeleeCritChance(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
-        => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
-            ref affectors,
-            ref targets,
-            UtilityFunctionsParam.GetCurrentValFloat,
-            UtilityFunctionsParam.GetCurrValueMod,
-            DexterityAffectLightMeleeCritChance
-            );
-    public void PerceptionAffectFirearmCritChance(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
-        => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
-            ref affectors,
-            ref targets,
-            UtilityFunctionsParam.GetCurrentValFloat,
-            UtilityFunctionsParam.GetCurrValueMod,
-            PerceptionAffectFirearmCritChance
-            );
+    public (List<CharParameterBase>, ModValueCalculateLogic) AgilityAffectMovementPoints()
+        => (new List<CharParameterBase>() { Agility }, AgilityAffectMovementPointsLogic);
+
+    public (List<CharParameterBase>, ModValueCalculateLogic) StrengthAffectMeleeDamage()
+        => (new List<CharParameterBase>() { Strength }, StrengthAffectMeleeDamageLogic);
+
+    public (List<CharParameterBase>, ModValueCalculateLogic) DexterityAffectLightMeleeCritChance()
+        => (new List<CharParameterBase>() { Dexterity }, DexterityAffectLightMeleeCritChanceLogic);
+
+    public (List<CharParameterBase>, ModValueCalculateLogic) PerceptionAffectFirearmCritChance()
+        => (new List<CharParameterBase>() { Perception }, PerceptionAffectFirearmCritChanceLogic);
+
     #endregion
 
     #region calculation_methods
@@ -194,8 +173,7 @@ public class CharacterStatsSystem
         UtilityFunctionsParam.GetCurrentValFloat,
         UtilityFunctionsParam.GetMaxValueMod,
         LevelConstAffectingModCalculating
-    );
-
+        );
     private List<Modifier> LevelConstAffectingModCalculating(List<CharParameterBase> affectors)
     {
         CharParameterBase level = affectors.Find(a => a.Name == Level.Name);
@@ -211,7 +189,15 @@ public class CharacterStatsSystem
         return new List<Modifier> { new Modifier(result, ModifierType.Flat, constitution) };
     }
 
-    private (float, ModifierType) AgilityAffectsMpModBase(CharParameterBase agility)
+    // Agility affect Movement Points
+    private void AgilityAffectMovementPointsLogic(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
+            => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
+                ref affectors,
+                ref targets,
+                UtilityFunctionsParam.GetCurrentValFloat,
+                UtilityFunctionsParam.GetMaxValueMod,
+                AgilityAffectsMpModCalculating);
+    private (float, ModifierType) AgilityAffectsMpModCalculating(CharParameterBase agility)
     {
         float agilMod = UtilityFunctionsParam.GetCurrentValFloat(agility) - 5;
         float mod = 4;
@@ -219,30 +205,59 @@ public class CharacterStatsSystem
         return new(result, ModifierType.Flat);
     }
 
-    private (float, ModifierType) StrengthAffectMeleeDamage(CharParameterBase strength)
+    // Strength affect Melee Damage
+    private void StrengthAffectMeleeDamageLogic(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
+        => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
+            ref affectors,
+            ref targets,
+            UtilityFunctionsParam.GetCurrentValFloat,
+            UtilityFunctionsParam.GetCurrValueMod,
+            StrengthAffectMeleeDamageModCalculating
+            );
+    private (float, ModifierType) StrengthAffectMeleeDamageModCalculating(CharParameterBase strength)
     {
         if (strength.Name != Strength.Name)
-            throw new Exception($"{strength.Name} is incorrect for {nameof(StrengthAffectMeleeDamage)} method");
+            throw new Exception($"{strength.Name} is incorrect for {nameof(StrengthAffectMeleeDamageModCalculating)} method");
 
         float strMod = UtilityFunctionsParam.GetCurrentValFloat(strength) - 5;
         float mod = 0.05f;
         float result = strMod * mod;
         return new(result, ModifierType.Additive);
     }
-    private (float, ModifierType) DexterityAffectLightMeleeCritChance(CharParameterBase dexterity)
+
+    // Dexterity affect Light Melee Crit Chance
+    private void DexterityAffectLightMeleeCritChanceLogic(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
+        => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
+            ref affectors,
+            ref targets,
+            UtilityFunctionsParam.GetCurrentValFloat,
+            UtilityFunctionsParam.GetCurrValueMod,
+            DexterityAffectLightMeleeCritChanceModCalculation
+            );
+    private (float, ModifierType) DexterityAffectLightMeleeCritChanceModCalculation(CharParameterBase dexterity)
     {
         if (dexterity.Name != Dexterity.Name)
-            throw new Exception($"{dexterity.Name} is incorrect for {nameof(DexterityAffectLightMeleeCritChance)} method");
+            throw new Exception($"{dexterity.Name} is incorrect for {nameof(DexterityAffectLightMeleeCritChanceModCalculation)} method");
 
         float strMod = UtilityFunctionsParam.GetCurrentValFloat(dexterity) - 5;
         float mod = 0.02f;
         float result = strMod * mod;
         return new(result, ModifierType.Additive);
     }
-    private (float, ModifierType) PerceptionAffectFirearmCritChance(CharParameterBase perception) // same as for Dex, but I will leave it as it is in case I'l do some changes to one of those
+
+    // Perception affect Firearm Crit Chance Logic
+    private void PerceptionAffectFirearmCritChanceLogic(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
+        => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
+            ref affectors,
+            ref targets,
+            UtilityFunctionsParam.GetCurrentValFloat,
+            UtilityFunctionsParam.GetCurrValueMod,
+            PerceptionAffectFirearmCritChanceModCalculation
+            );
+    private (float, ModifierType) PerceptionAffectFirearmCritChanceModCalculation(CharParameterBase perception) // same as for Dex, but I will leave it as it is in case I'l do some changes to one of those
     {
         if (perception.Name != Perception.Name)
-            throw new Exception($"{perception.Name} is incorrect for {nameof(DexterityAffectLightMeleeCritChance)} method");
+            throw new Exception($"{perception.Name} is incorrect for {nameof(PerceptionAffectFirearmCritChanceModCalculation)} method");
 
         float strMod = UtilityFunctionsParam.GetCurrentValFloat(perception) - 5;
         float mod = 0.02f;
