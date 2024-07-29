@@ -19,7 +19,6 @@ public class CharacterIngameParameters
         _damageResistances = new List<DamageResistance>();
         foreach (DamageType damageType in Enum.GetValues(typeof(DamageType)))
         {
-            Debug.Log(damageType);
             _damageResistances.Add(new DamageResistance(damageType));
         }
         _meleeDamageIncreaseCoef = new FlatParameter("Melee Damage Increasing Coeficient", DEFAULT_CHARACTER_RSISTANCE_VALUE);
@@ -32,9 +31,9 @@ public class CharacterIngameParameters
     {
         get => new ReadOnlyCollection<DamageResistance>(_damageResistances);
     }
-    public FlatParameter MeleeDamageIncreaseCoef { get =>  _meleeDamageIncreaseCoef; }
-    public FlatParameter LigthMeleeCriticalChanceIncreaceCoef { get =>  _firearmsCriticalChanceIncreaceCoef; }
-    public FlatParameter FirearmsCriticalChanceIncreaceCoef { get => _firearmsCriticalChanceIncreaceCoef; }
+    public float MeleeDamageIncreaseCoef { get =>  _meleeDamageIncreaseCoef.CurrentValue; }
+    public float LigthMeleeCriticalChanceIncreaceCoef { get =>  _firearmsCriticalChanceIncreaceCoef.CurrentValue; }
+    public float FirearmsCriticalChanceIncreaceCoef { get => _firearmsCriticalChanceIncreaceCoef.CurrentValue; }
     #endregion
 
     #region extrnal interation

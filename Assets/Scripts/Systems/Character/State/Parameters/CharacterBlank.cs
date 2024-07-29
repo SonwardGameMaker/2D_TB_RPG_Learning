@@ -13,7 +13,7 @@ public class CharacterBlank : MonoBehaviour
 
     public CharacterStatsSystem Stats { get => _stats; }
     public CharHealth Health { get => _health; }
-    public ApMpSystem ApMpSystem { get => _apMpSystem;  }
+    public ApMpSystem ApMpSystem { get => _apMpSystem; }
     public CharacterIngameParameters CharacterIngameParameters { get => _ingameParameters; }
 
     public void Awake()
@@ -32,4 +32,10 @@ public class CharacterBlank : MonoBehaviour
         _interactions.Add(_ingameParameters.CreateFirearmCriticalChanceCoefEffect(_stats.PerceptionAffectFirearmCritChance()));
     }
 
+    public void AddParInteraction(ParInteraction interaction)
+        => _interactions.Add(interaction);
+    public void AddParInteractionRange(List<ParInteraction> interactions)
+        => _interactions.AddRange(interactions);
+    public void RemoveParInteraction(ParInteraction interaction)
+        => _interactions.Remove(interaction);
 }

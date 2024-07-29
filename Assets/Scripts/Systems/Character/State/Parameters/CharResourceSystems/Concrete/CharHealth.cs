@@ -79,8 +79,6 @@ public class CharHealth : ICharResourseFieldGettable
         CharDeath?.Invoke();
     }
 
-    public event Action CharDeath;
-
     // Health Points
     public ParInteraction CreateHealthPointsEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(affectors, _health, CalculateLogic);
@@ -99,6 +97,7 @@ public class CharHealth : ICharResourseFieldGettable
     #endregion
 
     public event Action HealthChanged;
+    public event Action CharDeath;
 
     #region calculation methods
     private bool IsHealthFull()
