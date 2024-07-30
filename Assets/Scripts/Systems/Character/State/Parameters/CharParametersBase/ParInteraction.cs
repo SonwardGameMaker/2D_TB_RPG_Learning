@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Reflection;
 using UnityEngine;
 
 [Serializable]
@@ -18,13 +20,31 @@ public class ParInteraction
     {
         _affectors = affectors;
         _targets = targets;
-        foreach(CharParameterBase affector in _affectors)
-        {
-            affector.MinValChanged += Affect;
-            affector.CurrentValChanged += Affect;
-            affector.MaxValChanged += Affect;
-        }
         this.CalculateLogic = CalculateLogic;
+        foreach (CharParameterBase affector in _affectors)
+        {
+            Type affectorType = affector.GetType();
+            Type[] affectorInterfaces = affectorType.GetInterfaces();
+
+            foreach (Type parameterInterface in affectorInterfaces)
+            {
+                EventInfo[] events = parameterInterface.GetEvents();
+                foreach (EventInfo eventInfo in events)
+                {
+                    MethodInfo addMethod = eventInfo.GetAddMethod();
+                    if (addMethod != null)
+                    {
+                        Delegate handler = Delegate.CreateDelegate(
+                            eventInfo.EventHandlerType,
+                            this,
+                            GetType().GetMethod(nameof(Affect), BindingFlags.Public | BindingFlags.Instance)
+                            );
+
+                        addMethod.Invoke(affector, new object[] { handler });
+                    }
+                }
+            }
+        }
     }
     #region derived constructors and destructor
     public ParInteraction(List<CharParameterBase> affectors, List<CharParameterBase> targets) : this(affectors, targets, null) { }
@@ -38,14 +58,32 @@ public class ParInteraction
     {
         foreach(CharParameterBase affector in _affectors)
         {
-            affector.MinValChanged -= Affect;
-            affector.CurrentValChanged -= Affect;
-            affector.MaxValChanged -= Affect;
+            Type affectorType = affector.GetType();
+            Type[] affectorInterfaces = affectorType.GetInterfaces();
+
+            foreach (Type parameterInterface in affectorInterfaces)
+            {
+                EventInfo[] events = parameterInterface.GetEvents();
+                foreach (EventInfo eventInfo in events)
+                {
+                    MethodInfo removeMethod = eventInfo.GetRemoveMethod();
+                    if (removeMethod != null)
+                    {
+                        Delegate handler = Delegate.CreateDelegate(
+                            eventInfo.EventHandlerType,
+                            this,
+                            this.GetType().GetMethod(nameof(Affect), BindingFlags.NonPublic | BindingFlags.Instance)
+                            );
+
+                        removeMethod.Invoke(affector, new object[] { handler });
+                    }
+                }
+            }
         }
     }
     #endregion
 
-    private void Affect()
+    public void Affect()
     {
         if (CalculateLogic != null)
             CalculateLogic(ref _affectors, ref _targets);

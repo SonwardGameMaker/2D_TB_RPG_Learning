@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,11 +27,13 @@ public class FlatParameter : CharParameterBase, ICurrValModifiable
     }
     public float CurrentValue { get => _currentValue.RealValue; }
 
+    public event Action CurrentValChanged;
+
+    private void HandleCurrentValEvents() => CurrentValChanged?.Invoke();
+
     public void AddCurrentValueModifier(Modifier modifier) => _currentValue.AddModifier(modifier);
     public IReadOnlyList<Modifier> GetCurrentValueModifiers() => _currentValue.GetModifiers();
     public IReadOnlyList<Modifier> GetCurrentValueModifiers(ModifierType modifierType) => _currentValue.GetModifiers(modifierType);
     public bool TryRemoveCurrentValueModifier(Modifier modifier) => _currentValue.TryRemoveModifier(modifier);
     public bool TryRemoveCurrentValueAllModifiersOf(object source) => _currentValue.TryRemoveAllModifiersOf(source);
-
-    private void HandleCurrentValEvents() => CurrentValChangedInvoke();
 }

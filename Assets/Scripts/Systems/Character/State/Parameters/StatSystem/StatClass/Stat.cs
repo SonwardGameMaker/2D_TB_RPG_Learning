@@ -51,7 +51,7 @@ public class Stat : CharParameterBase, IMaxValModifiable, IMinValUnmod, ICurrVal
         {
             if (value > _maxValue.RealValue) _minValue= _maxValue.RealValue;
             else _minValue = value;
-            MinValChangedInvoke();
+            CurrentValChanged?.Invoke();
         }
     }
     public float CurrentValueBase
@@ -94,17 +94,21 @@ public class Stat : CharParameterBase, IMaxValModifiable, IMinValUnmod, ICurrVal
     public bool TryRemoveMaxValueAllModifiersOf(object source) => _maxValue.TryRemoveAllModifiersOf(source);
     #endregion
 
+    public event Action MaxValChanged;
+    public event Action MinValChanged;
+    public event Action CurrentValChanged;
+
     #region event handlers
     private void HandleMinValEvents() 
     {
         _maxValue.LowerBound = _minValue;
     }
-    private void HandleCurrentValEvents() => CurrentValChangedInvoke();
+    private void HandleCurrentValEvents() => CurrentValChanged?.Invoke();
     private void HandleMaxValEvents()
     {
         if (_currentValue.BaseValue > _maxValue.RealValue)
             _currentValue.BaseValue = _maxValue.RealValue;
-        MaxValChangedInvoke();
+        CurrentValChanged?.Invoke();
     }
     #endregion
 

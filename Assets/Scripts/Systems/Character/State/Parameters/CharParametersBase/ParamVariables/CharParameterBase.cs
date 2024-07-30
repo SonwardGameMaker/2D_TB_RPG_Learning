@@ -16,12 +16,4 @@ public abstract class CharParameterBase
 
     public CharParameterBase(string name) {  _name = name; }
     public CharParameterBase() : this(DEFAULT_NAME) { }
-
-    public event Action MinValChanged;
-    public event Action CurrentValChanged;
-    public event Action MaxValChanged;
-
-    protected void MinValChangedInvoke() => MinValChanged?.Invoke();
-    protected void CurrentValChangedInvoke() => CurrentValChanged?.Invoke();
-    protected void MaxValChangedInvoke() => MaxValChanged?.Invoke();
 }

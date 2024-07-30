@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,7 +48,7 @@ public class CharLevel : CharParameterBase, IMaxValModifiable, IMinValUnmod, ICu
         {
             if (value > _maxValue.RealValue) _minValue = _maxValue.RealValue;
             else _minValue = value;
-            MinValChangedInvoke();
+            CurrentValChanged?.Invoke();
         }
     }
 
@@ -59,7 +60,7 @@ public class CharLevel : CharParameterBase, IMaxValModifiable, IMinValUnmod, ICu
             if (value > _maxValue.RealValue) _currentValue = _maxValue.RealValue;
             else if (value < _minValue) _currentValue = _minValue;
             else _minValue = value;
-            CurrentValChangedInvoke();
+            CurrentValChanged?.Invoke();
         }
     }
 
@@ -81,10 +82,13 @@ public class CharLevel : CharParameterBase, IMaxValModifiable, IMinValUnmod, ICu
     public bool TryRemoveMaxValueModifier(Modifier modifier) => _maxValue.TryRemoveModifier(modifier);
     public bool TryRemoveMaxValueAllModifiersOf(object source) => _maxValue.TryRemoveAllModifiersOf(source);
 
+    public event Action MaxValChanged;
+    public event Action MinValChanged;
+    public event Action CurrentValChanged;
     private void HandleMaxValEvents()
     {
         if (_currentValue > _maxValue.RealValue)
             _currentValue = _maxValue.RealValue;
-        MaxValChangedInvoke();
+        MaxValChanged?.Invoke();
     }
 }
