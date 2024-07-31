@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class EquipAffectCharBaseSO : ScriptableObject
 {
-    public virtual void AffectCharacter(CharacterBlank character) { }
+    public virtual ParInteraction AffectCharacter(CharacterBlank character) { return null; }
 }

@@ -30,8 +30,8 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
     /// <summary>
     /// Default min value is 0 and default max value is 30. Default current value is max value
     /// </summary>
-    public CharResource(string name) : this(name, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, DEFAULT_MAX_VALUE) { }
-    public CharResource() : this(DEFAULT_NAME, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, DEFAULT_MAX_VALUE) { }
+    public CharResource(string name) : this(name, DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE) { }
+    public CharResource() : this(DEFAULT_NAME, DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE) { }
     ~CharResource() // дивна поведінка, перевірити
     {
         _maxValue.ValueChanged -= HandleMaxValEvents;

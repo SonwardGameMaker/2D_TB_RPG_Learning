@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class DamageResistance : CharParameterBase, IArmorTrashholdMod, IArmorMitigationMod
 {
     protected const float DEFAULT_TRASHHOLD_VALUE = 0.0f;

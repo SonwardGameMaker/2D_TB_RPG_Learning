@@ -5,9 +5,9 @@ using UnityEngine;
 
 public delegate List<ParInteraction> AffectCharParameters(CharacterBlank characterBlank);
 [Serializable]
-public class Equipment : Item, IEquipable, IDurable
+public class Armor : Item, IEquipable, IDurable
 {
-    [SerializeField] private List<DamageResistance> damageResistances;
+    [SerializeField] private List<DamageResistance> _damageResistances;
     [SerializeField] private CharResource _durability;
     [SerializeField] private bool _isBroken;
 
@@ -16,7 +16,7 @@ public class Equipment : Item, IEquipable, IDurable
     private CharacterBlank _bearer;
 
     #region constructors
-    public Equipment(
+    public Armor(
         string name,
         string description,
         float price,
@@ -29,7 +29,7 @@ public class Equipment : Item, IEquipable, IDurable
         _affectionLogic = AffectionLogic;
         _parInteractions = new List<ParInteraction>();
     }
-    public Equipment(
+    public Armor(
     string name,
     string description,
     float price,
