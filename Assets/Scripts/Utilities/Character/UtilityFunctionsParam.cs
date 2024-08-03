@@ -57,34 +57,47 @@ public static class UtilityFunctionsParam
     #endregion
 
     #region GetValue functions
-    public static float GetMinValFloat(CharParameterBase stat)
+    public static float GetMinValFloat(CharParameterBase parameter)
     {
-        if (stat is IMinValModifiable modVal)
+        if (parameter is IMinValModifiable modVal)
                 return modVal.MinValue;
-        if (stat is IMinValUnmod unmod)
+        if (parameter is IMinValUnmod unmod)
             return unmod.MinValue;
         else throw new Exception("Cannot get targets min value");
     }
-    public static float GetCurrentValFloat(CharParameterBase stat)
+    public static float GetCurrentValFloat(CharParameterBase parameter)
     {
-        if (stat is ICurrValModifiable modVal)
+        if (parameter is ICurrValModifiable modVal)
             return modVal.CurrentValue;
-        if (stat is ICurrValUnmod unmod)
+        if (parameter is ICurrValUnmod unmod)
             return unmod.CurrentValue;
         else throw new Exception("Cannot get targets current value");
     }
-    public static float GetMaxValFloat(CharParameterBase stat)
+    public static float GetMaxValFloat(CharParameterBase parameter)
     {
-        if (stat is IMaxValModifiable modVal)
+        if (parameter is IMaxValModifiable modVal)
             return modVal.MaxValue;
-        if (stat is IMaxValUnmod unmod)
+        if (parameter is IMaxValUnmod unmod)
             return unmod.MaxValue;
         else throw new Exception("Cannot get targets max value");
     }
+    public static float GetTrashholdValFloat(CharParameterBase parameter)
+    {
+        if (parameter is IArmorTrashholdMod modVal)
+            return modVal.Trashhold;
+        else throw new Exception("Cannot get targets trashhold value");
+    }
+    public static float GetMitigationValFloat(CharParameterBase parameter)
+    {
+        if (parameter is IArmorMitigationMod modVal)
+            return modVal.Mitigation;
+        else throw new Exception("Cannot get targets mitigation value");
+    }
 
-    public static MaxValueWorker GetMaxValueMod(CharParameterBase stat) => new MaxValueWorker(stat);
-    public static MinValueWorker GetMinValueMod(CharParameterBase stat) => new MinValueWorker(stat);
-    public static CurrentValueWorker GetCurrValueMod(CharParameterBase stat) => new CurrentValueWorker(stat);
+    public static MaxValueWorker GetMaxValueMod(CharParameterBase parameter) => new MaxValueWorker(parameter);
+    public static MinValueWorker GetMinValueMod(CharParameterBase parameter) => new MinValueWorker(parameter);
+    public static CurrentValueWorker GetCurrValueMod(CharParameterBase parameter) => new CurrentValueWorker(parameter);
+    public static TrashholdValueWorker GetTrashholdValueMod(CharParameterBase parameter) => new TrashholdValueWorker(parameter);
     #endregion
 
     #region CheckObject functions

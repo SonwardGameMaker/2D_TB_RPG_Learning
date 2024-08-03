@@ -1,17 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
+public enum ArmorType { HeadArmor, BodyArmor, FeetArmor }
 public delegate List<ParInteraction> AffectCharParameters(CharacterBlank characterBlank);
 [Serializable]
 public class Armor : Item, IEquipable, IDurable
 {
+    [SerializeField] private ArmourSO _armourSO;
+
     [SerializeField] private List<DamageResistance> _damageResistances;
     [SerializeField] private CharResource _durability;
     [SerializeField] private bool _isBroken;
+    [SerializeField] private ArmorType _armorType;
 
-    private AffectCharParameters _affectionLogic;
+    private List<EquipAffectCharBaseSO> _equipAffectCharBaseInstances;
     private List<ParInteraction> _parInteractions;
     private CharacterBlank _bearer;
 
@@ -21,22 +27,29 @@ public class Armor : Item, IEquipable, IDurable
         string description,
         float price,
         float maxDurabilty,
-        AffectCharParameters AffectionLogic,
         Sprite spriteUI) : base(name, description, price, spriteUI)
     {
         _durability = new CharResource("Durability", maxDurabilty);
         _isBroken = false;
-        _affectionLogic = AffectionLogic;
         _parInteractions = new List<ParInteraction>();
     }
     public Armor(
     string name,
     string description,
     float price,
-    float maxDurabilty,
-    AffectCharParameters AffectionLogic) 
-        : this(name, description, price, maxDurabilty, AffectionLogic, null) 
+    float maxDurabilty) 
+        : this(name, description, price, maxDurabilty, null) 
     { }
+    public Armor(ArmourSO armourSO)
+    {
+        Debug.Log($"{nameof(ArmourSO)} constructor worked");
+        Init(armourSO);
+    }
+    public Armor()
+    {
+        //Debug.Log("Empty constructor worked");
+        //Init(_armourSO);
+    }
     #endregion
 
     #region properties
@@ -44,6 +57,7 @@ public class Armor : Item, IEquipable, IDurable
     public float CurrentDurability { get => _durability.CurrentValue; }
     public bool IsBroken { get => _isBroken; }
     public CharacterBlank Bearer { get => _bearer; }
+    public ArmorType ArmorType { get => _armorType; }
     #endregion
 
     #region events
@@ -52,6 +66,33 @@ public class Armor : Item, IEquipable, IDurable
     #endregion
 
     #region external interaction
+    public void Init()
+        => Init(_armourSO);
+
+    public void Init(ArmourSO armourSO)
+    {
+        Name = armourSO.Name;
+        Description = armourSO.Description;
+        Price = armourSO.Price;
+        ImageUI = armourSO.ImageUI;
+
+        _damageResistances = new List<DamageResistance>();
+        foreach (DamageType damageType in Enum.GetValues(typeof(DamageType)))
+            _damageResistances.Add(new DamageResistance(damageType));
+        foreach (DamageResistance damageResistance in armourSO._damageResistances)
+        {
+            DamageResistance currResistance = _damageResistances.Find(dr => dr.DamageType == damageResistance.DamageType);
+            if (currResistance == null) throw new Exception($"Item hasn't {damageResistance.DamageType} damage resistamce type");
+            currResistance = new DamageResistance(damageResistance);
+        }
+
+        _armorType = armourSO._armourType;
+        _durability = armourSO._durability;
+        _isBroken = armourSO._isBroken;
+
+        foreach (EquipAffectCharBaseSO iter in armourSO._equipAffectCharBase)
+            _equipAffectCharBaseInstances.Add(ScriptableObject.Instantiate(iter));
+    }
     public void ChangeDurability(float amount)
     {
         _durability.CurrentValue += amount;
@@ -65,7 +106,7 @@ public class Armor : Item, IEquipable, IDurable
             Unequip();
         
         _bearer = character;
-        _parInteractions = _affectionLogic(_bearer);
+        _parInteractions = AffectCharacter(_bearer);
         character.AddParInteractionRange(_parInteractions);
     }
     public void Unequip()
@@ -93,5 +134,47 @@ public class Armor : Item, IEquipable, IDurable
             return false;
         }
     }
+
+    private List<ParInteraction> AffectCharacter(CharacterBlank character)
+    {
+        List<ParInteraction> result = new List<ParInteraction>();
+        result.AddRange(InflictItemEffects(character));
+        result.AddRange(CreateDamageResistancesModifiersFromItem(character));
+        return result;
+    }
+
+    private List<ParInteraction> InflictItemEffects(CharacterBlank character)
+    {
+        List<ParInteraction> result = new List<ParInteraction>();
+        foreach (EquipAffectCharBaseSO iter in _equipAffectCharBaseInstances)
+            result.Add(iter.AffectCharacter(character));
+        return result;
+    }
+
+    private List<ParInteraction> CreateDamageResistancesModifiersFromItem(CharacterBlank character)
+    {
+        List<ParInteraction> result = new List<ParInteraction>();
+
+        foreach (DamageResistance damageResistance in  _damageResistances)
+        {
+            result.Add(new ParInteraction(damageResistance,
+                character.CharacterIngameParameters
+                .DamageResistances
+                .FirstOrDefault(dr => dr.DamageType == damageResistance.DamageType),
+                AffectDamageResistanceLogic));
+        }
+
+        return result;
+    }
+    private void AffectDamageResistanceLogic(ref List<CharParameterBase> affectors, ref List<CharParameterBase> targets)
+        => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
+            ref affectors,
+            ref targets,
+            UtilityFunctionsParam.GetTrashholdValFloat,
+            UtilityFunctionsParam.GetTrashholdValueMod,
+            AffectDamageResistanceModCalculating
+            );
+    private (float, ModifierType) AffectDamageResistanceModCalculating(CharParameterBase affector)
+        => new(UtilityFunctionsParam.GetTrashholdValFloat(affector), ModifierType.Flat);
     #endregion
 }

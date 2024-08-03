@@ -10,9 +10,9 @@ public class DamageResistance : CharParameterBase, IArmorTrashholdMod, IArmorMit
     protected const float DEFAULT_MITIGATION_VALUE = 0.0f;
     protected new const string DEFAULT_NAME = "Default_DamageResistance_Name";
 
-    private DamageType _damageResistanceType;
-    private ModVar _trashhold;
-    private ModVar _mitigation;
+    [SerializeField] private DamageType _damageResistanceType;
+    [SerializeField] private ModVar _trashhold;
+    [SerializeField] private ModVar _mitigation;
 
     public DamageResistance(DamageType damageResistanceType, float trashhold, float mitigation, string name)
     {
@@ -29,6 +29,13 @@ public class DamageResistance : CharParameterBase, IArmorTrashholdMod, IArmorMit
         : this(damageResistanceType, DEFAULT_TRASHHOLD_VALUE , DEFAULT_MITIGATION_VALUE, $"{damageResistanceType.ToString()}_Resistance") { }
     public DamageResistance()
         : this(DamageType.Mechanical, DEFAULT_TRASHHOLD_VALUE, DEFAULT_MITIGATION_VALUE, $"{DamageType.Mechanical.ToString()}_Resistance") { }
+
+    public DamageResistance(DamageResistance damageResistance)
+    {
+        _damageResistanceType = damageResistance._damageResistanceType;
+        _trashhold = new ModVar(damageResistance._trashhold);
+        _mitigation = new ModVar (damageResistance._mitigation);
+    }
     
     public DamageType DamageType
     {

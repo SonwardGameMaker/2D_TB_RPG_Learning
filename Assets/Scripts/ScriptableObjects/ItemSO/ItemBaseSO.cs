@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ItemBaseSO : ScriptableObject
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public Sprite ImageUI { get; set; }
+    public string Name;
+    public string Description;
+    public Sprite ImageUI;
+    public float Price;
 }

@@ -10,8 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2c5f12e47c5e3948b3bbf933ff9cbbc, type: 3}
-  m_Name: SamplArmorSO
+  m_Name: NoneHeadSO
   m_EditorClassIdentifier: 
+  Name: None
+  Description: Your head isn't protected.
+  ImageUI: {fileID: 0}
+  Price: 0
+  _armourType: 0
   _damageResistances: []
   _durability:
     _minValue: 0
@@ -23,3 +28,4 @@ MonoBehaviour:
       IsUpperBounded: 0
       UpperBound: 30
   _isBroken: 0
+  _equipAffectCharBase: []

@@ -28,10 +28,10 @@ public sealed class ModVar
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void Init() => _ModifierOperationsCollection = new();
 
-    public bool IsLowerBounded = false;
-    public float LowerBound = 0.0f;
-    public bool IsUpperBounded = false;
-    public float UpperBound = 30.0f;
+    [HideInInspector] public bool IsLowerBounded = false;
+    [HideInInspector] public float LowerBound = 0.0f;
+    [HideInInspector] public bool IsUpperBounded = false;
+    [HideInInspector] public float UpperBound = 30.0f;
     #endregion
 
     #region constructors
@@ -54,6 +54,11 @@ public sealed class ModVar
     }
     public ModVar(float baseValue) : this(baseValue, DEFAULT_DIGIT_ACCURACY, DEFAULT_LIST_CAPACITY) { }
     public ModVar(float baseValue, int digitAccuracy) : this(baseValue, digitAccuracy, DEFAULT_LIST_CAPACITY) { }
+    public ModVar(ModVar modVar) : this(modVar.baseValue, modVar._digitAccuracy, DEFAULT_LIST_CAPACITY) 
+    {
+        _modifiersOperations = modVar._modifiersOperations;
+        IsDirty = true;
+    }
     #endregion
 
     #region properties

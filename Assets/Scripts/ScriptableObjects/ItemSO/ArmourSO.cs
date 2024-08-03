@@ -1,12 +1,14 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptables/Items/ArmorSO")]
+[Serializable]
 public class ArmourSO : ItemBaseSO
 {
-    [SerializeField] private List<DamageResistance> _damageResistances;
-    [SerializeField] private CharResource _durability;
-    [SerializeField] private bool _isBroken;
-    [SerializeField] private List<EquipAffectCharBaseSO> _equipAffectCharBases;
+    public ArmorType _armourType;
+    public List<DamageResistance> _damageResistances;
+    public CharResource _durability;
+    public bool _isBroken = false;
+    public List<EquipAffectCharBaseSO> _equipAffectCharBase;
 }

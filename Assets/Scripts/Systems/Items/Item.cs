@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class Item 
 {
-    public string Name { get; }
-    public string Description { get; }
+    public string Name { get; protected set; }
+    public string Description { get; protected set; }
     public Sprite ImageUI { get; set; }
     public int Amount { get; protected set; }
     public virtual float Price { get; protected set; }
 
+    public Item() { }
     public Item(string name, string description, float price, int amount = 1)
     {
         Name = name;

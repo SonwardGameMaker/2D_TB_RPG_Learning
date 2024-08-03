@@ -1,6 +1,29 @@
 using System;
 using System.Collections.Generic;
 
+public enum StatType
+{
+    Level,
+    Strength,
+    Dexterity,
+    Agility,
+    Constitution,
+    Perception,
+    Charisma,
+    Intelligence,
+    LightFirearm,
+    Firearm,
+    Melee,
+    HeavyMelee,
+    Dodge,
+    Stealth,
+    Hacking,
+    Lockpicking,
+    Pickpocketing,
+    Persuasion,
+    Intimidation,
+    Mercantile
+}
 [Serializable]
 public class CharacterStatsSystem
 {

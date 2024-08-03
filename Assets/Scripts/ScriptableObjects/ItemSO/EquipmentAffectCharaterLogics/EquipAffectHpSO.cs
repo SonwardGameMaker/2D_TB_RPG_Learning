@@ -1,28 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-//public enum ValueType { MaxValue, MinValue, CurrentValue, TrashholdValue, MitigationValues }
-
-[CreateAssetMenu(menuName = "Scriptables/Items/Affection/EquipOnStat")]
-public class EquipAffectStatSO : EquipAffectCharBaseSO
+[CreateAssetMenu(menuName = "Scriptables/Items/Affection/EquipOnHealth")]
+public class EquipAffectHpSO : EquipAffectCharBaseSO
 {
-    public StatType StatType;
     public float AffectionValue;
-    //public ValueType ValueType;
 
     public override ParInteraction AffectCharacter(CharacterBlank character)
     {
-        return new ParInteraction(new FlatParameter($"Item affet {StatType.ToString()}", AffectionValue),
-            (Stat)character.Stats.GetType().GetProperty(StatType.ToString()).GetValue(character.Stats),
+        return character.Health.CreateHealthPointsEffect(
+            new FlatParameter("Item affet Health Points", AffectionValue),
             ItemAffectionLogic);
     }
 
     private void ItemAffectionLogic(ref List<CharParameterBase> affectors, ref List<CharParameterBase> tarets)
         => UtilityFunctionsParam.AffectorsCompareTargetsEvery(
             ref affectors,
-            ref tarets, 
+            ref tarets,
             UtilityFunctionsParam.GetCurrentValFloat,
             UtilityFunctionsParam.GetCurrValueMod,
             ItemAffectModCalculating

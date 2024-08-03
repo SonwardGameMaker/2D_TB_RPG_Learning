@@ -62,3 +62,37 @@ public class CurrentValueWorker : ConcreteValueWorker
     public override bool TryRemoveModifier(Modifier modifier) => _currValModifiable.TryRemoveCurrentValueModifier(modifier);
     public override bool TryRemoveAllModifiersOf(object source) => _currValModifiable.TryRemoveCurrentValueAllModifiersOf(source);
 }
+
+public class TrashholdValueWorker : ConcreteValueWorker
+{
+    IArmorTrashholdMod _armorTrashholdMod;
+
+    public TrashholdValueWorker(CharParameterBase parameter)
+    {
+        if (parameter is IArmorTrashholdMod) _armorTrashholdMod = (IArmorTrashholdMod)parameter;
+        else throw new Exception($"Object is not implement {typeof(IArmorTrashholdMod)} interface");
+    }
+
+    public override void AddModifier(Modifier modifier) => _armorTrashholdMod.AddTrashholdValueModifier(modifier);
+    public override IReadOnlyList<Modifier> GetModifiers() => _armorTrashholdMod.GetTrashholdValueModifiers();
+    public override IReadOnlyList<Modifier> GetModifiers(ModifierType modifierType) => _armorTrashholdMod.GetTrashholdValueModifiers(modifierType);
+    public override bool TryRemoveModifier(Modifier modifier) => _armorTrashholdMod.TryRemoveTrashholdValueModifier(modifier);
+    public override bool TryRemoveAllModifiersOf(object source) => _armorTrashholdMod.TryRemoveTrashholdValueAllModifiersOf(source);
+}
+
+public class MitigationValueWorker : ConcreteValueWorker
+{
+    IArmorMitigationMod _armorMitigationMod;
+
+    public MitigationValueWorker(CharParameterBase parameter)
+    {
+        if (parameter is IArmorMitigationMod) _armorMitigationMod = (IArmorMitigationMod)parameter;
+        else throw new Exception($"Object is not implement {typeof(IArmorMitigationMod)} interface");
+    }
+
+    public override void AddModifier(Modifier modifier) => _armorMitigationMod.AddMitigationValueModifier(modifier);
+    public override IReadOnlyList<Modifier> GetModifiers() => _armorMitigationMod.GetMitigationValueModifiers();
+    public override IReadOnlyList<Modifier> GetModifiers(ModifierType modifierType) => _armorMitigationMod.GetMitigationValueModifiers(modifierType);
+    public override bool TryRemoveModifier(Modifier modifier) => _armorMitigationMod.TryRemoveMitigationValueModifier(modifier);
+    public override bool TryRemoveAllModifiersOf(object source) => _armorMitigationMod.TryRemoveMitigationValueAllModifiersOf(source);
+}

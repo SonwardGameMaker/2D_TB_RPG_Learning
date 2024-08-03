@@ -32,7 +32,13 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
     /// </summary>
     public CharResource(string name) : this(name, DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE) { }
     public CharResource() : this(DEFAULT_NAME, DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE) { }
-    ~CharResource() // дивна поведінка, перевірити
+    public CharResource(CharResource charResource)
+    {
+        _maxValue = charResource._maxValue;
+        _minValue = charResource._minValue;
+        _currentValue = charResource._currentValue;
+    }
+    ~CharResource()
     {
         _maxValue.ValueChanged -= HandleMaxValEvents;
     }

@@ -6,30 +6,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum StatType 
-{ 
-    Level,
-    Strength, 
-    Dexterity, 
-    Agility, 
-    Constitution, 
-    Perception, 
-    Charisma, 
-    Intelligence,
-    LightFirearm,
-    Firearm,
-    Melee,
-    HeavyMelee,
-    Dodge,
-    Stealth,
-    Hacking,
-    Lockpicking,
-    Pickpocketing,
-    Persuasion,
-    Intimidation,
-    Mercantile
-}
-
 public class AttributeController : MonoBehaviour
 {
     public CharacterBlank characterBlank;

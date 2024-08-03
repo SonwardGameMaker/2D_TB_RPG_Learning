@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class CharacterInventorySystem
 {
-    private List<Item> _inventory;
+    [SerializeField] private List<Item> _inventory;
 
     public void Start()
     {

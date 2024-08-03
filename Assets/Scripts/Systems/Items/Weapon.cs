@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Weapon : Item, IEquipable, IDurable
 {
     [SerializeField] private DamageType _damageType;
