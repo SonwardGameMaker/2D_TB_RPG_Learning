@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class WeaponDamageParam : CharParameterBase, IMinValModifiable, ICurrValModifiable, IMaxValModifiable
 {
     [SerializeField] protected ModVar _minValue;
@@ -15,6 +16,7 @@ public class WeaponDamageParam : CharParameterBase, IMinValModifiable, ICurrValM
         _name = name;
         _minValue = new ModVar(minValue);
         _maxValue = new ModVar(maxValue);
+        _currnetValueMod = new ModVar(0);
 
         _minValue.IsUpperBounded = true;
         _minValue.UpperBound = _maxValue.RealValue;
@@ -29,13 +31,13 @@ public class WeaponDamageParam : CharParameterBase, IMinValModifiable, ICurrValM
     /// <summary>
     /// Default min value is 0. Default current value is max value
     /// </summary>
-    public WeaponDamageParam(string name, float maxValue) : this(name, DEFAULT_MIN_VALUE, maxValue, maxValue) { }
+    public WeaponDamageParam(string name, float maxValue) : this(name, maxValue, DEFAULT_MIN_VALUE, maxValue) { }
     /// <summary>
     /// Default min value is 0 and default max value is 30. Default current value is max value
     /// </summary>
-    public WeaponDamageParam(string name) : this(name, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, DEFAULT_MAX_VALUE) { }
-    public WeaponDamageParam() : this(DEFAULT_NAME, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, DEFAULT_MAX_VALUE) { }
-    ~WeaponDamageParam() // дивна поведінка, перевірити
+    public WeaponDamageParam(string name) : this(name, DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE) { }
+    public WeaponDamageParam() : this(DEFAULT_NAME, DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE) { }
+    ~WeaponDamageParam()
     {
         _maxValue.ValueChanged -= HandleMaxValEvents;
     }

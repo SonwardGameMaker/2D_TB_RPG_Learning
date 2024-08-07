@@ -6,9 +6,9 @@ using UnityEngine;
 [Serializable]
 public class ArmourSO : ItemBaseSO
 {
-    public ArmorType _armourType;
-    public List<DamageResistance> _damageResistances;
-    public CharResource _durability;
-    public bool _isBroken = false;
-    public List<EquipAffectCharBaseSO> _equipAffectCharBase;
+    public ArmorType ArmourType;
+    public List<DamageResistance> DamageResistances;
+    public CharResource Durability;
+    public bool IsBroken = false;
+    public List<EquipAffectCharBaseSO> EquipAffectCharBase;
 }

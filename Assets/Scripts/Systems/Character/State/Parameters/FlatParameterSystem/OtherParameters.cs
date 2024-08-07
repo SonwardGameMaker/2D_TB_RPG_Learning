@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
-public class CharacterIngameParameters
+public class OtherParameters
 {
     private const float DEFAULT_CHARACTER_RSISTANCE_VALUE = 0.0f;
 
@@ -14,7 +14,7 @@ public class CharacterIngameParameters
     private FlatParameter _lightMeleeCriticalChanceIncreaceCoef; // percentage, scaling from Dexterity
     private FlatParameter _firearmsCriticalChanceIncreaceCoef; // percentage, scaling from Perception
 
-    public CharacterIngameParameters()
+    public OtherParameters()
     {
         _damageResistances = new List<DamageResistance>();
         foreach (DamageType damageType in Enum.GetValues(typeof(DamageType)))

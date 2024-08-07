@@ -3,15 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum WeaponType { Melee, Rangeed }
+public enum WeaponWeight { Light, Normal }
 [Serializable]
 public class Weapon : Item, IEquipable, IDurable
 {
+    [SerializeField] private WeaponSO _weaponSO;
+
+    [SerializeField] private WeaponType _weaponType;
+    [SerializeField] private WeaponWeight _weaponWeight;
     [SerializeField] private DamageType _damageType;
     [SerializeField] private WeaponDamageParam _weaponDamage;
     [SerializeField] private CharResource _durability;
     [SerializeField] private bool _isBroken;
 
     private AffectCharParameters _affectionLogic;
+    private List<EquipAffectCharBaseSO> _equipAffectCharBaseInstances;
     private List<ParInteraction> _parInteractions;
     private CharacterBlank _bearer;
     public Weapon(
@@ -43,9 +50,19 @@ public class Weapon : Item, IEquipable, IDurable
         AffectCharParameters AffectionLogic)
         : this(name, description, damageType, maxDamage, minDamage, price, maxDurabilty, AffectionLogic, null)
     { }
+    public Weapon(WeaponSO weaponSO)
+    {
+        _parInteractions = new List<ParInteraction>();
+    }
+    public Weapon() 
+    {
+        _parInteractions = new List<ParInteraction>();
+    }
 
     #region properties
-    public DamageType DamageType { get { return _damageType; } }
+    public WeaponType WeaponType { get => _weaponType; }
+    public WeaponWeight WeaponWeight { get => _weaponWeight; }
+    public DamageType DamageType { get => _damageType; }
     public float MaxDamage { get => _weaponDamage.MaxValue; }
     public float MinDamage { get => _weaponDamage.MinValue; }
     public float MaxDurability { get => _durability.MaxValue; }
@@ -58,10 +75,33 @@ public class Weapon : Item, IEquipable, IDurable
     public event Action Repairs;
 
     #region external interaction
+    public void Init(CharacterBlank bearer)
+        => Init(bearer, _weaponSO);
+    public void Init(CharacterBlank bearer, WeaponSO weaponSO)
+    {
+        Name = weaponSO.Name;
+        Description = weaponSO.Description;
+        Price = weaponSO.Price;
+        ImageUI = weaponSO.ImageUI;
+
+        _weaponType = weaponSO.WeaponType;
+        _weaponWeight = weaponSO.WeaponWeight;
+        _damageType = weaponSO.DamageType;
+        _weaponDamage = weaponSO.WeaponDamage;
+        _durability = weaponSO.Durability;
+        _isBroken = weaponSO.IsBroken;
+
+        _equipAffectCharBaseInstances = new List<EquipAffectCharBaseSO>();
+        foreach (EquipAffectCharBaseSO iter in weaponSO.EquipAffectCharBase)
+            _equipAffectCharBaseInstances.Add(ScriptableObject.Instantiate(iter));
+
+        Equip(bearer);
+    }
+
     public float CalculateeDamage => _weaponDamage.CurrentValue;
 
-    public HitDataContainer HitData 
-        => new HitDataContainer(this, new Damage(_weaponDamage.CurrentValue, _damageType));
+    public HitDataContainer CalculateHitData 
+        => new HitDataContainer(this, _weaponDamage.CurrentValue, _damageType);
 
     public void ChangeDurability(float amount)
     {
@@ -77,14 +117,11 @@ public class Weapon : Item, IEquipable, IDurable
             Unequip();
 
         _bearer = character;
-        _parInteractions = _affectionLogic(_bearer);
-        character.AddParInteractionRange(_parInteractions);
+        _parInteractions = AffectCharacter(_bearer);
     }
 
     public void Unequip()
     {
-        foreach (ParInteraction interaction in _parInteractions)
-            _bearer.RemoveParInteraction(interaction);
         _parInteractions.Clear();
         _bearer = null;
     }
@@ -105,6 +142,21 @@ public class Weapon : Item, IEquipable, IDurable
                 Repairs?.Invoke();
             return false;
         }
+    }
+
+    private List<ParInteraction> AffectCharacter(CharacterBlank character)
+    {
+        List<ParInteraction> result = new List<ParInteraction>();
+        result.AddRange(InflictItemEffects(character));
+        return result;
+    }
+
+    private List<ParInteraction> InflictItemEffects(CharacterBlank character)
+    {
+        List<ParInteraction> result = new List<ParInteraction>();
+        foreach (EquipAffectCharBaseSO iter in _equipAffectCharBaseInstances)
+            result.Add(iter.AffectCharacter(character));
+        return result;
     }
     #endregion
 }

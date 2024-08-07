@@ -128,6 +128,8 @@ GameObject:
   - component: {fileID: 2599852580004614311}
   - component: {fileID: 8243259215531897151}
   - component: {fileID: 5638936444899745794}
+  - component: {fileID: 6664806914561584291}
+  - component: {fileID: 5470532210633530332}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -163,6 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24df24cadf74954f88aacab63a1baf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _name: Player
 --- !u!114 &5638936444899745794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,72 +178,135 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f1b820b51101b94b9cf8a3baecdd600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainHand:
-    _damageType: 0
-    _durability:
-      _minValue: 0
-      _currentValue: 30
-      _maxValue:
-        baseValue: 30
-        IsLowerBounded: 1
-        LowerBound: 0
-        IsUpperBounded: 0
-        UpperBound: 30
-    _isBroken: 0
-  SecondHand:
-    _damageType: 0
-    _durability:
-      _minValue: 0
-      _currentValue: 30
-      _maxValue:
-        baseValue: 30
-        IsLowerBounded: 1
-        LowerBound: 0
-        IsUpperBounded: 0
-        UpperBound: 30
-    _isBroken: 0
-  HeadEquipment:
-    _armourSO: {fileID: 11400000, guid: 01fdac5701f84094688f397573c4a51c, type: 2}
-    _damageResistances: []
-    _durability:
-      _minValue: 0
-      _currentValue: 30
-      _maxValue:
-        baseValue: 30
-        IsLowerBounded: 1
-        LowerBound: 0
-        IsUpperBounded: 0
-        UpperBound: 30
-    _isBroken: 0
-    _armorType: 0
-  BodyEquipment:
-    _armourSO: {fileID: 11400000, guid: f1b5f94acdd22f04ead37252d7d8fe4c, type: 2}
-    _damageResistances: []
-    _durability:
-      _minValue: 0
-      _currentValue: 30
-      _maxValue:
-        baseValue: 30
-        IsLowerBounded: 1
-        LowerBound: 0
-        IsUpperBounded: 0
-        UpperBound: 30
-    _isBroken: 0
-    _armorType: 1
-  FeetEquipment:
-    _armourSO: {fileID: 11400000, guid: ce672e98bd528bf4aa36a9a2ca1debf3, type: 2}
-    _damageResistances: []
-    _durability:
-      _minValue: 0
-      _currentValue: 30
-      _maxValue:
-        baseValue: 30
-        IsLowerBounded: 1
-        LowerBound: 0
-        IsUpperBounded: 0
-        UpperBound: 30
-    _isBroken: 0
-    _armorType: 2
+  _equipmentSlots:
+    MainHand:
+      _damageType: 0
+      _durability:
+        _name: Default_Name
+        _minValue: 0
+        _currentValue: 30
+        _maxValue:
+          baseValue: 30
+          IsLowerBounded: 1
+          LowerBound: 0
+          IsUpperBounded: 0
+          UpperBound: 30
+      _isBroken: 0
+    SecondHand:
+      _damageType: 0
+      _durability:
+        _name: Default_Name
+        _minValue: 0
+        _currentValue: 30
+        _maxValue:
+          baseValue: 30
+          IsLowerBounded: 1
+          LowerBound: 0
+          IsUpperBounded: 0
+          UpperBound: 30
+      _isBroken: 0
+    HeadEquipment:
+      _armourSO: {fileID: 0}
+      _damageResistances: []
+      _durability:
+        _name: Default_Name
+        _minValue: 0
+        _currentValue: 30
+        _maxValue:
+          baseValue: 30
+          IsLowerBounded: 1
+          LowerBound: 0
+          IsUpperBounded: 0
+          UpperBound: 30
+      _isBroken: 0
+      _armorType: 0
+    BodyEquipment:
+      _armourSO: {fileID: 0}
+      _damageResistances: []
+      _durability:
+        _name: Default_Name
+        _minValue: 0
+        _currentValue: 30
+        _maxValue:
+          baseValue: 30
+          IsLowerBounded: 1
+          LowerBound: 0
+          IsUpperBounded: 0
+          UpperBound: 30
+      _isBroken: 0
+      _armorType: 0
+    FeetEquipment:
+      _armourSO: {fileID: 0}
+      _damageResistances: []
+      _durability:
+        _name: Default_Name
+        _minValue: 0
+        _currentValue: 30
+        _maxValue:
+          baseValue: 30
+          IsLowerBounded: 1
+          LowerBound: 0
+          IsUpperBounded: 0
+          UpperBound: 30
+      _isBroken: 0
+      _armorType: 0
+--- !u!114 &6664806914561584291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2614807372337640372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eeb9ecf13506b34e96a1e83dcf551b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &5470532210633530332
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2614807372337640372}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &4399515326181284340
 GameObject:
   m_ObjectHideFlags: 0

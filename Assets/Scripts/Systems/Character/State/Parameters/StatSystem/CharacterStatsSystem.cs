@@ -24,6 +24,7 @@ public enum StatType
     Intimidation,
     Mercantile
 }
+
 [Serializable]
 public class CharacterStatsSystem
 {

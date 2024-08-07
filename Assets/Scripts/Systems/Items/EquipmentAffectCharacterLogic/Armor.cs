@@ -40,15 +40,19 @@ public class Armor : Item, IEquipable, IDurable
     float maxDurabilty) 
         : this(name, description, price, maxDurabilty, null) 
     { }
-    public Armor(ArmourSO armourSO)
+    public Armor(CharacterBlank bearer, ArmourSO armourSO)
     {
-        Debug.Log($"{nameof(ArmourSO)} constructor worked");
-        Init(armourSO);
+        //Debug.Log($"{nameof(ArmourSO)} constructor worked");
+        _equipAffectCharBaseInstances = new List<EquipAffectCharBaseSO>();
+        _parInteractions = new List<ParInteraction>();
+        Init(bearer, armourSO);
     }
     public Armor()
     {
         //Debug.Log("Empty constructor worked");
         //Init(_armourSO);
+        _equipAffectCharBaseInstances = new List<EquipAffectCharBaseSO>();
+        _parInteractions = new List<ParInteraction>();
     }
     #endregion
 
@@ -66,10 +70,10 @@ public class Armor : Item, IEquipable, IDurable
     #endregion
 
     #region external interaction
-    public void Init()
-        => Init(_armourSO);
+    public void Init(CharacterBlank bearer)
+        => Init(bearer, _armourSO);
 
-    public void Init(ArmourSO armourSO)
+    public void Init(CharacterBlank bearer, ArmourSO armourSO)
     {
         Name = armourSO.Name;
         Description = armourSO.Description;
@@ -79,19 +83,21 @@ public class Armor : Item, IEquipable, IDurable
         _damageResistances = new List<DamageResistance>();
         foreach (DamageType damageType in Enum.GetValues(typeof(DamageType)))
             _damageResistances.Add(new DamageResistance(damageType));
-        foreach (DamageResistance damageResistance in armourSO._damageResistances)
+        foreach (DamageResistance damageResistance in armourSO.DamageResistances)
         {
             DamageResistance currResistance = _damageResistances.Find(dr => dr.DamageType == damageResistance.DamageType);
             if (currResistance == null) throw new Exception($"Item hasn't {damageResistance.DamageType} damage resistamce type");
             currResistance = new DamageResistance(damageResistance);
         }
 
-        _armorType = armourSO._armourType;
-        _durability = armourSO._durability;
-        _isBroken = armourSO._isBroken;
+        _armorType = armourSO.ArmourType;
+        _durability = armourSO.Durability;
+        _isBroken = armourSO.IsBroken;
 
-        foreach (EquipAffectCharBaseSO iter in armourSO._equipAffectCharBase)
+        foreach (EquipAffectCharBaseSO iter in armourSO.EquipAffectCharBase)
             _equipAffectCharBaseInstances.Add(ScriptableObject.Instantiate(iter));
+
+        Equip(bearer);
     }
     public void ChangeDurability(float amount)
     {
@@ -107,12 +113,9 @@ public class Armor : Item, IEquipable, IDurable
         
         _bearer = character;
         _parInteractions = AffectCharacter(_bearer);
-        character.AddParInteractionRange(_parInteractions);
     }
     public void Unequip()
     {
-        foreach (ParInteraction interaction in _parInteractions)
-            _bearer.RemoveParInteraction(interaction);
         _parInteractions.Clear();
         _bearer = null;
     }
@@ -158,7 +161,7 @@ public class Armor : Item, IEquipable, IDurable
         foreach (DamageResistance damageResistance in  _damageResistances)
         {
             result.Add(new ParInteraction(damageResistance,
-                character.CharacterIngameParameters
+                character.IngameParameters
                 .DamageResistances
                 .FirstOrDefault(dr => dr.DamageType == damageResistance.DamageType),
                 AffectDamageResistanceLogic));

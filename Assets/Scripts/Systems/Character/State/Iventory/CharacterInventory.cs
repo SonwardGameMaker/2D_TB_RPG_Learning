@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class CharacterInventory : MonoBehaviour
 {
-    public Weapon MainHand;
-    public Weapon SecondHand;
+    [SerializeField] private EquipmentSlots _equipmentSlots;
+    [SerializeField] private CharacterInventorySystem _inventory;
 
-    public Armor HeadEquipment;
-    public Armor BodyEquipment;
-    public Armor FeetEquipment;
+    private CharacterBlank _bearer;
 
     public void Awake()
     {
-        HeadEquipment.Init();
-        BodyEquipment.Init();
-        FeetEquipment.Init();
+        _bearer = GetComponent<CharacterBlank>();
+
+        _equipmentSlots.Init(_bearer);
     }
 
-    [SerializeField] private CharacterInventorySystem _inventory;
+    public EquipmentSlots EquipmentSlots { get => _equipmentSlots; }
+    public CharacterInventorySystem Inventory { get => _inventory; }
 }

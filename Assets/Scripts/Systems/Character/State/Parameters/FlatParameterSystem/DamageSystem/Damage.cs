@@ -15,5 +15,5 @@ public class Damage
     }
 
     public float Amount { get => _amount;  }
-    public DamageType Type { get => _damageType; } 
+    public DamageType DamageType { get => _damageType; } 
 }
