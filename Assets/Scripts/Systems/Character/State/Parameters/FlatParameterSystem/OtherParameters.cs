@@ -14,6 +14,7 @@ public class OtherParameters
     private FlatParameter _lightMeleeCriticalChanceIncreaceCoef; // percentage, scaling from Dexterity
     private FlatParameter _firearmsCriticalChanceIncreaceCoef; // percentage, scaling from Perception
 
+    #region constructor an desctructor
     public OtherParameters()
     {
         _damageResistances = new List<DamageResistance>();
@@ -21,10 +22,25 @@ public class OtherParameters
         {
             _damageResistances.Add(new DamageResistance(damageType));
         }
+        foreach (DamageResistance damageResistance in _damageResistances)
+        {
+            damageResistance.TrashholdChanged += HandleDamageResistanceChanging;
+            damageResistance.MitigationChanged += HandleDamageResistanceChanging;
+        }
+
         _meleeDamageIncreaseCoef = new FlatParameter("Melee Damage Increasing Coeficient", DEFAULT_CHARACTER_RSISTANCE_VALUE);
         _lightMeleeCriticalChanceIncreaceCoef = new FlatParameter("Melee Critical Chance Increasing Coeficient", DEFAULT_CHARACTER_RSISTANCE_VALUE);
         _firearmsCriticalChanceIncreaceCoef = new FlatParameter("Firearm Critical Chanc Increasing Coeficient", DEFAULT_CHARACTER_RSISTANCE_VALUE);
     }
+    ~OtherParameters()
+    {
+        foreach (DamageResistance damageResistance in _damageResistances)
+        {
+            damageResistance.TrashholdChanged -= HandleDamageResistanceChanging;
+            damageResistance.MitigationChanged -= HandleDamageResistanceChanging;
+        }
+    }
+    #endregion
 
     #region properties
     public ReadOnlyCollection<DamageResistance> DamageResistances
@@ -34,6 +50,14 @@ public class OtherParameters
     public float MeleeDamageIncreaseCoef { get =>  _meleeDamageIncreaseCoef.CurrentValue; }
     public float LigthMeleeCriticalChanceIncreaceCoef { get =>  _firearmsCriticalChanceIncreaceCoef.CurrentValue; }
     public float FirearmsCriticalChanceIncreaceCoef { get => _firearmsCriticalChanceIncreaceCoef.CurrentValue; }
+    #endregion
+
+    #region events
+    public event Action DamageResistanceChanged;
+    #endregion
+
+    #region event handlers
+    private void HandleDamageResistanceChanging() => DamageResistanceChanged?.Invoke();
     #endregion
 
     #region extrnal interation

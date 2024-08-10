@@ -48,7 +48,7 @@ public class CharLevel : CharParameterBase, IMaxValModifiable, IMinValUnmod, ICu
         {
             if (value > _maxValue.RealValue) _minValue = _maxValue.RealValue;
             else _minValue = value;
-            CurrentValChanged?.Invoke();
+            MinValChanged?.Invoke();
         }
     }
 

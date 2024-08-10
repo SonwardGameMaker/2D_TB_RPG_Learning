@@ -98,10 +98,7 @@ public class Weapon : Item, IEquipable, IDurable
         Equip(bearer);
     }
 
-    public float CalculateeDamage => _weaponDamage.CurrentValue;
-
-    public HitDataContainer CalculateHitData 
-        => new HitDataContainer(this, _weaponDamage.CurrentValue, _damageType);
+    public Damage CalculateeDamage => new Damage(_weaponDamage.CurrentValue, _damageType);
 
     public void ChangeDurability(float amount)
     {

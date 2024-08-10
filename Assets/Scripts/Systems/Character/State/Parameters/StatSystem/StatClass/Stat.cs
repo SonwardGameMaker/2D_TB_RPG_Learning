@@ -51,7 +51,7 @@ public class Stat : CharParameterBase, IMaxValModifiable, IMinValUnmod, ICurrVal
         {
             if (value > _maxValue.RealValue) _minValue= _maxValue.RealValue;
             else _minValue = value;
-            CurrentValChanged?.Invoke();
+            MinValChanged?.Invoke();
         }
     }
     public float CurrentValueBase
@@ -73,6 +73,7 @@ public class Stat : CharParameterBase, IMaxValModifiable, IMinValUnmod, ICurrVal
         {
             if (value < _minValue) _maxValue.BaseValue = _minValue;
             else _maxValue.BaseValue = value;
+            MaxValChanged?.Invoke();
         }
     }
     public float MaxValue { get => _maxValue.RealValue; }

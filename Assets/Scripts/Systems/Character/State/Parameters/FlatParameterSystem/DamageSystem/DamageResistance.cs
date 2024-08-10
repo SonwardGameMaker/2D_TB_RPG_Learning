@@ -20,7 +20,11 @@ public class DamageResistance : CharParameterBase, IArmorTrashholdMod, IArmorMit
         _trashhold = new ModVar(trashhold);
         _mitigation = new ModVar(mitigation);
         _name = name;
+
+        _trashhold.ValueChanged += OnTrashlodChanged;
+        _mitigation.ValueChanged += OnMitigationChanged;
     }
+    #region derivative constructors and destructor
     public DamageResistance(DamageType damageResistanceType, float trashhold, float mitigation) 
         : this(damageResistanceType, trashhold, mitigation, $"{damageResistanceType.ToString()}_Resistance") { }
     public DamageResistance(DamageType damageResistanceType, float trashhold)
@@ -36,7 +40,14 @@ public class DamageResistance : CharParameterBase, IArmorTrashholdMod, IArmorMit
         _trashhold = new ModVar(damageResistance._trashhold);
         _mitigation = new ModVar (damageResistance._mitigation);
     }
-    
+    ~DamageResistance()
+    {
+        _trashhold.ValueChanged -= OnTrashlodChanged;
+        _mitigation.ValueChanged -= OnMitigationChanged;
+    }
+    #endregion
+
+    #region properties
     public DamageType DamageType
     {
         get => _damageResistanceType;
@@ -54,8 +65,9 @@ public class DamageResistance : CharParameterBase, IArmorTrashholdMod, IArmorMit
         get => _mitigation.BaseValue;
         private set => _mitigation.BaseValue = value;
     }
+    #endregion
 
-
+    #region modifiers operations
     // Trashhold modifiers
     public void AddTrashholdValueModifier(Modifier modifier) => _trashhold.AddModifier(modifier);
     public IReadOnlyList<Modifier> GetTrashholdValueModifiers() => _trashhold.GetModifiers();
@@ -69,4 +81,11 @@ public class DamageResistance : CharParameterBase, IArmorTrashholdMod, IArmorMit
     public IReadOnlyList<Modifier> GetMitigationValueModifiers(ModifierType modifierType) => _mitigation.GetModifiers(modifierType);
     public bool TryRemoveMitigationValueModifier(Modifier modifier) => _mitigation.TryRemoveModifier(modifier);
     public bool TryRemoveMitigationValueAllModifiersOf(object source) => _mitigation.TryRemoveAllModifiersOf(source);
+    #endregion
+
+    public event Action TrashholdChanged;
+    public event Action MitigationChanged;
+
+    public void OnTrashlodChanged() => TrashholdChanged?.Invoke();
+    public void OnMitigationChanged() => MitigationChanged?.Invoke();
 }
