@@ -52,7 +52,7 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
         {
             if (value > _maxValue.RealValue) _minValue = _maxValue.RealValue;
             else _minValue = value;
-            CurrentValChanged?.Invoke();
+            MinValChanged?.Invoke();
         }
     }
     public float CurrentValue
@@ -91,7 +91,7 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
 
     protected virtual void HandleMaxValEvents()
     {
-        CurrentValChanged?.Invoke();
+        MaxValChanged?.Invoke();
         if (_currentValue > _maxValue.RealValue)
             _currentValue = _maxValue.RealValue;
     }
