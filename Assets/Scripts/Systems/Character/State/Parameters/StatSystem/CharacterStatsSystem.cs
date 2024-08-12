@@ -50,7 +50,6 @@ public class CharacterStatsSystem
     public Stat Intelligence { get; private set; }
 
     // Skills
-    public List<Stat> Skills { get; private set; }
     public Stat LightFirearm { get; private set; }
     public Stat Firearm { get; private set; }
     public Stat Melee { get; private set; }

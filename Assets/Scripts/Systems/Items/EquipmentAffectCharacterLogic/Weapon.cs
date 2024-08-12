@@ -17,7 +17,6 @@ public class Weapon : Item, IEquipable, IDurable
     [SerializeField] private CharResource _durability;
     [SerializeField] private bool _isBroken;
 
-    private AffectCharParameters _affectionLogic;
     private List<EquipAffectCharBaseSO> _equipAffectCharBaseInstances;
     private List<ParInteraction> _parInteractions;
     private CharacterBlank _bearer;
@@ -29,14 +28,14 @@ public class Weapon : Item, IEquipable, IDurable
         float minDamage,
         float price,
         float maxDurabilty,
-        AffectCharParameters AffectionLogic,
+        CharacterBlank bearer,
         Sprite spriteUI) : base(name, description, price, spriteUI)
     {
         _damageType = damageType;
         _weaponDamage = new WeaponDamageParam("Weapon Damage", minDamage, maxDamage);
         _durability = new CharResource("Durability", maxDurabilty);
         _isBroken = false;
-        _affectionLogic = AffectionLogic;
+        _bearer = bearer;
         _parInteractions = new List<ParInteraction>();
     }
     public Weapon(
@@ -47,8 +46,18 @@ public class Weapon : Item, IEquipable, IDurable
         float minDamage,
         float price,
         float maxDurabilty,
-        AffectCharParameters AffectionLogic)
-        : this(name, description, damageType, maxDamage, minDamage, price, maxDurabilty, AffectionLogic, null)
+        CharacterBlank bearer)
+        : this(name, description, damageType, maxDamage, minDamage, price, maxDurabilty, bearer, null)
+    { }
+    public Weapon(
+        string name,
+        string description,
+        DamageType damageType,
+        float maxDamage,
+        float minDamage,
+        float price,
+        float maxDurabilty)
+        : this(name, description, damageType, maxDamage, minDamage, price, maxDurabilty, null, null)
     { }
     public Weapon(WeaponSO weaponSO)
     {
@@ -98,7 +107,7 @@ public class Weapon : Item, IEquipable, IDurable
         Equip(bearer);
     }
 
-    public Damage CalculateeDamage => new Damage(_weaponDamage.CurrentValue, _damageType);
+    public Damage CalculateeDamage => new Damage((int)_weaponDamage.CurrentValue, _damageType);
 
     public void ChangeDurability(float amount)
     {

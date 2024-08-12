@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SampleGameManager : MonoBehaviour
 {
-    [SerializeField] private CharacterInventory _player;
+    [SerializeField] private PlayerIngameController _player;
         
     private GameObject _characters;
 

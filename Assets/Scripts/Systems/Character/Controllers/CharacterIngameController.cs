@@ -15,6 +15,6 @@ public class CharacterIngameController : MonoBehaviour
 
     public void Hit(IDamagable target)
     {
-        target.TakeHit(_characterCombatStats.CalculateHitData);
+        target.TakeHit(_characterCombatStats.CalculateHitData());
     }
 }

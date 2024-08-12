@@ -10,7 +10,7 @@ public class CharacterBlank : MonoBehaviour
     [SerializeField] private ApMpSystem _apMpSystem;
     [SerializeField] private OtherParameters _ingameParameters;
 
-    private CharacterInventory _inventory;
+    //private CharacterInventory _inventory;
 
     private List<ParInteraction> _interactions;
     private CharacterCombatStats _combatStats;
@@ -29,10 +29,10 @@ public class CharacterBlank : MonoBehaviour
         _apMpSystem = new ApMpSystem();
         _ingameParameters = new OtherParameters();
 
-        _inventory = GetComponent<CharacterInventory>();
+        //_inventory = GetComponent<CharacterInventory>();
 
         _interactions = new List<ParInteraction>();
-        _combatStats = new CharacterCombatStats(this, _inventory);
+        _combatStats = new CharacterCombatStats(this);
 
         _interactions.Add(_health.CreateHealthPointsEffect(_stats.LevelConstAffectHelath()));
         _interactions.Add(_apMpSystem.CreateMpEffect(_stats.AgilityAffectMovementPoints()));
