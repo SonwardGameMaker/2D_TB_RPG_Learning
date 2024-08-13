@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptables/Interactions/DamagableSO")]
-public class DamagableSO : DamagableBaseSO
+internal class DamagableSO : DamagableBaseSO
 {
     public override (bool, float) TakeHit(CharacterBlank character, HitDataContainer hit)
     {
         // TODO make dependency from equipment weapon
         float attackValue = Random.Range(0, 100);
-        float chanceToHit = CalculateChanceToHit(character.Stats.Dodge.CurrentValue, hit.Source.Bearer.Stats.Melee.CurrentValue);
+        float chanceToHit = CalculateChanceToHit(character.Stats.Dodge.CurrentValue, hit.WeaponSkill);
         bool hitted = attackValue < chanceToHit;
         if (hitted)
         {

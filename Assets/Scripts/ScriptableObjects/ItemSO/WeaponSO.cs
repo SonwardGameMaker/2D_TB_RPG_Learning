@@ -5,7 +5,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptables/Items/WeaponSO")]
 [Serializable]
-public class WeaponSO : ItemBaseSO
+internal class WeaponSO : ItemBaseSO
 {
     public WeaponType WeaponType;
     public WeaponWeight WeaponWeight;

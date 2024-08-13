@@ -12,7 +12,7 @@ public class ApMpController : CharResourceControllerBase
 
     void Start()
     {
-        _apMpSystem = blank.ApMpSystem;
+        _apMpSystem = CharacterCombatStats.ApMpSystem;
         _currentCrField = _apMpSystem.GetFieldByEnum(crFieldType);
         transform.GetChild(0).GetComponent<TMP_Text>().text = _currentCrField.Name;
         Init();

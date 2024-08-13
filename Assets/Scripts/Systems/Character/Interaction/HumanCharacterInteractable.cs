@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class HumanCharacterInteractable : Interactable, IDamagable, IStealable, ITalkable
 {
-    public DamagableBaseSO DamagableBaseSO;
+    [SerializeField] private DamagableBaseSO DamagableBaseSO;
 
     private CharacterBlank _character;
 

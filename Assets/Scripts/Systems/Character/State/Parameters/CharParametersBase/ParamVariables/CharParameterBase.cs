@@ -13,7 +13,7 @@ public abstract class CharParameterBase
 
     [SerializeField] protected string _name;
 
-    public string Name { get { return _name; } }
+    public string Name { get =>_name;  }
 
     public CharParameterBase(string name) {  _name = name; }
     public CharParameterBase() : this(DEFAULT_NAME) { }

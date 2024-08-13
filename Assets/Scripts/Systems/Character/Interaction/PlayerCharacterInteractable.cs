@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerCharacterInteractable : Interactable, IDamagable
 {
-    public DamagableBaseSO DamagableBaseSO;
+    [SerializeField] private DamagableBaseSO DamagableBaseSO;
 
     private CharacterBlank _character;
 

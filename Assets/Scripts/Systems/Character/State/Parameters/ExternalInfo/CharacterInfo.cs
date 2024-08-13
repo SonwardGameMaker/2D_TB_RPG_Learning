@@ -6,15 +6,17 @@ public class CharacterInfo : MonoBehaviour
 {
     private CharacterBlank _character;
 
-    private CharacterCombatStats _characterCombatStats;
-    private CharacterStatsInfo _characterStats;
+    public CharacterCombatStats CharacterCombatStats;
+    public CharacterStatsInfo CharacterStats;
 
     void Start()
     {
         _character = GetComponent<CharacterBlank>();
 
-        _characterCombatStats = new CharacterCombatStats(_character);
-        _characterStats = new CharacterStatsInfo(_character.Stats);
+        CharacterCombatStats = new CharacterCombatStats(_character);
+        CharacterStats = new CharacterStatsInfo(_character.Stats);
     }
 
+    public HitDataContainer CalculateHitData()
+        => new HitDataContainer(this, CharacterCombatStats.CalculateDamage(), CharacterCombatStats.WeaponSkill);
 }

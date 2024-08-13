@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class HitDataContainer
 {
-    public Weapon Source;
+    public CharacterInfo Source;
     public Damage Damage;
     public float WeaponSkill;
 
-    public HitDataContainer(Weapon source, Damage damage, float weaponSkill)
+    public HitDataContainer(CharacterInfo source, Damage damage, float weaponSkill)
     {
         Source = source;
         Damage = damage;
     }
-    public HitDataContainer(Weapon source, float damageAmont, DamageType damageType, float weaponSkill)
+    public HitDataContainer(CharacterInfo source, float damageAmont, DamageType damageType, float weaponSkill)
     {
         Source = source;
         Damage = new Damage(damageAmont, damageType);

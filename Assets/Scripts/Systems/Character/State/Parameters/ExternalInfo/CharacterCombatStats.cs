@@ -13,7 +13,7 @@ public class CharacterCombatStats
     //private CharacterInventory _inventory;
 
     #region constructor and destructor
-    public CharacterCombatStats(CharacterBlank character)
+    internal CharacterCombatStats(CharacterBlank character)
     {
         _character = character;
         //_inventory = characterInventory;
@@ -41,7 +41,6 @@ public class CharacterCombatStats
     public float WeaponSkill { get => _weaponSkill; }
     public (float, float) WeaponDamage { get => (_currnetWeapon.MinDamage, _currnetWeapon.MaxDamage); }
     public ReadOnlyCollection<DamageResistance> DamageResistances { get => _character.IngameParameters.DamageResistances; }
-     
     #endregion
 
     #region external interactions
@@ -50,9 +49,8 @@ public class CharacterCombatStats
         SetWeaponSkill();
         SetWeapon();
     }
-
-    public HitDataContainer CalculateHitData()
-        => new HitDataContainer(_currnetWeapon, _currnetWeapon.CalculateeDamage, WeaponSkill);
+    
+    public Damage CalculateDamage() => _currnetWeapon.CalculateDamage();
     public DamageResistance DamageResistanceByType(DamageType damageType)
         => _character.IngameParameters.DamageResistances.First(dr => dr.DamageType == damageType);
     #endregion

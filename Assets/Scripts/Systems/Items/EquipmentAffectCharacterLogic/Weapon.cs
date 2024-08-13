@@ -6,7 +6,7 @@ using UnityEngine;
 public enum WeaponType { Melee, Rangeed }
 public enum WeaponWeight { Light, Normal }
 [Serializable]
-public class Weapon : Item, IEquipable, IDurable
+internal class Weapon : Item, IEquipable, IDurable
 {
     [SerializeField] private WeaponSO _weaponSO;
 
@@ -107,7 +107,7 @@ public class Weapon : Item, IEquipable, IDurable
         Equip(bearer);
     }
 
-    public Damage CalculateeDamage => new Damage((int)_weaponDamage.CurrentValue, _damageType);
+    public Damage CalculateDamage() => new Damage((int)_weaponDamage.CurrentValue, _damageType);
 
     public void ChangeDurability(float amount)
     {

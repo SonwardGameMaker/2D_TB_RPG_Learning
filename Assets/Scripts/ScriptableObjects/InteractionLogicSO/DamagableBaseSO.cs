@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class DamagableBaseSO : ScriptableObject
+internal abstract class DamagableBaseSO : ScriptableObject
 {
     public abstract (bool, float) TakeHit(CharacterBlank character, HitDataContainer hit);
     public abstract void TakeDamage(CharacterBlank character, Damage damage);

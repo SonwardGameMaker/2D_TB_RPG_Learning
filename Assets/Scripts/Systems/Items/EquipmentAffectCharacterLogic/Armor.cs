@@ -6,9 +6,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public enum ArmorType { HeadArmor, BodyArmor, FeetArmor }
-public delegate List<ParInteraction> AffectCharParameters(CharacterBlank characterBlank);
+internal delegate List<ParInteraction> AffectCharParameters(CharacterBlank characterBlank);
 [Serializable]
-public class Armor : Item, IEquipable, IDurable
+internal class Armor : Item, IEquipable, IDurable
 {
     [SerializeField] private ArmourSO _armourSO;
 

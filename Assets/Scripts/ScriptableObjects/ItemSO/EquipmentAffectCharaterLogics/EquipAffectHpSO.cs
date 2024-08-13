@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptables/Items/Affection/EquipOnHealth")]
-public class EquipAffectHpSO : EquipAffectCharBaseSO
+internal class EquipAffectHpSO : EquipAffectCharBaseSO
 {
     public float AffectionValue;
 

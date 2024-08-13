@@ -10,7 +10,7 @@ public class HealthController : CharResourceControllerBase
 
     public void Start()
     {
-        _health = blank.Health;
+        _health = CharacterCombatStats.Health;
         _currentCrField = _health.GetFieldByEnum(crFieldType);
         transform.GetChild(0).GetComponent<TMP_Text>().text = _currentCrField.Name;
         Init();

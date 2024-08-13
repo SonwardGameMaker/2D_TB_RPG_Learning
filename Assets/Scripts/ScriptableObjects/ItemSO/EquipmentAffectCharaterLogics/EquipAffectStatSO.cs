@@ -6,7 +6,7 @@ using UnityEngine;
 //public enum ValueType { MaxValue, MinValue, CurrentValue, TrashholdValue, MitigationValues }
 
 [CreateAssetMenu(menuName = "Scriptables/Items/Affection/EquipOnStat")]
-public class EquipAffectStatSO : EquipAffectCharBaseSO
+internal class EquipAffectStatSO : EquipAffectCharBaseSO
 {
     public StatType StatType;
     public float AffectionValue;

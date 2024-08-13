@@ -4,7 +4,7 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptables/Items/ArmorSO")]
 [Serializable]
-public class ArmourSO : ItemBaseSO
+internal class ArmourSO : ItemBaseSO
 {
     public ArmorType ArmourType;
     public List<DamageResistance> DamageResistances;

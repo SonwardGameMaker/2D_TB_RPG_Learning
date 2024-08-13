@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class CharResourceControllerBase : MonoBehaviour
 {
-    public CharacterBlank blank;
+    public CharacterCombatStats CharacterCombatStats;
     [SerializeField] protected CharResourceFieldType crFieldType;
 
     //protected ICharResourseFieldGettable charResourceSystem;
