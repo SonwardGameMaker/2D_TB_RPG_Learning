@@ -5,7 +5,7 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 [Serializable]
-public class CharHealth : ICharResourseFieldGettable
+public class CharHealthSystem : ICharResourseFieldGettable
 {
     private const string DEFAULT_NAME = "Health";
     private const float DEFAULT_MIN_VALUE = 0.0f;
@@ -19,7 +19,7 @@ public class CharHealth : ICharResourseFieldGettable
     private bool _isHealthFull;
 
     #region constructors and destructor
-    public CharHealth()
+    public CharHealthSystem()
     {
         _health = new CharResource(DEFAULT_NAME, DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE);
         _health.MinValChanged += HealthValCahgeHanddler;
@@ -29,7 +29,7 @@ public class CharHealth : ICharResourseFieldGettable
         IsAlive = true;
         _isHealthFull = IsHealthFull();
     }
-    ~CharHealth()
+    ~CharHealthSystem()
     {
         _health.MinValChanged -= HealthValCahgeHanddler;
         _health.CurrentValChanged -= HealthValCahgeHanddler;
@@ -42,20 +42,7 @@ public class CharHealth : ICharResourseFieldGettable
     #endregion
 
     #region properties
-    public float MinHp
-    {
-        get => _health.MinValue;
-        set => _health.MinValue = value;
-    }
-    public float CurrentHp
-    {
-        get => _health.CurrentValue;
-        set => _health.CurrentValue = value;
-    }
-    public float MaxHp
-    {
-        get => _health.MaxValue;
-    }
+    public CharResourseInfo HealthInfo { get => new CharResourseInfo(_health); }
     #endregion
 
     #region extrnal interation

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 public class CharacterCombatStats
 {
-    private float _weaponSkill;
+    private Stat _weaponSkill;
     private Weapon _currnetWeapon;
 
     private CharacterBlank _character;
@@ -31,16 +32,14 @@ public class CharacterCombatStats
     #endregion
 
     #region properties
-    public float MaxHp { get => _character.Health.MaxHp; }
-    public float CurrantHp { get => _character.Health.CurrentHp; }
-    public float MaxAp { get => _character.ApMpSystem.MaxAp; }
-    public float CurrentAp { get => _character.ApMpSystem.CurrentAp; }
-    public float MaxMp { get => _character.ApMpSystem.MaxMp; }
-    public float CurrentMp { get => _character.ApMpSystem.CurrentMp; }
-    public float DodgeSkill { get => _character.Stats.Dodge.CurrentValue; }
-    public float WeaponSkill { get => _weaponSkill; }
+    public CharResourseInfo Health { get => _character.Health.HealthInfo; }
+    public CharResourseInfo ActionPoints { get => _character.ApMpSystem.ActionPoints; }
+    public CharResourseInfo MovementPoints { get => _character.ApMpSystem.MovementPoints; }
+    public StatInfo DodgeSkill { get => new StatInfo(_character.Stats.Dodge); }
+    public StatInfo WeaponSkill { get => new StatInfo(_weaponSkill); }
     public (float, float) WeaponDamage { get => (_currnetWeapon.MinDamage, _currnetWeapon.MaxDamage); }
-    public ReadOnlyCollection<DamageResistance> DamageResistances { get => _character.IngameParameters.DamageResistances; }
+    public List<DamageResistanceInfo> DamageResistances 
+        { get => _character.IngameParameters.DamageResistances.Select(dri => new DamageResistanceInfo(dri)).ToList(); }
     #endregion
 
     #region external interactions
@@ -55,11 +54,17 @@ public class CharacterCombatStats
         => _character.IngameParameters.DamageResistances.First(dr => dr.DamageType == damageType);
     #endregion
 
+    #region event subscription
+    public void SubsribeToCharDeath(Action subscription) => _character.Health.CharDeath += subscription;
+
+    public void UnsubsribeToCharDeath(Action subscription) => _character.Health.CharDeath -= subscription;
+    #endregion
+
     #region Calculation Logics
     private void SetWeaponSkill()
     {
         // TODO: Make system to update weapon skill when weapon is changing
-        _weaponSkill = _character.Stats.Melee.CurrentValue;
+        _weaponSkill = _character.Stats.Melee;
     }
 
     private void SetWeapon()

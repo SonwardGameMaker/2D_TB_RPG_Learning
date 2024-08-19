@@ -7,31 +7,25 @@ using UnityEngine.UI;
 
 public class HealthLabelScript : MonoBehaviour
 {
-    public CharacterBlank characterBlank;
-    [SerializeField] CharHealth _health;
+    public CharacterInfo _characterInfo;
 
+    private PlayerIngameController _playerIngameController;
+    private CharResourseInfo _health;
     private int _amount = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        _health = characterBlank.Health;
+        _playerIngameController = _characterInfo.GetComponent<PlayerIngameController>();
+        _health = _characterInfo.CharacterCombatStats.Health;
         OnHealthValueChanged();
-        _health.HealthChanged += OnHealthValueChanged;
-        _health.CharDeath += CharDeathEventHandler;
-        
-        // Input init
-        Transform IncButton = transform.Find("PlusHpBtn");
-        IncButton?.GetComponent<Button>().onClick.AddListener(OnClickPlusHandler);
-        Transform DecButton = transform.Find("MinusHpBtn");
-        DecButton?.GetComponent<Button>().onClick.AddListener(OnClickMinusHanddler);
-        Transform InputAmount = transform.Find("InputField (Amount HP)");
-        InputAmount?.GetComponent<TMP_InputField>().onValueChanged.AddListener(OnInputValueChanged);
+        _health.SubscribeToAll(OnHealthValueChanged);
+        _characterInfo.CharDeath += CharDeathEventHandler;
     }
     private void OnDestroy()
     {
-        _health.HealthChanged -= OnHealthValueChanged;
-        _health.CharDeath -= CharDeathEventHandler;
+        _health.SubscribeToAll(OnHealthValueChanged);
+        _characterInfo.CharDeath -= CharDeathEventHandler;
         Transform IncButton = transform.Find("PlusHpBtn");
         IncButton?.GetComponent<Button>().onClick.RemoveAllListeners();
         Transform DecButton = transform.Find("MinusHpBtn");
@@ -45,10 +39,8 @@ public class HealthLabelScript : MonoBehaviour
     }
     private void OnHealthValueChanged()
     {
-        transform.GetChild(0).GetComponent<TMP_Text>().text = _health.CurrentHp.ToString();
-        transform.GetChild(2).GetComponent<TMP_Text>().text = _health.MaxHp.ToString();
+        transform.GetChild(0).GetComponent<TMP_Text>().text = _health.CurrentValue.ToString();
+        transform.GetChild(2).GetComponent<TMP_Text>().text = _health.MaxValue.ToString();
     }
-    private void OnClickPlusHandler() => _health.ChangeHp(_amount);
-    private void OnClickMinusHanddler() => _health.ChangeHp(-_amount);
-    private void CharDeathEventHandler() => Debug.Log("Character is dead");
+    private void CharDeathEventHandler(GameObject character) => Debug.Log("Character is dead");
 }

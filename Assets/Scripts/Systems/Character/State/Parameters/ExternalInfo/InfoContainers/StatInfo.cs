@@ -20,7 +20,7 @@ public class StatInfo : CharacterDataBaseInfo
 
     public float MinValue { get => _stat.MinValue; }
 
-    public float CurrnetValueBase { get => _stat.CurrentValueBase; }
+    public float CurrentValueBase { get => _stat.CurrentValueBase; }
     public float CurrentValue { get => _stat.CurrentValue; }
     #endregion
 

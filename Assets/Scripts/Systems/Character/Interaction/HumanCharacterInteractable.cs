@@ -13,10 +13,8 @@ public class HumanCharacterInteractable : Interactable, IDamagable, IStealable, 
     private void Start()
     {
         _character = GetComponent<CharacterBlank>();
-        _character.GetComponent<CharacterBlank>().Health.CharDeath += HandleCharDeath;
     }
 
-    public event Action<GameObject> CharDeath;
     public event Action<bool, float, Damage> CharacterHitted;
 
     public void TakeHit(HitDataContainer hit)
@@ -26,6 +24,4 @@ public class HumanCharacterInteractable : Interactable, IDamagable, IStealable, 
     }
     public void TakeDamage(Damage damage) => DamagableBaseSO?.TakeDamage(_character, damage);
     public void TakeHealing(float amount) => DamagableBaseSO?.TakeHealing(_character, amount);
-
-    private void HandleCharDeath() => CharDeath?.Invoke(gameObject);
 }

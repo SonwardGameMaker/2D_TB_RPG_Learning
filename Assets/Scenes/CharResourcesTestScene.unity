@@ -493,9 +493,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9009488162265015112, guid: 52de371dc6a3582438546af8123c5bd2, type: 3}
-      propertyPath: blank
+      propertyPath: Character
       value: 
-      objectReference: {fileID: 283234047}
+      objectReference: {fileID: 1579121082}
+    - target: {fileID: 9009488162265015112, guid: 52de371dc6a3582438546af8123c5bd2, type: 3}
+      propertyPath: characterInfo
+      value: 
+      objectReference: {fileID: 1579121082}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -506,6 +510,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4516934607585950178, guid: 52de371dc6a3582438546af8123c5bd2, type: 3}
   m_PrefabInstance: {fileID: 879089074}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1579121082 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3066543951152451501, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
+  m_PrefabInstance: {fileID: 460848798649459177}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acbd3d2fb992cdb44ae5416980e5f279, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1827865963
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -518,6 +533,10 @@ PrefabInstance:
       propertyPath: statType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3222852868952302294, guid: 54dc2aa49e6a14f49853fb71f36651cd, type: 3}
+      propertyPath: characterInfo
+      value: 
+      objectReference: {fileID: 1579121082}
     - target: {fileID: 3222852868952302294, guid: 54dc2aa49e6a14f49853fb71f36651cd, type: 3}
       propertyPath: characterBlank
       value: 
@@ -629,6 +648,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3222852868952302294, guid: 54dc2aa49e6a14f49853fb71f36651cd, type: 3}
+      propertyPath: characterInfo
+      value: 
+      objectReference: {fileID: 1579121082}
+    - target: {fileID: 3222852868952302294, guid: 54dc2aa49e6a14f49853fb71f36651cd, type: 3}
       propertyPath: characterBlank
       value: 
       objectReference: {fileID: 283234047}
@@ -735,13 +758,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 226918343}
     m_Modifications:
     - target: {fileID: 3790282774335877479, guid: d2c4767d68ff7354ca99caa33e7c2258, type: 3}
-      propertyPath: blank
+      propertyPath: Character
       value: 
-      objectReference: {fileID: 283234047}
-    - target: {fileID: 5515956686575033228, guid: d2c4767d68ff7354ca99caa33e7c2258, type: 3}
-      propertyPath: m_Name
-      value: MinusBtn
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1579121082}
+    - target: {fileID: 3790282774335877479, guid: d2c4767d68ff7354ca99caa33e7c2258, type: 3}
+      propertyPath: characterInfo
+      value: 
+      objectReference: {fileID: 1579121082}
     - target: {fileID: 6445686987748591332, guid: d2c4767d68ff7354ca99caa33e7c2258, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -822,10 +845,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7784545852793945645, guid: d2c4767d68ff7354ca99caa33e7c2258, type: 3}
-      propertyPath: m_Name
-      value: PlusBtn
-      objectReference: {fileID: 0}
     - target: {fileID: 8472869789904759865, guid: d2c4767d68ff7354ca99caa33e7c2258, type: 3}
       propertyPath: m_Name
       value: Resource Label (AP) Variant
@@ -848,6 +867,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 226918343}
     m_Modifications:
+    - target: {fileID: 3222852868952302294, guid: 54dc2aa49e6a14f49853fb71f36651cd, type: 3}
+      propertyPath: characterInfo
+      value: 
+      objectReference: {fileID: 1579121082}
     - target: {fileID: 3222852868952302294, guid: 54dc2aa49e6a14f49853fb71f36651cd, type: 3}
       propertyPath: characterBlank
       value: 
@@ -959,9 +982,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 283234047}
     - target: {fileID: 3790282774335877479, guid: d2c4767d68ff7354ca99caa33e7c2258, type: 3}
+      propertyPath: Character
+      value: 
+      objectReference: {fileID: 1579121082}
+    - target: {fileID: 3790282774335877479, guid: d2c4767d68ff7354ca99caa33e7c2258, type: 3}
       propertyPath: crFieldType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3790282774335877479, guid: d2c4767d68ff7354ca99caa33e7c2258, type: 3}
+      propertyPath: characterInfo
+      value: 
+      objectReference: {fileID: 1579121082}
     - target: {fileID: 5515956686575033228, guid: d2c4767d68ff7354ca99caa33e7c2258, type: 3}
       propertyPath: m_Name
       value: MinusBtn

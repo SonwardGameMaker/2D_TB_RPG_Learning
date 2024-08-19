@@ -1,29 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
 
-public enum StatType
-{
-    Level,
-    Strength,
-    Dexterity,
-    Agility,
-    Constitution,
-    Perception,
-    Charisma,
-    Intelligence,
-    LightFirearm,
-    Firearm,
-    Melee,
-    HeavyMelee,
-    Dodge,
-    Stealth,
-    Hacking,
-    Lockpicking,
-    Pickpocketing,
-    Persuasion,
-    Intimidation,
-    Mercantile
-}
 
 [Serializable]
 public class CharacterStatsSystem
@@ -40,6 +21,12 @@ public class CharacterStatsSystem
     public Stat Level { get; private set; }
     private ParInteraction levelAffectsSkillsMaxValue;
 
+    public List<Stat> Attributes;
+    public List<Stat> Skills;
+
+    private readonly List<ParInteraction> _interactions2;
+
+    #region attributes
     // Attributes
     public Stat Strength { get; private set; }
     public Stat Dexterity { get; private set; }
@@ -48,7 +35,8 @@ public class CharacterStatsSystem
     public Stat Perception { get; private set; }
     public Stat Charisma { get; private set; }
     public Stat Intelligence { get; private set; }
-
+    #endregion
+    #region skills
     // Skills
     public Stat LightFirearm { get; private set; }
     public Stat Firearm { get; private set; }
@@ -62,6 +50,7 @@ public class CharacterStatsSystem
     public Stat Persuasion { get; private set; }
     public Stat Intimidation { get; private set; }
     public Stat Mercantile { get; private set; }
+    #endregion
 
     // Affecters
     private readonly List<ParInteraction> _interactions;
@@ -72,6 +61,20 @@ public class CharacterStatsSystem
     {
         // Level
         Level = new Stat("Level", 20, 1, 1);
+
+        Attributes = new List<Stat>();
+        foreach(AttributeType statType in Enum.GetValues(typeof(AttributeType)))
+            Attributes.Add(InitDefautAttribute(statType.ToString()));
+
+        Skills = new List<Stat>();
+        foreach(SkillType skillType in Enum.GetValues(typeof(SkillType)))
+            Skills.Add(InitDdefaultSkill(skillType.ToString()));
+
+        _interactions2 = new List<ParInteraction>
+        { 
+            CreateSkillAffectionByAttribute(new List<AttributeType>{ AttributeType.Dexterity, AttributeType.Perception}, SkillType.LightFirearm),
+            CreateSkillAffectionByAttribute(AttributeType.Perception, SkillType.Firearm)
+        };
 
         // Attributes
         Strength = InitDefautAttribute(nameof(Strength));
@@ -140,6 +143,25 @@ public class CharacterStatsSystem
 
     private Stat InitDefautAttribute(string name) => new Stat(name, DEFAULT_MAX_VALUE_FOR_ATTRIBUTE, DEFAULT_MIN_VALUE_FOR_ATTRIBUTE, DEFAULT_CURRENT_VALUE_FOR_ATTRIBUTE);
     private Stat InitDdefaultSkill(string name) => new Stat(name, DEFAULT_MAX_VALUE_FOR_SKILL, DEFAULT_MIN_VALUE_FOR_SKILL, DEFAULT_CURRENT_VALUE_FOR_SKILL);
+
+    private ParInteraction CreateSkillAffectionByAttribute(List<AttributeType> attributes, List<SkillType> skills)
+    {
+        List<CharParameterBase> affectors = new List<CharParameterBase>();
+        foreach (AttributeType attribute in attributes)
+            affectors.Add(Attributes.Find(atrl => atrl.Name == attribute.ToString()));
+
+        List<CharParameterBase> targets = new List<CharParameterBase>();
+        foreach (SkillType skillType in skills)
+            targets.Add(Skills.Find(skl => skl.Name == skillType.ToString()));
+
+        return new ParInteraction(targets, affectors);
+    }
+    private ParInteraction CreateSkillAffectionByAttribute(AttributeType attribute, List<SkillType> skills)
+        => CreateSkillAffectionByAttribute(new List<AttributeType> { attribute }, skills);
+    private ParInteraction CreateSkillAffectionByAttribute(List<AttributeType> attributes, SkillType skill)
+        => CreateSkillAffectionByAttribute(attributes, new List<SkillType> { skill });
+    private ParInteraction CreateSkillAffectionByAttribute(AttributeType attribute, SkillType skill)
+        => CreateSkillAffectionByAttribute(new List<AttributeType> { attribute }, new List<SkillType> { skill });
     #endregion
 
     #region external_interaction

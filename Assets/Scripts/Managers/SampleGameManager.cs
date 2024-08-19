@@ -15,7 +15,7 @@ public class SampleGameManager : MonoBehaviour
 
         GameObject enemyDummy = _characters.transform.Find("Enemies").GetChild(0).gameObject;
         enemyDummy.GetComponent<HumanCharacterInteractable>().CharacterHitted += DummyHitted;
-        enemyDummy.GetComponent<HumanCharacterInteractable>().CharDeath += DummyDeath;
+        enemyDummy.GetComponent<CharacterInfo>().CharDeath += DummyDeath;
     }
 
     void Update()
@@ -64,22 +64,23 @@ public class SampleGameManager : MonoBehaviour
 
         if (hit.collider != null)
         {
-            foreach(string str in hit.collider.GetComponent<CharacterBlank>().GetInfo())
-            {
-                Debug.Log(str);
-            }
+            //foreach(string str in hit.collider.GetComponent<CharacterBlank>().GetInfo())
+            //{
+            //    Debug.Log(str);
+            //}
         }
+    }
+
+    private void DummyHitted(bool isSuccesful, float chance, Damage damage)
+    {
+        Debug.Log($"Inflicting {damage.Amount} {damage.DamageType} damage");
+        Debug.Log($"{(isSuccesful ? "H" : "Don't h")}itted with chance {chance}%");
+        Debug.Log("//----------------------------------------------------------------------------------------");
     }
 
     private void DummyDeath(GameObject character)
     {
         Destroy(character);
         Debug.Log($"{character.GetComponent<CharacterBlank>().Name} is dead");
-    }
-    private void DummyHitted(bool isSuccesful, float chance, Damage damage)
-    {
-        Debug.Log($"Inflicting {damage.Amount} {damage.DamageType} damage");
-        Debug.Log($"{(isSuccesful ? "H" : "Don't h")}itted with chance {chance}%");
-        Debug.Log("//----------------------------------------------------------------------------------------");
     }
 }

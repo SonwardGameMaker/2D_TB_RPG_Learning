@@ -8,17 +8,19 @@ using UnityEngine.UI;
 
 public class AttributeController : MonoBehaviour
 {
-    public CharacterBlank characterBlank;
+    public CharacterInfo characterInfo;
     [SerializeField] StatType statType;
-    [SerializeField] Stat currentStat;
+    [SerializeField] StatInfo currentStat;
 
-    private CharacterStatsSystem stats;
+    private PlayerIngameController playerController;
+    private CharacterStatsInfo stats;
 
-    public void Start()
+    private void Start()
     {
-        stats = characterBlank.Stats;
+        playerController = characterInfo.GetComponent<PlayerIngameController>();
+        stats = characterInfo.CharacterStats;
         currentStat = TypeToStat();
-        currentStat.CurrentValChanged += OnStatValueChangedHandler;
+        currentStat.SubscribeToAll(OnStatValueChangedHandler);
         Transform IncButton = transform.Find("IncreaseBaseValueBtn");
         if (IncButton != null)
         {
@@ -33,7 +35,7 @@ public class AttributeController : MonoBehaviour
     }
     public void OnDestroy()
     {
-        currentStat.CurrentValChanged -= OnStatValueChangedHandler;
+        currentStat.UnsubscribeToAll(OnStatValueChangedHandler);
         Transform IncButton = transform.Find("IncreaseBaseValueBtn");
         if (IncButton != null)
         {
@@ -46,9 +48,9 @@ public class AttributeController : MonoBehaviour
         }
     }
     
-    private Stat TypeToStat()
+    private StatInfo TypeToStat()
     {
-        return (Stat)stats.GetType().GetProperty(statType.ToString()).GetValue(stats);
+        return (StatInfo)stats.GetType().GetProperty(statType.ToString()).GetValue(stats);
     }
     private void BindStat()
     {
@@ -61,8 +63,8 @@ public class AttributeController : MonoBehaviour
         SetValues();
     }
     private void OnStatValueChangedHandler() => SetValues();
-    private void OnClickIncreaseHandler() => stats.UpDownAttribute(currentStat, true);
-    private void OnClickDecreaseHandler() => stats.UpDownAttribute(currentStat, false);
+    private void OnClickIncreaseHandler() => playerController.UpDownAttribute(currentStat.Name, true);
+    private void OnClickDecreaseHandler() => playerController.UpDownAttribute(currentStat.Name, false);
     private void SetValues()
     {
         Transform baseValue = transform.Find("BaseValue");

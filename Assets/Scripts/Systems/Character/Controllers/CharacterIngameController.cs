@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class CharacterIngameController : MonoBehaviour
 {
-    private CharacterInfo _character;
+    internal CharacterBlank _character;
+    protected CharacterInfo _characterInfo;
 
-    private void Start()
+    public void Start()
     {
-        _character = GetComponent<CharacterInfo>();
+        _character = GetComponent<CharacterBlank>();
+        _characterInfo = GetComponent<CharacterInfo>();
     }
 
     public void Hit(IDamagable target)
     {
-        target.TakeHit(_character.CalculateHitData());
+        target.TakeHit(_characterInfo.CalculateHitData());
     }
 }

@@ -6,25 +6,17 @@ using UnityEngine.UI;
 
 public class HealthController : CharResourceControllerBase
 {
-    private CharHealth _health;
+    private CharHealthSystem _health;
 
     public void Start()
     {
-        _health = CharacterCombatStats.Health;
-        _currentCrField = _health.GetFieldByEnum(crFieldType);
-        transform.GetChild(0).GetComponent<TMP_Text>().text = _currentCrField.Name;
+        transform.GetChild(0).GetComponent<TMP_Text>().text = "Healths";
         Init();
-        _health.CharDeath += CharDeathEventHandler;
-
-        // Input init
-        Transform IncButton = transform.Find("PlusHpBtn");
-        IncButton?.GetComponent<Button>().onClick.AddListener(OnClickPlusHandler);
-        Transform DecButton = transform.Find("MinusHpBtn");
-        DecButton?.GetComponent<Button>().onClick.AddListener(OnClickMinusHanddler);
+        characterInfo.CharDeath += CharDeathEventHandler;
     }
     private void OnDestroy()
     {
-        _health.CharDeath -= CharDeathEventHandler;
+        characterInfo.CharDeath -= CharDeathEventHandler;
 
         Transform IncButton = transform.Find("PlusHpBtn");
         IncButton?.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -34,7 +26,5 @@ public class HealthController : CharResourceControllerBase
         MyDestroy();
     }
 
-    private void OnClickPlusHandler() => _health.ChangeHp(_amount);
-    private void OnClickMinusHanddler() => _health.ChangeHp(-_amount);
-    private void CharDeathEventHandler() => Debug.Log("Character is dead");
+    private void CharDeathEventHandler(GameObject character) => Debug.Log("Character is dead");
 }

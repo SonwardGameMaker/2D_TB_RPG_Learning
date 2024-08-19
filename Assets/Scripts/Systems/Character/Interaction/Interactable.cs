@@ -6,7 +6,7 @@ public class Interactable : MonoBehaviour
 {
     private CharacterBlank characterBlank;
 
-    private void Start()
+    public void Start()
     {
         characterBlank = GetComponent<CharacterBlank>();
     }

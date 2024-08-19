@@ -6,7 +6,7 @@ internal class CharacterBlank : MonoBehaviour
 {
     [SerializeField] private string _name;
     [SerializeField] private CharacterStatsSystem _stats;
-    [SerializeField] private CharHealth _health;
+    [SerializeField] private CharHealthSystem _health;
     [SerializeField] private ApMpSystem _apMpSystem;
     [SerializeField] private OtherParameters _ingameParameters;
 
@@ -17,7 +17,7 @@ internal class CharacterBlank : MonoBehaviour
 
     public string Name { get => _name; }
     public CharacterStatsSystem Stats { get => _stats; }
-    public CharHealth Health { get => _health; }
+    public CharHealthSystem Health { get => _health; }
     public ApMpSystem ApMpSystem { get => _apMpSystem; }
     public OtherParameters IngameParameters { get => _ingameParameters; }
 
@@ -25,7 +25,7 @@ internal class CharacterBlank : MonoBehaviour
     public void Awake()
     {
         _stats = new CharacterStatsSystem();
-        _health = new CharHealth();
+        _health = new CharHealthSystem();
         _apMpSystem = new ApMpSystem();
         _ingameParameters = new OtherParameters();
 
@@ -45,21 +45,4 @@ internal class CharacterBlank : MonoBehaviour
     #region properties
     public CharacterCombatStats CombatStats { get => _combatStats; }
     #endregion
-
-    //public void AddParInteraction(ParInteraction interaction)
-    //    => _interactions.Add(interaction);
-    //public void AddParInteractionRange(List<ParInteraction> interactions)
-    //    => _interactions.AddRange(interactions);
-    //public void RemoveParInteraction(ParInteraction interaction)
-    //    => _interactions.Remove(interaction);
-
-    public List<string> GetInfo()
-    {
-        List<string> info = new List<string>();
-
-        info.Add("Name " + _name);
-        info.Add($"Health: {_health.CurrentHp}/{_health.MaxHp}");
-
-        return info;
-    }
 }

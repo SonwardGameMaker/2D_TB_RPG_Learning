@@ -118,11 +118,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6463916375623659936, guid: 73b8a6041f76c4f4ea2b756baef78c77, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 209
       objectReference: {fileID: 0}
     - target: {fileID: 6463916375623659936, guid: 73b8a6041f76c4f4ea2b756baef78c77, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 145.79999
       objectReference: {fileID: 0}
     - target: {fileID: 6463916375623659936, guid: 73b8a6041f76c4f4ea2b756baef78c77, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -141,7 +141,10 @@ PrefabInstance:
       value: Resource Label (Health) Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5497561410961599688, guid: 73b8a6041f76c4f4ea2b756baef78c77, type: 3}
+    - {fileID: 7840657743411792233, guid: 73b8a6041f76c4f4ea2b756baef78c77, type: 3}
+    - {fileID: 7420644086679348087, guid: 73b8a6041f76c4f4ea2b756baef78c77, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8453944479770303357, guid: 73b8a6041f76c4f4ea2b756baef78c77, type: 3}
@@ -165,4 +168,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 837dbfb69c7be5344a09e9b727ae09de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Character: {fileID: 0}
   crFieldType: 0

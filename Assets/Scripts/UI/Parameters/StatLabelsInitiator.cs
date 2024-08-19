@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class StatLabelsInitiator : MonoBehaviour
 {
-    [SerializeField] CharacterBlank charBlank;
+    [SerializeField] CharacterInfo characterInfo;
 
     private void Start()
     {
         for (int i = 0; i < transform.childCount; i++) 
         {
-            transform.GetChild(i).GetComponent<AttributeController>().characterBlank = charBlank;
+            transform.GetChild(i).GetComponent<AttributeController>().characterInfo = characterInfo;
         }
     }
 }

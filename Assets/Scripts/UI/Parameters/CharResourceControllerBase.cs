@@ -7,20 +7,19 @@ using UnityEngine.UI;
 
 public class CharResourceControllerBase : MonoBehaviour
 {
-    public CharacterCombatStats CharacterCombatStats;
+    public CharacterInfo characterInfo;
     [SerializeField] protected CharResourceFieldType crFieldType;
 
-    //protected ICharResourseFieldGettable charResourceSystem;
-    protected CharResource _currentCrField;
+    protected PlayerIngameController _playerIngameController;
+    protected CharResourseInfo _currentCrField;
     protected Transform _valueTextHolder;
     protected int _amount = 0;
 
     protected void Init()
     {
         //_currentCrField = charResourceSystem.GetFieldByEnum(crFieldType);
-        _currentCrField.MaxValChanged += OnResourceValueChanged;
-        _currentCrField.MinValChanged += OnResourceValueChanged;
-        _currentCrField.CurrentValChanged += OnResourceValueChanged;
+        _currentCrField = characterInfo.CharacterCombatStats.Health;
+        _currentCrField.SubscribeToAll(OnResourceValueChanged);
 
         _valueTextHolder = transform.GetChild(1);
         OnResourceValueChanged();
@@ -31,9 +30,7 @@ public class CharResourceControllerBase : MonoBehaviour
     }
     protected void MyDestroy()
     {
-        _currentCrField.MaxValChanged -= OnResourceValueChanged;
-        _currentCrField.MinValChanged -= OnResourceValueChanged;
-        _currentCrField.CurrentValChanged -= OnResourceValueChanged;
+        _currentCrField.UnsubscribeToAll(OnResourceValueChanged);
 
         Transform InputAmount = transform.Find("InputField (Amount)");
         InputAmount?.GetComponent<TMP_InputField>().onValueChanged.RemoveAllListeners();

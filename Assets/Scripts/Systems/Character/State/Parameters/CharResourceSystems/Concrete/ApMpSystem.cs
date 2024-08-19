@@ -41,13 +41,9 @@ public class ApMpSystem : ICharResourseFieldGettable
     #endregion
 
     #region properties
-    public float MaxAp { get => _actionPoints.MaxValue; }
-    public float MinAp { get => _actionPoints.MinValue; }
-    public float CurrentAp { get => _actionPoints.CurrentValue; }
+    public CharResourseInfo ActionPoints { get => new CharResourseInfo(_actionPoints); }
 
-    public float MaxMp {  get => _movementPoints.MaxValue; }
-    public float MinMp { get => _movementPoints.MinValue; }
-    public float CurrentMp { get => _movementPoints.CurrentValue; }
+    public CharResourseInfo MovementPoints { get => new CharResourseInfo(_movementPoints); }
     #endregion
 
     public event Action ApChanged;
