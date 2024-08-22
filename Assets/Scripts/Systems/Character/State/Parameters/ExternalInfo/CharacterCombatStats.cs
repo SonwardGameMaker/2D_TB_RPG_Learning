@@ -60,11 +60,11 @@ public class CharacterCombatStats
     public void UnsubsribeToCharDeath(Action subscription) => _character.Health.CharDeath -= subscription;
     #endregion
 
-    #region Calculation Logics
+    #region calculation Logics
     private void SetWeaponSkill()
     {
         // TODO: Make system to update weapon skill when weapon is changing
-        _weaponSkill = _character.Stats.Melee;
+        _weaponSkill = _character.Stats.LightFirearm;
     }
 
     private void SetWeapon()

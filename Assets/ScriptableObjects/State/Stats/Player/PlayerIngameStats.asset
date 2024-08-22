@@ -1,0 +1,314 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5ac851e2cbd0343b900821884f32c7, type: 3}
+  m_Name: PlayerIngameStats
+  m_EditorClassIdentifier: 
+  Level:
+    _name: Level
+    _minValue: 1
+    _currentValue:
+      baseValue: 1
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 20
+      IsLowerBounded: 1
+      LowerBound: 1
+      IsUpperBounded: 0
+      UpperBound: 30
+  Strength:
+    _name: Strength
+    _minValue: 3
+    _currentValue:
+      baseValue: 5
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 10
+      IsLowerBounded: 1
+      LowerBound: 3
+      IsUpperBounded: 0
+      UpperBound: 30
+  Dexterity:
+    _name: Dexterity
+    _minValue: 3
+    _currentValue:
+      baseValue: 5
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 10
+      IsLowerBounded: 1
+      LowerBound: 3
+      IsUpperBounded: 0
+      UpperBound: 30
+  Agility:
+    _name: Agility
+    _minValue: 3
+    _currentValue:
+      baseValue: 5
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 10
+      IsLowerBounded: 1
+      LowerBound: 3
+      IsUpperBounded: 0
+      UpperBound: 30
+  Constitution:
+    _name: Constitution
+    _minValue: 3
+    _currentValue:
+      baseValue: 5
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 10
+      IsLowerBounded: 1
+      LowerBound: 3
+      IsUpperBounded: 0
+      UpperBound: 30
+  Perception:
+    _name: Perception
+    _minValue: 3
+    _currentValue:
+      baseValue: 5
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 10
+      IsLowerBounded: 1
+      LowerBound: 3
+      IsUpperBounded: 0
+      UpperBound: 30
+  Charisma:
+    _name: Charisma
+    _minValue: 3
+    _currentValue:
+      baseValue: 5
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 10
+      IsLowerBounded: 1
+      LowerBound: 3
+      IsUpperBounded: 0
+      UpperBound: 30
+  Intelligence:
+    _name: Intelligence
+    _minValue: 3
+    _currentValue:
+      baseValue: 5
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 10
+      IsLowerBounded: 1
+      LowerBound: 3
+      IsUpperBounded: 0
+      UpperBound: 30
+  LightFirearm:
+    _name: LightFirearm
+    _minValue: 0
+    _currentValue:
+      baseValue: 15
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  Firearm:
+    _name: Firearm
+    _minValue: 0
+    _currentValue:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  Melee:
+    _name: Melee
+    _minValue: 0
+    _currentValue:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  HeavyMelee:
+    _name: HeavyMelee
+    _minValue: 0
+    _currentValue:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  Dodge:
+    _name: Dodge
+    _minValue: 0
+    _currentValue:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  Stealth:
+    _name: Stealth
+    _minValue: 0
+    _currentValue:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  Hacking:
+    _name: Hacking
+    _minValue: 0
+    _currentValue:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  Lockpicking:
+    _name: Lockpicking
+    _minValue: 0
+    _currentValue:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  Pickpocketing:
+    _name: Pickpocketing
+    _minValue: 0
+    _currentValue:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  Persuasion:
+    _name: Persuasion
+    _minValue: 0
+    _currentValue:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  Intimidation:
+    _name: Intimidation
+    _minValue: 0
+    _currentValue:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  Mercantile:
+    _name: Mercantile
+    _minValue: 0
+    _currentValue:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+    _maxValue:
+      baseValue: 15
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30

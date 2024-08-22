@@ -54,9 +54,9 @@ public sealed class ModVar
     }
     public ModVar(float baseValue) : this(baseValue, DEFAULT_DIGIT_ACCURACY, DEFAULT_LIST_CAPACITY) { }
     public ModVar(float baseValue, int digitAccuracy) : this(baseValue, digitAccuracy, DEFAULT_LIST_CAPACITY) { }
-    public ModVar(ModVar modVar) : this(modVar.baseValue, modVar._digitAccuracy, DEFAULT_LIST_CAPACITY) 
+    public ModVar(ModVar other) : this(other.baseValue, other._digitAccuracy, DEFAULT_LIST_CAPACITY) 
     {
-        _modifiersOperations = modVar._modifiersOperations;
+        _modifiersOperations = other._modifiersOperations;
         IsDirty = true;
     }
     #endregion

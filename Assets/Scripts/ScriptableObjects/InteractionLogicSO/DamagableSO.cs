@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptables/Interactions/DamagableSO")]
 internal class DamagableSO : DamagableBaseSO
 {
+    #region external interactions
     public override (bool, float) TakeHit(CharacterBlank character, HitDataContainer hit)
     {
         // TODO make dependency from equipment weapon
@@ -26,15 +27,18 @@ internal class DamagableSO : DamagableBaseSO
     {
         character.Health.ChangeHp(amount);
     }
+    #endregion
 
+    #region internal calculations
     private float CalculateChanceToHit(float dodgingSkill, float attackingSkill)
     {
         if (dodgingSkill <= 0) return 95;
         if (attackingSkill <= 0) return 0;
 
-        float coef = attackingSkill * dodgingSkill;
-        float result = Mathf.Round(50f + 100f * (coef - 1));
+        float coef = attackingSkill / dodgingSkill;
+        float result = Mathf.Round(50.0f + 100.0f * (coef - 1.0f));
 
-        return result > 95? result : 95; 
+        return result > 95? 95 : result; 
     }
+    #endregion
 }

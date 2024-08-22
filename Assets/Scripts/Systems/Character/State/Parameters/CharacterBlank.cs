@@ -4,6 +4,8 @@ using UnityEngine;
 
 internal class CharacterBlank : MonoBehaviour
 {
+    [SerializeField] private StatsInitSO StatsInitSO;
+
     [SerializeField] private string _name;
     [SerializeField] private CharacterStatsSystem _stats;
     [SerializeField] private CharHealthSystem _health;
@@ -24,7 +26,7 @@ internal class CharacterBlank : MonoBehaviour
     #region constructor
     public void Awake()
     {
-        _stats = new CharacterStatsSystem();
+        _stats = new CharacterStatsSystem(StatsInitSO);
         _health = new CharHealthSystem();
         _apMpSystem = new ApMpSystem();
         _ingameParameters = new OtherParameters();

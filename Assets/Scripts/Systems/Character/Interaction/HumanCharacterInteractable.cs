@@ -10,7 +10,7 @@ public class HumanCharacterInteractable : Interactable, IDamagable, IStealable, 
 
     private CharacterBlank _character;
 
-    private void Start()
+    private new  void Start()
     {
         _character = GetComponent<CharacterBlank>();
     }

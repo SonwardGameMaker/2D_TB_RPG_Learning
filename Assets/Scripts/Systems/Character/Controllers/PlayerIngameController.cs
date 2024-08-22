@@ -6,13 +6,11 @@ using UnityEngine;
 public class PlayerIngameController : CharacterIngameController
 {
     private CharacterStatsSystem _stats;
-    private CharHealthSystem _healthSystem;
 
     public new void Start()
     {
         base.Start();
         _stats = _character.Stats;
-        _healthSystem = _character.Health;
     }
 
     public void UpDownAttribute(string attributeName, bool increase)

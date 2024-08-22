@@ -59,22 +59,26 @@ public class CharacterStatsSystem
     #region init
     public CharacterStatsSystem()
     {
+        SetUp();
+        _interactions = new List<ParInteraction>();
+    }
+    public CharacterStatsSystem(StatsInitSO statsInitSO)
+    {
+        if (statsInitSO == null)
+        {
+            Debug.LogError("Stats Init SO is null. Object initialized with default constructor");
+            SetUp();
+            return;
+        }
+
+        SetUp(statsInitSO);
+        _interactions = SetUpInteractions();
+    }
+
+    private void SetUp()
+    {
         // Level
         Level = new Stat("Level", 20, 1, 1);
-
-        Attributes = new List<Stat>();
-        foreach(AttributeType statType in Enum.GetValues(typeof(AttributeType)))
-            Attributes.Add(InitDefautAttribute(statType.ToString()));
-
-        Skills = new List<Stat>();
-        foreach(SkillType skillType in Enum.GetValues(typeof(SkillType)))
-            Skills.Add(InitDdefaultSkill(skillType.ToString()));
-
-        _interactions2 = new List<ParInteraction>
-        { 
-            CreateSkillAffectionByAttribute(new List<AttributeType>{ AttributeType.Dexterity, AttributeType.Perception}, SkillType.LightFirearm),
-            CreateSkillAffectionByAttribute(AttributeType.Perception, SkillType.Firearm)
-        };
 
         // Attributes
         Strength = InitDefautAttribute(nameof(Strength));
@@ -98,8 +102,39 @@ public class CharacterStatsSystem
         Persuasion = InitDdefaultSkill(nameof(Persuasion));
         Intimidation = InitDdefaultSkill(nameof(Intimidation));
         Mercantile = InitDdefaultSkill(nameof(Mercantile));
+    }
+    public void SetUp(StatsInitSO statsInitSO)
+    {
+        // Level
+        Level = new Stat(statsInitSO.Level);
 
-        _interactions = new List<ParInteraction>
+        // Attributes
+        Strength = new Stat(statsInitSO.Strength);
+        Dexterity = new Stat(statsInitSO.Dexterity);
+        Agility = new Stat(statsInitSO.Agility);
+        Constitution = new Stat(statsInitSO.Constitution);
+        Perception = new Stat(statsInitSO.Perception);
+        Charisma = new Stat(statsInitSO.Charisma);
+        Intelligence = new Stat(statsInitSO.Intelligence);
+
+        // Skills
+        LightFirearm = new Stat(statsInitSO.LightFirearm);
+        Firearm = new Stat(statsInitSO.Firearm);
+        Melee = new Stat(statsInitSO.Melee);
+        HeavyMelee = new Stat(statsInitSO.HeavyMelee);
+        Dodge = new Stat(statsInitSO.Dodge);
+        Stealth = new Stat(statsInitSO.Stealth);
+        Hacking = new Stat(statsInitSO.Hacking);
+        Lockpicking = new Stat(statsInitSO.Lockpicking);
+        Pickpocketing = new Stat(statsInitSO.Pickpocketing);
+        Persuasion = new Stat(statsInitSO.Persuasion);
+        Intimidation = new Stat(statsInitSO.Intimidation);
+        Mercantile = new Stat(statsInitSO.Mercantile);
+    }
+
+    private List<ParInteraction> SetUpInteractions()
+    {
+        List<ParInteraction> result = new List<ParInteraction>()
         {
             new ParInteraction(Level, new List<CharParameterBase>
             {
@@ -129,39 +164,17 @@ public class CharacterStatsSystem
             new ParInteraction(new List<CharParameterBase> { Strength, Charisma}, Intimidation),
             new ParInteraction(new List<CharParameterBase> { Strength, Charisma}, Intimidation)
         };
-        _interactions[0].CalculateLogic = LevelAffectionOnSkills;
-        for (int i = 1; i < _interactions.Count; i++)
+        result[0].CalculateLogic = LevelAffectionOnSkills;
+        for (int i = 1; i < result.Count; i++)
         {
-            _interactions[i].CalculateLogic = AttributeAffectionOnSkills;
+            result[i].CalculateLogic = AttributeAffectionOnSkills;
         }
-    }
 
-    public void SetUp()
-    {
-        // Create initialization by Scriptable Object
+        return result;
     }
 
     private Stat InitDefautAttribute(string name) => new Stat(name, DEFAULT_MAX_VALUE_FOR_ATTRIBUTE, DEFAULT_MIN_VALUE_FOR_ATTRIBUTE, DEFAULT_CURRENT_VALUE_FOR_ATTRIBUTE);
     private Stat InitDdefaultSkill(string name) => new Stat(name, DEFAULT_MAX_VALUE_FOR_SKILL, DEFAULT_MIN_VALUE_FOR_SKILL, DEFAULT_CURRENT_VALUE_FOR_SKILL);
-
-    private ParInteraction CreateSkillAffectionByAttribute(List<AttributeType> attributes, List<SkillType> skills)
-    {
-        List<CharParameterBase> affectors = new List<CharParameterBase>();
-        foreach (AttributeType attribute in attributes)
-            affectors.Add(Attributes.Find(atrl => atrl.Name == attribute.ToString()));
-
-        List<CharParameterBase> targets = new List<CharParameterBase>();
-        foreach (SkillType skillType in skills)
-            targets.Add(Skills.Find(skl => skl.Name == skillType.ToString()));
-
-        return new ParInteraction(targets, affectors);
-    }
-    private ParInteraction CreateSkillAffectionByAttribute(AttributeType attribute, List<SkillType> skills)
-        => CreateSkillAffectionByAttribute(new List<AttributeType> { attribute }, skills);
-    private ParInteraction CreateSkillAffectionByAttribute(List<AttributeType> attributes, SkillType skill)
-        => CreateSkillAffectionByAttribute(attributes, new List<SkillType> { skill });
-    private ParInteraction CreateSkillAffectionByAttribute(AttributeType attribute, SkillType skill)
-        => CreateSkillAffectionByAttribute(new List<AttributeType> { attribute }, new List<SkillType> { skill });
     #endregion
 
     #region external_interaction

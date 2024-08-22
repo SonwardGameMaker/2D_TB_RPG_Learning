@@ -23,6 +23,11 @@ public class CharacterInfo : MonoBehaviour
         _character.GetComponent<CharacterBlank>().Health.CharDeath -= HandleCharDeath;
     }
 
+    public string GetBaseInfoString()
+    {
+        return $"Name: {_character.Name}, Health: {CharacterCombatStats.Health.CurrentValue}/{CharacterCombatStats.Health.MaxValue}";
+    }
+
     #region events
     public event Action<GameObject> CharDeath;
     #endregion

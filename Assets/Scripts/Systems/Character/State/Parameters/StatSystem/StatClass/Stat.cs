@@ -27,15 +27,25 @@ public class Stat : CharParameterBase, IMaxValModifiable, IMinValUnmod, ICurrVal
     /// <summary>
     /// Default min value is 0. Default current value is max value
     /// </summary>
-    public Stat(string name, float maxValue) : this(name, DEFAULT_MIN_VALUE, maxValue, maxValue) { }
+    public Stat(string name, float maxValue) : this(name, maxValue, DEFAULT_MIN_VALUE, maxValue) { }
     /// <summary>
     /// Default min value is 0 and default max value is 30. Default current value is max value
     /// </summary>
-    public Stat(string name) : this(name, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, DEFAULT_MAX_VALUE) { }
+    public Stat(string name) : this(name, DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE) { }
     /// <summary>
     /// Default min value is 0 and default max value is 30. Default current value is max value
     /// </summary>
-    public Stat() : this(DEFAULT_NAME, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE, DEFAULT_MAX_VALUE) { }
+    public Stat() : this(DEFAULT_NAME, DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE) { }
+    public Stat(Stat other)
+    {
+        _name = other._name;
+        _minValue = other._minValue;
+        _maxValue = new ModVar(other._maxValue);
+        _currentValue = new ModVar(other._currentValue);
+
+        _currentValue.ValueChanged += HandleCurrentValEvents;
+        _maxValue.ValueChanged += HandleMaxValEvents;
+    }
     ~Stat() // дивна поведінка, перевірити
     {
         _currentValue.ValueChanged -= HandleCurrentValEvents;

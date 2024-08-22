@@ -64,10 +64,7 @@ public class SampleGameManager : MonoBehaviour
 
         if (hit.collider != null)
         {
-            //foreach(string str in hit.collider.GetComponent<CharacterBlank>().GetInfo())
-            //{
-            //    Debug.Log(str);
-            //}
+            Debug.Log(hit.collider.GetComponent<CharacterInfo>().GetBaseInfoString());
         }
     }
 

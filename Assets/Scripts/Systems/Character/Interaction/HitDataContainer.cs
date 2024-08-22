@@ -12,10 +12,12 @@ public class HitDataContainer
     {
         Source = source;
         Damage = damage;
+        WeaponSkill = weaponSkill;
     }
     public HitDataContainer(CharacterInfo source, float damageAmont, DamageType damageType, float weaponSkill)
     {
         Source = source;
         Damage = new Damage(damageAmont, damageType);
+        WeaponSkill = weaponSkill;
     }
 }
