@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemGrid : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class ItemGrid : MonoBehaviour, IPointerUpHandler
 {
     private const float TILE_SIZE_WIDTH = 32;
     private const float TILE_SIZE_HEIGHT = 32;
 
-    [SerializeField] DropzoneFunctionality _dropzone;
+    //[SerializeField] DropzoneFunctionality _dropzone;
     private RectTransform _rectTransform;
     private Vector2 _positionOnTheGrid;
     private List<ItemUI> _items;
@@ -29,18 +29,18 @@ public class ItemGrid : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         return new Vector2Int(tilePositionX, tilePositionY);
     }
 
-    void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
-    {
-        _dropzone.gameObject.SetActive(true);
-        Vector2Int pointerOnGrid = GetTileGridPosition(eventData.position);
-        //Debug.Log($"Mouse possition is {GetMousePosition().x}, {GetMousePosition().y}");
-        //Debug.Log($"Event data possition is {eventData.position.x}, {eventData.position.y}");
-        Debug.Log($"Pointer down in {pointerOnGrid.x}, {pointerOnGrid.y}");
-    }
+    //void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+    //{
+    //    //_dropzone.gameObject.SetActive(true);
+    //    Vector2Int pointerOnGrid = GetTileGridPosition(eventData.position);
+    //    //Debug.Log($"Mouse possition is {GetMousePosition().x}, {GetMousePosition().y}");
+    //    //Debug.Log($"Event data possition is {eventData.position.x}, {eventData.position.y}");
+    //    Debug.Log($"Pointer down in {pointerOnGrid.x}, {pointerOnGrid.y}");
+    //}
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        _dropzone.gameObject.SetActive(false);
+        //_dropzone.gameObject.SetActive(false);
     }
 
     private Vector3 GetMousePosition()

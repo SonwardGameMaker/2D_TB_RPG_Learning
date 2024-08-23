@@ -18,7 +18,7 @@ public class SampleGameManager : MonoBehaviour
         enemyDummy.GetComponent<CharacterInfo>().CharDeath += DummyDeath;
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -30,7 +30,7 @@ public class SampleGameManager : MonoBehaviour
         }
     }
 
-    private void TryHitEnemy()
+    protected virtual void TryHitEnemy()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
@@ -43,7 +43,7 @@ public class SampleGameManager : MonoBehaviour
             }
         }
     }
-    private void DamageEnemy()
+    protected virtual void DamageEnemy()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
@@ -57,7 +57,7 @@ public class SampleGameManager : MonoBehaviour
             }
         }
     }
-    private void GetCharacterInfo()
+    protected virtual void GetCharacterInfo()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
