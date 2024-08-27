@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1738171596068087983}
+  - component: {fileID: 170580016907523199}
   - component: {fileID: 1396839471047981791}
   m_Layer: 0
   m_Name: ConcreteWall
@@ -32,6 +33,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &170580016907523199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940741147126666446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a426b2a36e681b4cab6815ec3e3f620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _environmentSO: {fileID: 11400000, guid: 67a815ec565424d40bcb6acba6e26d94, type: 2}
 --- !u!212 &1396839471047981791
 SpriteRenderer:
   m_ObjectHideFlags: 0

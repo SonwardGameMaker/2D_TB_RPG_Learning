@@ -31,8 +31,9 @@ public class SampleGameManagerForGrid : MonoBehaviour
             if (hit.collider.gameObject.tag == "Grid")
             {
                 IngameGrid grid = hit.collider.GetComponent<IngameGrid>();
-                Vector2 nodeCoordinates = hit.collider.GetComponent<IngameGrid>().Grid.GetNode(mousePosition).Coordinates;
-                Debug.Log($"Node selected: {nodeCoordinates.x}, {nodeCoordinates.y}");
+                TileNode nodeSelected = hit.collider.GetComponent<IngameGrid>().Grid.GetNode(mousePosition);
+                Vector2 nodeCoordinates = nodeSelected.Coordinates;
+                Debug.Log($"Node selected: {nodeCoordinates.x}, {nodeCoordinates.y}; Is {(nodeSelected.IsWalkable? "":"un" )}walkable");
 
             }
             if (hit.collider.gameObject.tag == "Untagged")
