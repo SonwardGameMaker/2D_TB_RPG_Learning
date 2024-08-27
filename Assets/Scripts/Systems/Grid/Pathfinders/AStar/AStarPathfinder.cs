@@ -12,7 +12,7 @@ public class AStarPathfinder : PathfinderBase
     private List<AStarNode> _openList;
     private List<AStarNode> _closedList;
 
-    public AStarPathfinder(GridSystem targetGrid, Vector3 originPosition)
+    public AStarPathfinder(GridSystem targetGrid)
     {
         _pathGrid = new PathfinderGridSystem<AStarNode>(targetGrid, (int x, int y, TileNode tn) => new AStarNode(x, y, tn));
     }
@@ -20,7 +20,9 @@ public class AStarPathfinder : PathfinderBase
     public override List<PathfinderNodeBase> FindPath(Vector2Int startNodeCoord, Vector2Int targetNodeCoord)
     {
         AStarNode startNode = _pathGrid.GetNode(startNodeCoord.x, startNodeCoord.y);
-        AStarNode endNode = _pathGrid.GetNode(targetNodeCoord.x, targetNodeCoord.y);
+        AStarNode targetNode = _pathGrid.GetNode(targetNodeCoord.x, targetNodeCoord.y);
+
+        //if (!targetNode.TargetNode.IsWalkable) return null;
 
         _openList = new List<AStarNode>() { startNode };
         _closedList = new List<AStarNode>();
@@ -37,14 +39,14 @@ public class AStarPathfinder : PathfinderBase
         }
 
         startNode.gCost = 0;
-        startNode.hCost = CalculateDistance(startNode, endNode);
+        startNode.hCost = CalculateDistance(startNode, targetNode);
         startNode.CalculateFCost();
 
         while (_openList.Count > 0)
         {
             AStarNode currentNode = GetLowestFCostNode(_openList);
-            if (currentNode == endNode)
-                return CalculatePath(endNode);
+            if (currentNode == targetNode)
+                return CalculatePath(targetNode);
 
             _openList.Remove(currentNode);
             _closedList.Add(currentNode);
@@ -58,12 +60,12 @@ public class AStarPathfinder : PathfinderBase
                     continue;
                 }
 
-                int tentativeGCost = currentNode.gCost + CalculateDistance(currentNode, endNode);
+                int tentativeGCost = currentNode.gCost + CalculateDistance(currentNode, targetNode);
                 if (tentativeGCost  < neigbourNode.gCost)
                 {
                     neigbourNode.CameFromNode = currentNode;
                     neigbourNode.gCost = tentativeGCost;
-                    neigbourNode.hCost = CalculateDistance(neigbourNode, endNode);
+                    neigbourNode.hCost = CalculateDistance(neigbourNode, targetNode);
                     neigbourNode.CalculateFCost();
 
                     if (!_openList.Contains(neigbourNode))
@@ -117,7 +119,7 @@ public class AStarPathfinder : PathfinderBase
                 if (x >= 0 && x < _pathGrid.Width
                     && y >= 0 && y < _pathGrid.Height
                     && !(x == node.X && y == node.Y))
-                    result.Add(node);
+                    result.Add(_pathGrid.GetNode(x, y));
             }
         }
         return result;

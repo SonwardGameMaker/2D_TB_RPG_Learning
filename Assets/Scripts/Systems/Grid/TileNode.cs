@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class TileNode
 {
@@ -9,6 +10,7 @@ public class TileNode
     protected int _yPos;
     private bool _isWalkable;
     private CharacterInfo _characterOnTile;
+    private Environment _environmentOnTile;
 
     public TileNode(int x, int y, bool isWalkable, CharacterInfo characterOnTile)
     {
@@ -34,6 +36,8 @@ public class TileNode
     {
         if (character == null) throw new Exception("Chracter to set is null");
 
+        if (!_isWalkable) return false;
+
         if (_characterOnTile == null)
         {
             _characterOnTile = character;
@@ -41,6 +45,7 @@ public class TileNode
         }
         return false;
     }
+
     public bool TryRemoveCharacter()
     {
         if (_characterOnTile != null)
@@ -48,6 +53,30 @@ public class TileNode
             _characterOnTile = null;
             return true;
         } 
+        return false;
+    }
+
+    public bool TrySetEnvironment(Environment environment)
+    {
+        if (environment == null) throw new Exception("Environment to set is null");
+
+        if (_environmentOnTile == null)
+        {
+            _environmentOnTile = environment;
+            _isWalkable = environment.IsWalkable;
+            return true;
+        }
+        return false;
+    }
+
+    public bool TryRemoveEnvironment()
+    {
+        if (_environmentOnTile != null)
+        {
+            _environmentOnTile = null;
+            _isWalkable = true;
+            return true;
+        }
         return false;
     }
     #endregion

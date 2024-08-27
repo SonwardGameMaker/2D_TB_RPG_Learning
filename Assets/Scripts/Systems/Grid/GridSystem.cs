@@ -10,6 +10,7 @@ public class GridSystem
     private float _cellSize;
     private Vector3 _originPosition;
     private TileNode[,] _grid;
+    private PathfinderBase _pathfinder;
 
     #region init
     public GridSystem(int width, int height, float cellSize, Vector3 originPosition)
@@ -19,6 +20,7 @@ public class GridSystem
         _cellSize = cellSize;
         _originPosition = originPosition;
         _grid = CreateGrid(width, height);
+        _pathfinder = new AStarPathfinder(this);
 
         DrawGridGizmos();
     }
@@ -43,6 +45,9 @@ public class GridSystem
     public int Width { get => _width;  }
     public int Height { get => _height; }
     public float CellSize { get => _cellSize; }
+    public PathfinderBase Pathfinder { get => _pathfinder; }
+    public bool GridDebug;
+    public bool PathfinderDebud;
     #endregion
 
     #region external interactions
@@ -71,6 +76,41 @@ public class GridSystem
         }
         return false;
     }
+
+    public List<PathfinderNodeBase> FindPath(Vector2Int start, Vector2Int target)
+    {
+        List<PathfinderNodeBase> result = _pathfinder.FindPath(start, target);
+
+        DrawPathGizmos(result);
+
+        return result;
+    }
+    public List<PathfinderNodeBase> FindPath(Vector3 start, Vector3 target)
+        => FindPath(GetPositionOnGrid(start), GetPositionOnGrid(target));
+
+    public bool TrySetCharacter(Vector3 worldPosition, CharacterInfo character)
+    {
+        Vector2Int positionOnGrid = GetPositionOnGrid(worldPosition);
+        return _grid[positionOnGrid.x, positionOnGrid.y].TrySetCharacter(character);
+    }
+
+    public bool TryRemoveCharacter(Vector3 worldPosition)
+    {
+        Vector2Int positionOnGrid = GetPositionOnGrid(worldPosition);
+        return _grid[positionOnGrid.x, positionOnGrid.y].TryRemoveCharacter();
+    }
+
+    public bool TrySetEnvironment(Vector3 worldPosition, Environment environment)
+    {
+        Vector2Int positionOnGrid = GetPositionOnGrid(worldPosition);
+        return _grid[positionOnGrid.x, positionOnGrid.y].TrySetEnvironment(environment);
+    }
+
+    public bool TryRemoveEnvironment(Vector3 worldPosition)
+    {
+        Vector2Int positionOnGrid = GetPositionOnGrid(worldPosition);
+        return _grid[positionOnGrid.x, positionOnGrid.y].TryRemoveEnvironment();
+    }
     #endregion
 
     #region internal calculations
@@ -88,6 +128,8 @@ public class GridSystem
     #region debug
     private void DrawGridGizmos()
     {
+        //if (!GridDebug) return;
+
         for (int x = 0; x < _width; x++)
         {
             for (int y = 0; y < _height; y++)
@@ -98,6 +140,22 @@ public class GridSystem
         }
         Debug.DrawLine(GetWorlPosition(0, _height), GetWorlPosition(_width, _height), Color.white, 100f);
         Debug.DrawLine(GetWorlPosition(_width, 0), GetWorlPosition(_width, _height), Color.white, 100f);
+    }
+    private void DrawPathGizmos(List<PathfinderNodeBase> pathfinderNodes)
+    {
+        //if (!PathfinderDebud) return;
+        if (pathfinderNodes == null) throw new ArgumentNullException("Path list is null");
+
+        foreach (var node in pathfinderNodes)
+        {
+            if (node.CameFromNode != null)
+            {
+                Debug.DrawLine(GetWorlPosition(node.CameFromNode.X, node.CameFromNode.Y) + new Vector3(CellSize/2, CellSize/2, 0),
+                    GetWorlPosition(node.X, node.Y) + new Vector3(CellSize / 2, CellSize / 2, 0),
+                    Color.green,
+                    100f);
+            }
+        }
     }
     #endregion
 }
