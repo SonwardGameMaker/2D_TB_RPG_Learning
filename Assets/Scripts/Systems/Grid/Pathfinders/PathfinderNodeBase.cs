@@ -22,6 +22,7 @@ public abstract class PathfinderNodeBase
     public Vector2Int Coordinates { get => new Vector2Int(_xPos, _yPos); }
     public TileNode TargetNode { get => _targetNode; }
     public PathfinderNodeBase CameFromNode { get; set; }
+    public int CameFromCost { get; set; }
     #endregion
 
     public override string ToString()

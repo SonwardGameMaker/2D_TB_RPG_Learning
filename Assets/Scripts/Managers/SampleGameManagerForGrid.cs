@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class SampleGameManagerForGrid : MonoBehaviour
 {
-    private IngameGrid grid;
-
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -33,7 +31,8 @@ public class SampleGameManagerForGrid : MonoBehaviour
                 IngameGrid grid = hit.collider.GetComponent<IngameGrid>();
                 TileNode nodeSelected = hit.collider.GetComponent<IngameGrid>().Grid.GetNode(mousePosition);
                 Vector2 nodeCoordinates = nodeSelected.Coordinates;
-                Debug.Log($"Node selected: {nodeCoordinates.x}, {nodeCoordinates.y}; Is {(nodeSelected.IsWalkable? "":"un" )}walkable");
+                Debug.Log($"Node selected: {nodeCoordinates.x}, {nodeCoordinates.y}; Is {(nodeSelected.IsWalkable? "":"un" )}walkable" +
+                    $"{(nodeSelected.CharacterOnTile != null? "\nCharacter on tile: " + nodeSelected.CharacterOnTile.name: "")}");
 
             }
             if (hit.collider.gameObject.tag == "Untagged")

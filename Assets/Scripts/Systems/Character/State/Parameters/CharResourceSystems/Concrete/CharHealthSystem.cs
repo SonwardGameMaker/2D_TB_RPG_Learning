@@ -12,7 +12,7 @@ public class CharHealthSystem : ICharResourseFieldGettable
     private const float DEFAULT_MAX_VALUE = 100.0f;
 
     private CharResource _health;
-    private FlatParameter _hpBonusPerLevel;
+    //private FlatParameter _hpBonusPerLevel;
 
     public bool IsAlive { get; set; }
 
@@ -75,12 +75,12 @@ public class CharHealthSystem : ICharResourseFieldGettable
         => new ParInteraction(parameters.Item1, _health, parameters.Item2);
 
     // Hp Bonus Per Level
-    public ParInteraction CreateHpBonusPLevelEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
-        => new ParInteraction(affectors, _hpBonusPerLevel, CalculateLogic);
-    public ParInteraction CreateHpBonusPLevelEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
-        => CreateHpBonusPLevelEffect(new List<CharParameterBase> { affector }, CalculateLogic);
-    public ParInteraction CreateHpBonusPLevelEffect((List<CharParameterBase>, ModValueCalculateLogic) parameters)
-        => new ParInteraction(parameters.Item1, _hpBonusPerLevel, parameters.Item2);
+    //public ParInteraction CreateHpBonusPLevelEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
+    //    => new ParInteraction(affectors, _hpBonusPerLevel, CalculateLogic);
+    //public ParInteraction CreateHpBonusPLevelEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)
+    //    => CreateHpBonusPLevelEffect(new List<CharParameterBase> { affector }, CalculateLogic);
+    //public ParInteraction CreateHpBonusPLevelEffect((List<CharParameterBase>, ModValueCalculateLogic) parameters)
+    //    => new ParInteraction(parameters.Item1, _hpBonusPerLevel, parameters.Item2);
     #endregion
 
     public event Action HealthChanged;

@@ -10,6 +10,7 @@ public class IngameGrid : MonoBehaviour
     [SerializeField] private int _height;
     [SerializeField] private float _cellSize;
     [SerializeField] private EnvironmentContainer _environmentContainer;
+    [SerializeField] private CharactersContainerOnScene _charactersContainer;
     [SerializeField] private bool GridDebug;
     [SerializeField] private bool PathfinderDebug;
 
@@ -41,7 +42,9 @@ public class IngameGrid : MonoBehaviour
 
     #region external interactions
     public GridSystem SetGrid(int wigth, int height, float cellSize)
-        => new GridSystem(wigth, height, cellSize, transform.position, _environmentContainer.GetEnvironments());
+        => new GridSystem(wigth, height, cellSize, transform.position,
+            _environmentContainer.GetEnvironments(),
+            _charactersContainer.GetCharacters());
 
     public List<PathfinderNodeBase> FindPath(Vector2Int start, Vector2Int target)
     {

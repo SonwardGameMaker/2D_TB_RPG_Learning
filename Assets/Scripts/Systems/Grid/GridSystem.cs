@@ -13,7 +13,9 @@ public class GridSystem
     
 
     #region init
-    public GridSystem(int width, int height, float cellSize, Vector3 originPosition, List<(Vector3, Environment)> environment)
+    public GridSystem(int width, int height, float cellSize, Vector3 originPosition,
+        List<(Vector3, Environment)> environment,
+        List<(Vector3, CharacterInfo)> characters)
     {
         _width = width;
         _height = height;
@@ -21,6 +23,7 @@ public class GridSystem
         _originPosition = originPosition;
         _grid = CreateGrid(width, height);
         InitGridEnvironment(environment);
+        InitCharactersOnGrid(characters);
     }
 
     private TileNode[,] CreateGrid(int width, int height)
@@ -31,7 +34,7 @@ public class GridSystem
         {
             for (int y = 0; y < height; y++)
             {
-                result[x,y] = new TileNode(x, y);
+                result[x,y] = new TileNode(x, y, this);
             }
         }
 
@@ -45,6 +48,16 @@ public class GridSystem
         foreach ((Vector3, Environment) env in environment)
         {
             GetNode(env.Item1).TrySetEnvironment(env.Item2);
+        }
+    }
+    private void InitCharactersOnGrid(List<(Vector3, CharacterInfo)> characters)
+    {
+        if (characters == null) Debug.LogError("Characters is null");
+        if (characters.Count == 0) Debug.LogWarning("Characters is empty");
+
+        foreach ((Vector3, CharacterInfo) character in characters)
+        {
+            GetNode(character.Item1).TrySetCharacter(character.Item2);
         }
     }
     #endregion
@@ -85,14 +98,13 @@ public class GridSystem
         return false;
     }
 
+    public Vector3 GetWorldPosition(int x, int y)
+            => new Vector3(x, y) * _cellSize + _originPosition;
 
-    #endregion
+    public Vector3 GetWorlPositionOfTileCenter(int x, int y)
+        => new Vector3(x, y) * _cellSize + _originPosition + new Vector3(_cellSize / 2.0f, _cellSize / 2.0f);
 
-    #region internal calculations
-    private Vector3 GetWorldPosition(int x, int y)
-        => new Vector3(x, y) * _cellSize + _originPosition;
-
-    private Vector2Int GetPositionOnGrid(Vector3 worldPosition)
+    public Vector2Int GetPositionOnGrid(Vector3 worldPosition)
     {
         int x = Mathf.FloorToInt((worldPosition - _originPosition).x / _cellSize);
         int y = Mathf.FloorToInt((worldPosition - _originPosition).y / _cellSize);

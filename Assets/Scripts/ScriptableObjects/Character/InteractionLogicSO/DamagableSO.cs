@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptables/Interactions/DamagableSO")]
+[CreateAssetMenu(menuName = "Scriptables/Character/Interactions/DamagableSO")]
 internal class DamagableSO : DamagableBaseSO
 {
     #region external interactions

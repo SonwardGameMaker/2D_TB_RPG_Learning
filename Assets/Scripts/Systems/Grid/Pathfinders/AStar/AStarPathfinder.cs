@@ -60,7 +60,7 @@ public class AStarPathfinder : PathfinderBase
                     continue;
                 }
 
-                int tentativeGCost = currentNode.gCost + CalculateDistance(currentNode, targetNode);
+                int tentativeGCost = currentNode.gCost + CalculateDistance(currentNode, neigbourNode);
                 if (tentativeGCost  < neigbourNode.gCost)
                 {
                     neigbourNode.CameFromNode = currentNode;
@@ -85,11 +85,24 @@ public class AStarPathfinder : PathfinderBase
         PathfinderNodeBase currentNode = endNode;
         while (currentNode.CameFromNode != null)
         {
+            currentNode.CameFromCost = CalculateCameFromCost(currentNode.CameFromNode, currentNode);
             result.Add(currentNode.CameFromNode);
             currentNode = currentNode.CameFromNode;
         }
         result.Reverse();
         return result;
+    }
+    private int CalculateCameFromCost(PathfinderNodeBase cameFromNode, PathfinderNodeBase targetNode)
+    {
+        int relativeX = targetNode.X - cameFromNode.X;
+        int relativeY = targetNode.Y - cameFromNode.Y;
+
+        if (relativeX != 0 && relativeY != 0)
+            return MOVE_DIAGONAL_COST;
+        else if (relativeX == 0 && relativeY == 0)
+            return 0;
+        else
+            return MOVE_STRAINGHT_COST;
     }
 
     private int CalculateDistance(AStarNode a, AStarNode b)

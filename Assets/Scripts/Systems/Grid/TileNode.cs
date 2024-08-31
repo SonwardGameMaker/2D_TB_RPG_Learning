@@ -9,19 +9,21 @@ public class TileNode
     protected int _xPos;
     protected int _yPos;
     private bool _isWalkable;
+    private GridSystem _grid;
     private CharacterInfo _characterOnTile;
     private Environment _environmentOnTile;
 
-    public TileNode(int x, int y, bool isWalkable, CharacterInfo characterOnTile)
+    public TileNode(int x, int y, bool isWalkable, CharacterInfo characterOnTile, GridSystem grid)
     {
         _xPos = x;
         _yPos = y;
         _isWalkable = isWalkable;
+        _grid = grid;
         _characterOnTile = characterOnTile;
     }
-    public TileNode(int xPos, int yPos, CharacterInfo characterOnTile) : this(xPos, yPos, true, characterOnTile) { }
-    public TileNode(int xPos, int yPos, bool isWalkable) : this(xPos, yPos, isWalkable, null) { }
-    public TileNode(int xPos, int yPos) : this(xPos, yPos, true, null) { }
+    public TileNode(int xPos, int yPos, CharacterInfo characterOnTile, GridSystem grid) : this(xPos, yPos, true, characterOnTile, grid) { }
+    public TileNode(int xPos, int yPos, bool isWalkable, GridSystem grid) : this(xPos, yPos, isWalkable, null, grid) { }
+    public TileNode(int xPos, int yPos, GridSystem grid) : this(xPos, yPos, true, null, grid) { }
 
     #region properties
     public int X { get => _xPos; }
@@ -29,6 +31,8 @@ public class TileNode
     public Vector2Int Coordinates { get => new Vector2Int(_xPos, _yPos); }
     public CharacterInfo CharacterOnTile { get => _characterOnTile; }
     public bool IsWalkable { get => _isWalkable; }
+    public Vector3 WorldPosition { get => _grid.GetWorldPosition(X, Y); }
+    public Vector3 WorldPositionOfCenter { get => _grid.GetWorlPositionOfTileCenter(X, Y); }
     #endregion
 
     #region exteranal interactions
