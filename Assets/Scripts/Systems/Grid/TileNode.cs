@@ -9,6 +9,7 @@ public class TileNode
     protected int _xPos;
     protected int _yPos;
     private bool _isWalkable;
+    private VisionCoverStates _visionCover;
     private GridSystem _grid;
     private CharacterInfo _characterOnTile;
     private Environment _environmentOnTile;
@@ -82,6 +83,11 @@ public class TileNode
             return true;
         }
         return false;
+    }
+
+    public bool CanCharacerWalk(CharacterInfo character)
+    {
+        return _isWalkable && (_characterOnTile == null || _characterOnTile == character);
     }
     #endregion
 

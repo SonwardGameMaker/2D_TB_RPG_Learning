@@ -38,6 +38,7 @@ public class CharacterCombatStats
     public StatInfo DodgeSkill { get => new StatInfo(_character.Stats.Dodge); }
     public StatInfo WeaponSkill { get => new StatInfo(_weaponSkill); }
     public (float, float) WeaponDamage { get => (_currnetWeapon.MinDamage, _currnetWeapon.MaxDamage); }
+    public int WeaponRange { get => _currnetWeapon.WeaponRange; }
     public List<DamageResistanceInfo> DamageResistances 
         { get => _character.IngameParameters.DamageResistances.Select(dri => new DamageResistanceInfo(dri)).ToList(); }
     #endregion
@@ -76,6 +77,7 @@ public class CharacterCombatStats
             DamageType.Mechanical,
             20.0f,
             15,
+            1,
             200,
             1000,
             _character);

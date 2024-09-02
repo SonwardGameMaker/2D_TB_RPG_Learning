@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class CharacterIngameController : MonoBehaviour
 {
-    [SerializeField] MovingLogicSO MovingLogicSO;
+    //[SerializeField] MovingLogicSO MovingLogicSO;
     [SerializeField] private float speed = 5f;
 
     internal CharacterBlank _character;
@@ -37,11 +37,11 @@ public class CharacterIngameController : MonoBehaviour
         List<TileNode> nodePath = path.Select(pnb => pnb.TargetNode).ToList();
         if (nodePath == null) throw new Exception("NodePath is null");
 
-        _walkCoroutine = StartCoroutine(MovePathCorutine(nodePath));
+        _walkCoroutine = StartCoroutine(MovePathCorutine(nodePath, () => _walkCoroutine = null));
     }
 
     #region internal calculations
-    private IEnumerator MovePathCorutine(List<TileNode> path)
+    private IEnumerator MovePathCorutine(List<TileNode> path, Action action)
     {
         float step = speed * Time.deltaTime;
         CharacterInfo character = _characterInfo;
@@ -61,11 +61,13 @@ public class CharacterIngameController : MonoBehaviour
             }
             else
             {
-                _walkCoroutine = null;
+                //_walkCoroutine = null;
+                action?.Invoke();
                 yield break;
             }
         }
-        _walkCoroutine = null;
+        action?.Invoke();
+        //_walkCoroutine = null;
     }
     #endregion
 }

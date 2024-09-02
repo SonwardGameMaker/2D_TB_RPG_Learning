@@ -39,6 +39,7 @@ MonoBehaviour:
       LowerBound: 0
       IsUpperBounded: 0
       UpperBound: 0
+  WeaponRange: 1
   Durability:
     _name: Default_Name
     _minValue: 0

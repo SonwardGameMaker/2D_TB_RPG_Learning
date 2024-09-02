@@ -14,18 +14,22 @@ internal class Weapon : Item, IEquipable, IDurable
     [SerializeField] private WeaponWeight _weaponWeight;
     [SerializeField] private DamageType _damageType;
     [SerializeField] private WeaponDamageParam _weaponDamage;
+    [SerializeField] private int _weaponRange;
     [SerializeField] private CharResource _durability;
     [SerializeField] private bool _isBroken;
 
     private List<EquipAffectCharBaseSO> _equipAffectCharBaseInstances;
     private List<ParInteraction> _parInteractions;
     private CharacterBlank _bearer;
+
+    #region init
     public Weapon(
         string name,
         string description,
         DamageType damageType,
         float maxDamage,
         float minDamage,
+        int range,
         float price,
         float maxDurabilty,
         CharacterBlank bearer,
@@ -33,6 +37,7 @@ internal class Weapon : Item, IEquipable, IDurable
     {
         _damageType = damageType;
         _weaponDamage = new WeaponDamageParam("Weapon Damage", minDamage, maxDamage);
+        _weaponRange = range;
         _durability = new CharResource("Durability", maxDurabilty);
         _isBroken = false;
         _bearer = bearer;
@@ -44,10 +49,11 @@ internal class Weapon : Item, IEquipable, IDurable
         DamageType damageType,
         float maxDamage,
         float minDamage,
+        int range,
         float price,
         float maxDurabilty,
         CharacterBlank bearer)
-        : this(name, description, damageType, maxDamage, minDamage, price, maxDurabilty, bearer, null)
+        : this(name, description, damageType, maxDamage, minDamage, range, price, maxDurabilty, bearer, null)
     { }
     public Weapon(
         string name,
@@ -55,9 +61,10 @@ internal class Weapon : Item, IEquipable, IDurable
         DamageType damageType,
         float maxDamage,
         float minDamage,
+        int range,
         float price,
         float maxDurabilty)
-        : this(name, description, damageType, maxDamage, minDamage, price, maxDurabilty, null, null)
+        : this(name, description, damageType, maxDamage, minDamage, range, price, maxDurabilty, null, null)
     { }
     public Weapon(WeaponSO weaponSO)
     {
@@ -68,24 +75,6 @@ internal class Weapon : Item, IEquipable, IDurable
         _parInteractions = new List<ParInteraction>();
     }
 
-    #region properties
-    public WeaponType WeaponType { get => _weaponType; }
-    public WeaponWeight WeaponWeight { get => _weaponWeight; }
-    public DamageType DamageType { get => _damageType; }
-    public float MaxDamage { get => _weaponDamage.MaxValue; }
-    public float MinDamage { get => _weaponDamage.MinValue; }
-    public float MaxDurability { get => _durability.MaxValue; }
-    public float CurrentDurability { get => _durability.CurrentValue; }
-    public bool IsBroken { get => _isBroken; }
-    public CharacterBlank Bearer { get => _bearer; }
-    #endregion
-
-    public event Action Brokes;
-    public event Action Repairs;
-
-    #region external interaction
-    public void Init(CharacterBlank bearer)
-        => Init(bearer, _weaponSO);
     public void Init(CharacterBlank bearer, WeaponSO weaponSO)
     {
         Name = weaponSO.Name;
@@ -97,6 +86,7 @@ internal class Weapon : Item, IEquipable, IDurable
         _weaponWeight = weaponSO.WeaponWeight;
         _damageType = weaponSO.DamageType;
         _weaponDamage = weaponSO.WeaponDamage;
+        _weaponRange = weaponSO.WeaponRange;
         _durability = weaponSO.Durability;
         _isBroken = weaponSO.IsBroken;
 
@@ -106,7 +96,27 @@ internal class Weapon : Item, IEquipable, IDurable
 
         Equip(bearer);
     }
+    public void Init(CharacterBlank bearer)
+    => Init(bearer, _weaponSO);
+    #endregion
 
+    #region properties
+    public WeaponType WeaponType { get => _weaponType; }
+    public WeaponWeight WeaponWeight { get => _weaponWeight; }
+    public DamageType DamageType { get => _damageType; }
+    public float MaxDamage { get => _weaponDamage.MaxValue; }
+    public float MinDamage { get => _weaponDamage.MinValue; }
+    public int WeaponRange { get => _weaponRange; }
+    public float MaxDurability { get => _durability.MaxValue; }
+    public float CurrentDurability { get => _durability.CurrentValue; }
+    public bool IsBroken { get => _isBroken; }
+    public CharacterBlank Bearer { get => _bearer; }
+    #endregion
+
+    public event Action Brokes;
+    public event Action Repairs;
+
+    #region external interaction
     public Damage CalculateDamage() => new Damage((int)_weaponDamage.CurrentValue, _damageType);
 
     public void ChangeDurability(float amount)

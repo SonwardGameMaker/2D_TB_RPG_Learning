@@ -11,7 +11,14 @@ internal class WeaponSO : ItemBaseSO
     public WeaponWeight WeaponWeight;
     public DamageType DamageType;
     public WeaponDamageParam WeaponDamage;
+    public int WeaponRange;
     public CharResource Durability;
     public bool IsBroken;
     public List<EquipAffectCharBaseSO> EquipAffectCharBase;
+
+    private void Start()
+    {
+        if (WeaponRange <= 0)
+            WeaponRange = 1;
+    }
 }

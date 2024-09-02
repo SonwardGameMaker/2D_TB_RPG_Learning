@@ -22,6 +22,7 @@ public class AStarPathfinder : PathfinderBase
         AStarNode startNode = _pathGrid.GetNode(startNodeCoord.x, startNodeCoord.y);
         AStarNode targetNode = _pathGrid.GetNode(targetNodeCoord.x, targetNodeCoord.y);
 
+        CharacterInfo character = startNode.TargetNode.CharacterOnTile;
         //if (!targetNode.TargetNode.IsWalkable) return null;
 
         _openList = new List<AStarNode>() { startNode };
@@ -53,8 +54,10 @@ public class AStarPathfinder : PathfinderBase
 
             foreach (AStarNode neigbourNode in GetNeighbourList(currentNode))
             {
-                if (_closedList.Contains(neigbourNode)) continue;
-                if (!neigbourNode.TargetNode.IsWalkable)
+                if (_closedList.Contains(neigbourNode)
+                    || !CanDiagonalMove(currentNode, neigbourNode, character))
+                { continue; }
+                if (!neigbourNode.TargetNode.CanCharacerWalk(character))
                 {
                     _closedList.Add(neigbourNode);
                     continue;
@@ -92,6 +95,7 @@ public class AStarPathfinder : PathfinderBase
         result.Reverse();
         return result;
     }
+
     private int CalculateCameFromCost(PathfinderNodeBase cameFromNode, PathfinderNodeBase targetNode)
     {
         int relativeX = targetNode.X - cameFromNode.X;
@@ -132,10 +136,32 @@ public class AStarPathfinder : PathfinderBase
                 if (x >= 0 && x < _pathGrid.Width
                     && y >= 0 && y < _pathGrid.Height
                     && !(x == node.X && y == node.Y))
-                    result.Add(_pathGrid.GetNode(x, y));
+                        result.Add(_pathGrid.GetNode(x, y));
+
             }
         }
         return result;
+    }
+
+    private bool CanDiagonalMove(AStarNode tile, AStarNode neigbour, CharacterInfo character)
+    {
+        int xDiff = neigbour.X - tile.X;
+        int yDiff = neigbour.Y - tile.Y;
+
+        if (xDiff != 0 && yDiff != 0)
+        {
+            bool xWalkable = _pathGrid.GetNode(tile.X + xDiff, tile.Y).TargetNode.CanCharacerWalk(character);
+            bool yWalkable = _pathGrid.GetNode(tile.X, tile.Y + yDiff).TargetNode.CanCharacerWalk(character);
+            //Debug.Log($"Diagonal move: {neigbour.X}, {neigbour.Y}. \nxDiff: {tile.X + xDiff}, {tile.Y}\nyDiff: {tile.X}, {tile.Y + yDiff}");
+
+            if (!xWalkable || !yWalkable)
+            {
+                //Debug.Log("Cannot move diagonal");
+                return false;
+            }
+            else return true;
+        }
+        return true;
     }
     #endregion
 }

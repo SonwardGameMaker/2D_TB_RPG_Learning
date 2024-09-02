@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 5470532210633530332}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Characters
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,7 +113,7 @@ Transform:
   m_GameObject: {fileID: 2614807372337640372}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 434.847, y: 199.8391, z: 0.4434871}
+  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -132,8 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24df24cadf74954f88aacab63a1baf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatsInitSO: {fileID: 0}
-  _name: Player
+  StatsInitSO: {fileID: 11400000, guid: 6c601c01c17ce0a469eff42ca1219324, type: 2}
+  _name: Character
   _stats:
     Attributes: []
     Skills: []
