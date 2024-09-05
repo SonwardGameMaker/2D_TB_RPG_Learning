@@ -33,8 +33,8 @@ public class GridGizmos
         {
             for (int y = 0; y < _targetGrid.Height; y++)
             {
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white);
+                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white);
             }
         }
         Debug.DrawLine(GetWorldPosition(0, _targetGrid.Height), GetWorldPosition(_targetGrid.Width, _targetGrid.Height), Color.white, 100f);
@@ -50,8 +50,7 @@ public class GridGizmos
             {
                 Debug.DrawLine(GetWorldPosition(node.CameFromNode.X, node.CameFromNode.Y) + new Vector3(_targetGrid.CellSize / 2, _targetGrid.CellSize / 2, 0),
                 GetWorldPosition(node.X, node.Y) + new Vector3(_targetGrid.CellSize / 2, _targetGrid.CellSize / 2, 0),
-                Color.green,
-                    100f);
+                Color.green);
             }
         }
     }

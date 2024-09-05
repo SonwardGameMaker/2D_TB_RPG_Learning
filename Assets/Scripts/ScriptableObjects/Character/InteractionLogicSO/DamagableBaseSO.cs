@@ -5,8 +5,8 @@ using UnityEngine;
 
 internal abstract class DamagableBaseSO : ScriptableObject
 {
-    public abstract (bool, float) TakeHit(CharacterBlank character, HitDataContainer hit);
-    public abstract void TakeDamage(CharacterBlank character, Damage damage);
+    public abstract (bool, float, Damage) TakeHit(CharacterBlank character, HitDataContainer hit);
+    public abstract Damage TakeDamage(CharacterBlank character, Damage damage);
     public abstract void TakeHealing(CharacterBlank character, float amount);
 
     protected float CalculateDamageTaken(OtherParameters parameters, Damage damage)

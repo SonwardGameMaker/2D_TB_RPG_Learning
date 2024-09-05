@@ -18,9 +18,9 @@ public class PlayerCharacterInteractable : Interactable, IDamagable
 
     public void TakeHit(HitDataContainer hit) 
     {
-        (bool, float) hitResult = DamagableBaseSO.TakeHit(_character, hit);
+        (bool, float, Damage) hitResult = DamagableBaseSO.TakeHit(_character, hit);
         CharacterHitted?.Invoke(hitResult.Item1, hitResult.Item2, hit.Damage);
     }
-    public void TakeDamage(Damage damage) => DamagableBaseSO?.TakeDamage(_character, damage);
+    public Damage TakeDamage(Damage damage) => DamagableBaseSO?.TakeDamage(_character, damage);
     public void TakeHealing(float amount) => DamagableBaseSO?.TakeHealing(_character, amount);
 }

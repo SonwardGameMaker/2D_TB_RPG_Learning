@@ -21,8 +21,8 @@ public class CharacterStatsSystem
     public Stat Level { get; private set; }
     private ParInteraction levelAffectsSkillsMaxValue;
 
-    public List<Stat> Attributes;
-    public List<Stat> Skills;
+    //public List<Stat> Attributes;
+    //public List<Stat> Skills;
 
     private readonly List<ParInteraction> _interactions2;
 
