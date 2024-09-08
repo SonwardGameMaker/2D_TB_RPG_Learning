@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterBlank))]
 public class CharacterInfo : MonoBehaviour
 {
     private CharacterBlank _character;
@@ -10,18 +11,25 @@ public class CharacterInfo : MonoBehaviour
     public CharacterCombatStats CharacterCombatStats;
     public CharacterStatsInfo CharacterStats;
 
-    private void Awake()
-    {
-        _character = GetComponent<CharacterBlank>();
-        _character.GetComponent<CharacterBlank>().Health.CharDeath += HandleCharDeath;
 
-        CharacterCombatStats = new CharacterCombatStats(_character);
-        CharacterStats = new CharacterStatsInfo(_character.Stats);
-    }
+    #region init
     private void OnDestroy()
     {
         _character.GetComponent<CharacterBlank>().Health.CharDeath -= HandleCharDeath;
     }
+
+    internal void SetUp(CharacterBlank character)
+    {
+        _character = character;
+        character.GetComponent<CharacterBlank>().Health.CharDeath += HandleCharDeath;
+
+        CharacterCombatStats = new CharacterCombatStats(character);
+        CharacterStats = new CharacterStatsInfo(character.Stats);
+
+        //Debug.Log($"{nameof(CharacterInfo)} enabled");
+    }
+
+    #endregion
 
     public string GetBaseInfoString()
     {
@@ -33,7 +41,10 @@ public class CharacterInfo : MonoBehaviour
     #endregion
 
     public HitDataContainer CalculateHitData()
-        => new HitDataContainer(this, CharacterCombatStats.CalculateDamage(), CharacterCombatStats.WeaponSkill.CurrentValue);
+    {
+        //Debug.Log($"Attackin skill: {CharacterCombatStats.WeaponSkill.CurrentValue}");
+        return new HitDataContainer(this, CharacterCombatStats.CalculateDamage(), CharacterCombatStats.WeaponSkill.CurrentValue);
+    }
 
     private void HandleCharDeath() => CharDeath?.Invoke(gameObject);
 }

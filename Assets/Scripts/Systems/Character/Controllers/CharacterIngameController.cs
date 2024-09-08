@@ -11,7 +11,7 @@ public class CharacterIngameController : MonoBehaviour
 
     internal CharacterBlank _character;
     protected CharacterInfo _characterInfo;
-    protected Coroutine _walkCoroutine;
+    protected Coroutine _coroutine;
 
     public void Start()
     {
@@ -19,16 +19,27 @@ public class CharacterIngameController : MonoBehaviour
         _characterInfo = GetComponent<CharacterInfo>();
     }
 
-    public void Hit(IDamagable target)
+    public void TryHit(IDamagable target)
     {
-        target.TakeHit(_characterInfo.CalculateHitData());
+        HitDataContainer hitData = _characterInfo.CalculateHitData();
+
+        target.TakeHit(hitData);
+    }
+
+    public void RotateTowards(Vector3 targetPosition)
+    {
+        Vector3 direction = targetPosition - transform.position;
+        direction.Normalize();
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
     }
 
     public void Walk(List<PathfinderNodeBase> path)
     {
         if (path == null) throw new Exception("Path is null");
 
-        if (_walkCoroutine != null)
+        if (_coroutine != null)
         {
             Debug.Log("Corutine still runnig");
             return;
@@ -37,11 +48,28 @@ public class CharacterIngameController : MonoBehaviour
         List<TileNode> nodePath = path.Select(pnb => pnb.TargetNode).ToList();
         if (nodePath == null) throw new Exception("NodePath is null");
 
-        _walkCoroutine = StartCoroutine(MovePathCorutine(nodePath, () => _walkCoroutine = null));
+        _coroutine = StartCoroutine(MovePathCoroutine(nodePath, () => _coroutine = null));
     }
 
-    #region internal calculations
-    private IEnumerator MovePathCorutine(List<TileNode> path, Action action)
+    public void WalkAndAttack(List<PathfinderNodeBase> path, IDamagable target)
+    {
+        if (path == null) throw new Exception("Path is null");
+
+        if (_coroutine != null)
+        {
+            Debug.Log("Corutine still runnig");
+            return;
+        }
+
+        List<TileNode> nodePath = path.Select(pnb => pnb.TargetNode).ToList();
+        if (nodePath == null) throw new Exception("NodePath is null");
+
+        _coroutine = StartCoroutine(MovePathCoroutine(nodePath, 
+            () => _coroutine = StartCoroutine(AttackCorutine(target, () => _coroutine = null))));
+    }
+
+    #region coroutines
+    private IEnumerator MovePathCoroutine(List<TileNode> path, Action action)
     {
         float step = speed * Time.deltaTime;
         CharacterInfo character = _characterInfo;
@@ -55,19 +83,32 @@ public class CharacterIngameController : MonoBehaviour
                 Vector3 targetPosition = path[i].WorldPositionOfCenter;
                 while (!character.transform.position.Equals(targetPosition))
                 {
+                    RotateTowards(targetPosition);
                     character.transform.position = Vector3.MoveTowards(character.transform.position, targetPosition, step);
                     yield return null;
                 }
             }
             else
             {
-                //_walkCoroutine = null;
                 action?.Invoke();
                 yield break;
             }
         }
         action?.Invoke();
-        //_walkCoroutine = null;
+    }
+
+    private IEnumerator ChangeRotationCorutine(Vector3 targetPosition, Action action)
+    {
+        RotateTowards(targetPosition);
+        action?.Invoke();
+        yield return null;
+    }
+
+    private IEnumerator AttackCorutine(IDamagable target, Action action)
+    {
+        TryHit(target);
+        action?.Invoke();
+        yield break; ;
     }
     #endregion
 }

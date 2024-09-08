@@ -21,12 +21,12 @@ public class CharacterCombatStats
 
         Init();
 
-        _character.Stats.Melee.CurrentValChanged += SetWeaponSkill;
+        _character.Stats.LightFirearm.CurrentValChanged += SetWeaponSkill;
         // SetWeapon
     }
     ~CharacterCombatStats()
     {
-        _character.Stats.Melee.CurrentValChanged -= SetWeaponSkill;
+        _character.Stats.LightFirearm.CurrentValChanged -= SetWeaponSkill;
         // SetWeapon
     }
     #endregion

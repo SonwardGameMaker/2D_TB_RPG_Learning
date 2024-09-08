@@ -6,4 +6,5 @@ using UnityEngine;
 public class EnvironmentSO : ScriptableObject
 {
     public bool IsWalkable;
+    public bool throughtShootable;
 }

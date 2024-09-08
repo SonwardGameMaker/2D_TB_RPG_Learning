@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AStarPathfinder : PathfinderBase
@@ -17,13 +19,18 @@ public class AStarPathfinder : PathfinderBase
         _pathGrid = new PathfinderGridSystem<AStarNode>(targetGrid, (int x, int y, TileNode tn) => new AStarNode(x, y, tn));
     }
 
-    public override List<PathfinderNodeBase> FindPath(Vector2Int startNodeCoord, Vector2Int targetNodeCoord)
+    #region eternal calculations
+    public override List<PathfinderNodeBase> FindPath(Vector2Int startNodeCoord, Vector2Int targetNodeCoord, int distanceFromTarget = 0)
     {
         AStarNode startNode = _pathGrid.GetNode(startNodeCoord.x, startNodeCoord.y);
         AStarNode targetNode = _pathGrid.GetNode(targetNodeCoord.x, targetNodeCoord.y);
 
         CharacterInfo character = startNode.TargetNode.CharacterOnTile;
-        //if (!targetNode.TargetNode.IsWalkable) return null;
+
+        if (!targetNode.TargetNode.IsWalkable) return null;
+        else if (!targetNode.TargetNode.CanCharacerWalk(character))
+            if (distanceFromTarget <= 0)
+                distanceFromTarget = 1;
 
         _openList = new List<AStarNode>() { startNode };
         _closedList = new List<AStarNode>();
@@ -40,14 +47,16 @@ public class AStarPathfinder : PathfinderBase
         }
 
         startNode.gCost = 0;
-        startNode.hCost = CalculateDistance(startNode, targetNode);
+        startNode.hCost = CalculateMoveDistance(startNode, targetNode);
         startNode.CalculateFCost();
 
         while (_openList.Count > 0)
         {
             AStarNode currentNode = GetLowestFCostNode(_openList);
-            if (currentNode == targetNode)
-                return CalculatePath(targetNode);
+            if (currentNode == targetNode
+                || (CalculateDistance(currentNode, targetNode) <= distanceFromTarget)
+                && CheckIfCanShoot(currentNode, targetNode))
+                return CalculatePath(currentNode);
 
             _openList.Remove(currentNode);
             _closedList.Add(currentNode);
@@ -56,19 +65,21 @@ public class AStarPathfinder : PathfinderBase
             {
                 if (_closedList.Contains(neigbourNode)
                     || !CanDiagonalMove(currentNode, neigbourNode, character))
-                { continue; }
-                if (!neigbourNode.TargetNode.CanCharacerWalk(character))
+                        continue; 
+
+                if (!neigbourNode.TargetNode.CanCharacerWalk(character)
+                    && neigbourNode != targetNode)
                 {
                     _closedList.Add(neigbourNode);
                     continue;
                 }
 
-                int tentativeGCost = currentNode.gCost + CalculateDistance(currentNode, neigbourNode);
+                int tentativeGCost = currentNode.gCost + CalculateMoveDistance(currentNode, neigbourNode);
                 if (tentativeGCost  < neigbourNode.gCost)
                 {
                     neigbourNode.CameFromNode = currentNode;
                     neigbourNode.gCost = tentativeGCost;
-                    neigbourNode.hCost = CalculateDistance(neigbourNode, targetNode);
+                    neigbourNode.hCost = CalculateMoveDistance(neigbourNode, targetNode);
                     neigbourNode.CalculateFCost();
 
                     if (!_openList.Contains(neigbourNode))
@@ -79,6 +90,10 @@ public class AStarPathfinder : PathfinderBase
 
         return null;
     }
+
+    public override PathfinderNodeBase GetNode(int x, int y)
+        => _pathGrid.GetNode(x, y);
+    #endregion
 
     #region internal calcultions
     private List<PathfinderNodeBase> CalculatePath(AStarNode endNode)
@@ -109,7 +124,7 @@ public class AStarPathfinder : PathfinderBase
             return MOVE_STRAINGHT_COST;
     }
 
-    private int CalculateDistance(AStarNode a, AStarNode b)
+    private int CalculateMoveDistance(AStarNode a, AStarNode b)
     {
         int xDistacne = Mathf.Abs(a.X - b.X);
         int yDistance = Mathf.Abs(a.Y - b.Y);
@@ -163,5 +178,32 @@ public class AStarPathfinder : PathfinderBase
         }
         return true;
     }
+
+    private int CalculateDistance(AStarNode a, AStarNode b)
+    {
+        int xDistance = Mathf.Abs(a.X - b.X);
+        int yDistance = Mathf.Abs(a.Y - b.Y);
+
+        int result = (int)Mathf.Sqrt(xDistance * xDistance + yDistance * yDistance);
+
+        //Debug.Log($"Distance: {result}");
+
+        return result;
+    }
+
+    private bool CheckIfCanShoot(AStarNode a, AStarNode b)
+    {
+        List<AStarNode> cells = General.GetLineCells(new Vector2Int(a.X, a.Y), new Vector2Int(b.X, b.Y))
+            .Select(cr => _pathGrid.GetNode(cr.x, cr.y)).ToList();
+
+        foreach (AStarNode cell in cells)
+            if (!CheckCellShootThrought(cell))
+                return false;
+        return true;
+    }
+
+    private bool CheckCellShootThrought(AStarNode a)
+        => a.TargetNode.EnvironmentOnTile == null 
+        || a.TargetNode.EnvironmentOnTile.ThroughtShootable;
     #endregion
 }

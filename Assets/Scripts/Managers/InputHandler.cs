@@ -8,6 +8,9 @@ public class InputHandler : MonoBehaviour
     [SerializeField] private PlayerIngameController _playerController;
     [SerializeField] private IngameGrid _grid;
 
+    // Debug 
+    [SerializeField] private int _attackRadius;
+
     private CharacterInfo _characterInfo;
 
     private void Start()
@@ -23,24 +26,34 @@ public class InputHandler : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
-            Walk();
+            WalkAndShoot();
         }
     }
 
-    private void Walk()
+    private void WalkAndShoot()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-
-        //Debug.Log($"Mouse position: {mousePosition.x}, {mousePosition.y}");
 
         if (hit.collider != null)
         {
             if (hit.collider.gameObject.tag == "Grid")
             {
-                List<PathfinderNodeBase> path = _grid.FindPath(_playerController.transform.position, mousePosition);
-                //Debug.Log($"Path cost: {CalculatePathCost(path)}");
-                _playerController.Walk(path);
+                List<PathfinderNodeBase> path;
+                CharacterInfo characterOnTargetTile = _grid.Grid.GetNode(mousePosition).CharacterOnTile;
+                if (characterOnTargetTile != null && characterOnTargetTile.tag == "Characters"
+                    && characterOnTargetTile.GetComponentInChildren<IDamagable>() != null)
+                {
+                    //path = _grid.FindPath(_playerController.transform.position, mousePosition, _characterInfo.CharacterCombatStats.WeaponRange);
+                    path = _grid.FindPath(_playerController.transform.position, mousePosition, _attackRadius);
+                    _playerController.WalkAndAttack(path, characterOnTargetTile.GetComponentInChildren<IDamagable>());
+                }
+                else
+                {
+                    path = _grid.FindPath(_playerController.transform.position, mousePosition);
+                    _playerController.Walk(path);
+                }
+                
             }
         }
     }
@@ -52,8 +65,6 @@ public class InputHandler : MonoBehaviour
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
-        //Debug.Log($"Mouse position: {mousePosition.x}, {mousePosition.y}");
-
         if (hit.collider != null)
         {
             if (hit.collider.gameObject.tag == "Grid")
@@ -63,6 +74,8 @@ public class InputHandler : MonoBehaviour
                 Vector2 nodeCoordinates = nodeSelected.Coordinates;
                 Debug.Log($"Node selected: {nodeCoordinates.x}, {nodeCoordinates.y}; Is {(nodeSelected.CanCharacerWalk(_characterInfo) ? "" : "un")}walkable" +
                     $"{(nodeSelected.CharacterOnTile != null ? "\nCharacter on tile: " + nodeSelected.CharacterOnTile.name : "")}");
+                if (nodeSelected.CharacterOnTile != null)
+                    Debug.Log(nodeSelected.CharacterOnTile.GetComponent<CharacterInfo>().GetBaseInfoString());
             }
         }
     }

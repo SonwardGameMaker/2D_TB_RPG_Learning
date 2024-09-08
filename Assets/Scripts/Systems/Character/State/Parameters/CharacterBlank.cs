@@ -15,7 +15,6 @@ internal class CharacterBlank : MonoBehaviour
     //private CharacterInventory _inventory;
 
     private List<ParInteraction> _interactions;
-    private CharacterCombatStats _combatStats;
 
     public string Name { get => _name; }
     public CharacterStatsSystem Stats { get => _stats; }
@@ -31,20 +30,16 @@ internal class CharacterBlank : MonoBehaviour
         _apMpSystem = new ApMpSystem();
         _ingameParameters = new OtherParameters();
 
-        //_inventory = GetComponent<CharacterInventory>();
-
         _interactions = new List<ParInteraction>();
-        _combatStats = new CharacterCombatStats(this);
 
         _interactions.Add(_health.CreateHealthPointsEffect(_stats.LevelConstAffectHelath()));
         _interactions.Add(_apMpSystem.CreateMpEffect(_stats.AgilityAffectMovementPoints()));
         _interactions.Add(_ingameParameters.CreateMeleeDamageCoefEffect(_stats.StrengthAffectMeleeDamage()));
         _interactions.Add(_ingameParameters.CreateLightMeleeCriticalChanceCoefEffect(_stats.DexterityAffectLightMeleeCritChance()));
         _interactions.Add(_ingameParameters.CreateFirearmCriticalChanceCoefEffect(_stats.PerceptionAffectFirearmCritChance()));
-    }
-    #endregion
 
-    #region properties
-    public CharacterCombatStats CombatStats { get => _combatStats; }
+
+        GetComponent<CharacterInfo>().SetUp(this);
+    }
     #endregion
 }

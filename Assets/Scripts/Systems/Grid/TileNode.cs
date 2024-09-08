@@ -31,6 +31,7 @@ public class TileNode
     public int Y { get => _yPos; }
     public Vector2Int Coordinates { get => new Vector2Int(_xPos, _yPos); }
     public CharacterInfo CharacterOnTile { get => _characterOnTile; }
+    public Environment EnvironmentOnTile { get => _environmentOnTile; }
     public bool IsWalkable { get => _isWalkable; }
     public Vector3 WorldPosition { get => _grid.GetWorldPosition(X, Y); }
     public Vector3 WorldPositionOfCenter { get => _grid.GetWorlPositionOfTileCenter(X, Y); }
