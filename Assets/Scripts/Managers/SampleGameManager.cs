@@ -39,7 +39,7 @@ public class SampleGameManager : MonoBehaviour
         {
             if (hit.collider.gameObject.tag == "Characters")
             {
-                _player.GetComponent<CharacterIngameController>().TryHit(hit.collider.GetComponentInChildren<IDamagable>());
+                _player.GetComponent<CharacterIngameController>().Attack(hit.collider.GetComponentInChildren<IDamagable>());
             }
         }
     }

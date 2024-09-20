@@ -10,7 +10,7 @@ public class PlayerIngameController : CharacterIngameController
     public new void Start()
     {
         base.Start();
-        _stats = _character.Stats;
+        _stats = GetComponent<CharacterBlank>().Stats;
     }
 
     public void UpDownAttribute(string attributeName, bool increase)

@@ -759,10 +759,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7137971773217601936, guid: 4499e358111673e4ca9c0ef4e6f0bb94, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7156794664646433411, guid: 4499e358111673e4ca9c0ef4e6f0bb94, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.5
@@ -1297,12 +1293,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 54129299760918409, guid: b9668335e1d109e429ab47d1a6411f7a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 2557320919347588017, guid: b9668335e1d109e429ab47d1a6411f7a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8026218500287989729, guid: b9668335e1d109e429ab47d1a6411f7a, type: 3}
-      propertyPath: m_Enabled
+    - target: {fileID: 2557320919347588017, guid: b9668335e1d109e429ab47d1a6411f7a, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

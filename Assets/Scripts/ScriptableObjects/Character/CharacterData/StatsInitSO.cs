@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptables/Character/State/StatsInitSO")]
+[CreateAssetMenu(menuName = "Scriptables/Character/CharacterData/StatsInitSO")]
 public class StatsInitSO : ScriptableObject
 {
     private const float DEFAULT_MIN_VALUE_FOR_ATTRIBUTE = 3.0f;
