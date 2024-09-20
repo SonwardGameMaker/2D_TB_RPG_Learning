@@ -14,7 +14,7 @@ public class AStarPathfinder : PathfinderBase
     private List<AStarNode> _openList;
     private List<AStarNode> _closedList;
 
-    public AStarPathfinder(GridSystem targetGrid)
+    public AStarPathfinder(LogicalGrid targetGrid)
     {
         _pathGrid = new PathfinderGridSystem<AStarNode>(targetGrid, (int x, int y, TileNode tn) => new AStarNode(x, y, tn));
     }

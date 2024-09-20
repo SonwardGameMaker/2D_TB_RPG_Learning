@@ -6,7 +6,7 @@ using UnityEngine;
 public class InputHandler : MonoBehaviour
 {
     [SerializeField] private PlayerIngameController _playerController;
-    [SerializeField] private IngameGrid _grid;
+    [SerializeField] private GridManager _grid;
 
     // Debug 
     [SerializeField] private int _attackRadius;
@@ -40,7 +40,7 @@ public class InputHandler : MonoBehaviour
             if (hit.collider.gameObject.tag == "Grid")
             {
                 List<PathfinderNodeBase> path;
-                CharacterInfo characterOnTargetTile = _grid.Grid.GetNode(mousePosition).CharacterOnTile;
+                CharacterInfo characterOnTargetTile = _grid.Grid.Grid.GetNode(mousePosition).CharacterOnTile;
                 if (characterOnTargetTile != null && characterOnTargetTile.tag == "Characters"
                     && characterOnTargetTile.GetComponentInChildren<IDamagable>() != null)
                 {
@@ -69,8 +69,8 @@ public class InputHandler : MonoBehaviour
         {
             if (hit.collider.gameObject.tag == "Grid")
             {
-                IngameGrid grid = hit.collider.GetComponent<IngameGrid>();
-                TileNode nodeSelected = hit.collider.GetComponent<IngameGrid>().Grid.GetNode(mousePosition);
+                GridManager grid = hit.collider.GetComponent<GridManager>();
+                TileNode nodeSelected = hit.collider.GetComponent<LogicalGrid>().Grid.GetNode(mousePosition);
                 Vector2 nodeCoordinates = nodeSelected.Coordinates;
                 Debug.Log($"Node selected: {nodeCoordinates.x}, {nodeCoordinates.y}; Is {(nodeSelected.CanCharacerWalk(_characterInfo) ? "" : "un")}walkable" +
                     $"{(nodeSelected.CharacterOnTile != null ? "\nCharacter on tile: " + nodeSelected.CharacterOnTile.name : "")}");

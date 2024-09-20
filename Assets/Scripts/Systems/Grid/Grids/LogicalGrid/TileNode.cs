@@ -4,37 +4,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-public class TileNode
+public class TileNode : NodeBase
 {
-    protected int _xPos;
-    protected int _yPos;
     private bool _isWalkable;
     private VisionCoverStates _visionCover;
-    private GridSystem _grid;
+    private LogicalGrid _grid;
     private CharacterInfo _characterOnTile;
     private Environment _environmentOnTile;
 
-    public TileNode(int x, int y, bool isWalkable, CharacterInfo characterOnTile, GridSystem grid)
+    public TileNode(int x, int y, LogicalGrid grid, bool isWalkable, CharacterInfo characterOnTile) : base(x, y)
     {
-        _xPos = x;
-        _yPos = y;
         _isWalkable = isWalkable;
         _grid = grid;
         _characterOnTile = characterOnTile;
     }
-    public TileNode(int xPos, int yPos, CharacterInfo characterOnTile, GridSystem grid) : this(xPos, yPos, true, characterOnTile, grid) { }
-    public TileNode(int xPos, int yPos, bool isWalkable, GridSystem grid) : this(xPos, yPos, isWalkable, null, grid) { }
-    public TileNode(int xPos, int yPos, GridSystem grid) : this(xPos, yPos, true, null, grid) { }
+    public TileNode(int xPos, int yPos, LogicalGrid grid, CharacterInfo characterOnTile) : this(xPos, yPos, grid, true, characterOnTile) { }
+    public TileNode(int xPos, int yPos, LogicalGrid grid, bool isWalkable) : this(xPos, yPos, grid, isWalkable, null) { }
+    public TileNode(int xPos, int yPos, LogicalGrid grid) : this(xPos, yPos, grid, true, null) { }
 
     #region properties
-    public int X { get => _xPos; }
-    public int Y { get => _yPos; }
-    public Vector2Int Coordinates { get => new Vector2Int(_xPos, _yPos); }
     public CharacterInfo CharacterOnTile { get => _characterOnTile; }
     public Environment EnvironmentOnTile { get => _environmentOnTile; }
     public bool IsWalkable { get => _isWalkable; }
-    public Vector3 WorldPosition { get => _grid.GetWorldPosition(X, Y); }
-    public Vector3 WorldPositionOfCenter { get => _grid.GetWorlPositionOfTileCenter(X, Y); }
+    public Vector3 WorldPosition { get => _grid.Grid.GetWorldPosition(X, Y); }
+    public Vector3 WorldPositionOfCenter { get => _grid.Grid.GetWorlPositionOfTileCenter(X, Y); }
     #endregion
 
     #region exteranal interactions

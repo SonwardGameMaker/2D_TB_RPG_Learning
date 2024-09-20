@@ -28,8 +28,8 @@ public class SampleGameManagerForGrid : MonoBehaviour
         {
             if (hit.collider.gameObject.tag == "Grid")
             {
-                IngameGrid grid = hit.collider.GetComponent<IngameGrid>();
-                TileNode nodeSelected = hit.collider.GetComponent<IngameGrid>().Grid.GetNode(mousePosition);
+                GridManager grid = hit.collider.GetComponent<GridManager>();
+                TileNode nodeSelected = hit.collider.GetComponent<LogicalGrid>().Grid.GetNode(mousePosition);
                 Vector2 nodeCoordinates = nodeSelected.Coordinates;
                 Debug.Log($"Node selected: {nodeCoordinates.x}, {nodeCoordinates.y}; Is {(nodeSelected.IsWalkable? "":"un" )}walkable" +
                     $"{(nodeSelected.CharacterOnTile != null? "\nCharacter on tile: " + nodeSelected.CharacterOnTile.name: "")}");
@@ -54,8 +54,8 @@ public class SampleGameManagerForGrid : MonoBehaviour
         {
             if (hit.collider.gameObject.tag == "Grid")
             {
-                IngameGrid grid = hit.collider.GetComponent<IngameGrid>();
-                Vector2 nodeCoordinates = hit.collider.GetComponent<IngameGrid>().Grid.GetNode(mousePosition).Coordinates;
+                GridManager grid = hit.collider.GetComponent<GridManager>();
+                Vector2 nodeCoordinates = hit.collider.GetComponent<LogicalGrid>().Grid.GetNode(mousePosition).Coordinates;
                 Vector2 startCoordinates = new Vector2(0, 0);
                 grid.FindPath(startCoordinates, nodeCoordinates);
             }

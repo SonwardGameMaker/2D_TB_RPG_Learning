@@ -9,15 +9,15 @@ public class PathfinderGridSystem<TGridObjet> where TGridObjet : PathfinderNodeB
     private int _width;
     private int _height;
     private TGridObjet[,] _grid;
-    private GridSystem _targetGrid;
+    private LogicalGrid _targetGrid;
     #endregion
 
     #region init
-    public PathfinderGridSystem(GridSystem targetGrid, Func<int, int, TileNode, TGridObjet> CreateGridNode)
+    public PathfinderGridSystem(LogicalGrid targetGrid, Func<int, int, TileNode, TGridObjet> CreateGridNode)
     {
         _targetGrid = targetGrid;
-        _width = targetGrid.Width;
-        _height = targetGrid.Height;
+        _width = targetGrid.Grid.Width;
+        _height = targetGrid.Grid.Height;
         _grid = CreateGrid(_width, _height, CreateGridNode);
 
         TGridObjet[,] CreateGrid(int width, int height, Func<int, int, TileNode, TGridObjet> CreateGridNode)
@@ -28,7 +28,7 @@ public class PathfinderGridSystem<TGridObjet> where TGridObjet : PathfinderNodeB
             {
                 for (int y = 0; y < height; y++)
                 {
-                    result[x, y] = CreateGridNode(x, y, _targetGrid.GetNode(x, y));
+                    result[x, y] = CreateGridNode(x, y, _targetGrid.Grid.GetNode(x, y));
                 }
             }
 
