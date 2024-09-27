@@ -84,7 +84,7 @@ public class CharacterIngameController : MonoBehaviour
         _attackable.Attack(target, SetIdleState);
     }
 
-    public void WalkAndAttack(List<PathfinderNodeBase> path, IDamagable target)
+    public void WalkAndAttack(List<PathfinderNodeBase> path, IDamagable target, Vector3 targetPosition)
     {
         if (path == null) throw new Exception("Path is null");
         if (_controllerState == ControllerStates.Busy)
@@ -97,7 +97,9 @@ public class CharacterIngameController : MonoBehaviour
         List<TileNode> nodePath = path.Select(pnb => pnb.TargetNode).ToList();
         if (nodePath == null) throw new Exception("NodePath is null");
         _movable.Move(nodePath, 
-            () => _attackable.Attack(target, SetIdleState));
+            () => _movable.Rotate(targetPosition,
+            () => _attackable.Attack(target, SetIdleState))
+            );
     }
 
     private void SetIdleState()

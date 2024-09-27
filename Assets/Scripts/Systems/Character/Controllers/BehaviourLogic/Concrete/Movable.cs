@@ -55,9 +55,9 @@ public class Movable : BaseControllerLogic, IMovable
                 //float distance = (path[i].X != path[i - 1].X && path[i].Y != path[i - 1].Y) ? 1.4f : 1.0f;
 
                 Vector3 targetPosition = path[i].WorldPositionOfCenter;
+                RotateTowards(targetPosition);
                 while (!character.transform.position.Equals(targetPosition))
                 {
-                    RotateTowards(targetPosition);
                     character.transform.position = Vector3.MoveTowards(character.transform.position, targetPosition, step);
                     yield return null;
                 }

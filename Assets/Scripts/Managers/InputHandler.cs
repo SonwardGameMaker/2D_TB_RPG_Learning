@@ -46,7 +46,9 @@ public class InputHandler : MonoBehaviour
                 {
                     //path = _grid.FindPath(_playerController.transform.position, mousePosition, _characterInfo.CharacterCombatStats.WeaponRange);
                     path = _grid.FindPath(_playerController.transform.position, mousePosition, _attackRadius);
-                    _playerController.WalkAndAttack(path, characterOnTargetTile.GetComponentInChildren<IDamagable>());
+                    _playerController.WalkAndAttack(path,
+                        characterOnTargetTile.GetComponentInChildren<IDamagable>(),
+                        _grid.Grid.Grid.GetNode(mousePosition).WorldPositionOfCenter);
                 }
                 else
                 {
