@@ -6,15 +6,17 @@ using UnityEngine;
 public class Attackable : BaseControllerLogic, IAttackable
 {
     private CharacterInfo _characterInfo;
+    private Animator _animator;
 
-    public void Setup(CharacterInfo characterInfo)
+    public void Setup(CharacterInfo characterInfo, Animator animator)
     {
         _characterInfo = characterInfo; 
+        _animator = animator;
     }
 
     public void Attack(IDamagable target, Action onEndCorutineAction)
     {
-        _coroutine = StartCoroutine(AttackCoroutine(target, onEndCorutineAction));
+        _coroutine = StartCoroutine(AttackCoroutine(target, _animator, onEndCorutineAction));
     }
 
     #region internal operations
@@ -24,14 +26,31 @@ public class Attackable : BaseControllerLogic, IAttackable
 
         target.TakeHit(hitData);
     }
+
+    private bool IsAnimationFinished(Animator animator, string animationName)
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        return stateInfo.IsName(animationName) && stateInfo.normalizedTime >= 1f;
+    }
     #endregion
 
     #region coroutines
-    private IEnumerator AttackCoroutine(IDamagable target, Action action)
+    private IEnumerator AttackCoroutine(IDamagable target, Animator animator, Action action)
     {
+        animator.Play(AnimationConstants.PreparingToShootPistol);
+        yield return new WaitUntil(() => IsAnimationFinished(animator, AnimationConstants.PreparingToShootPistol));
+
+        animator.SetBool(AnimationConstants.ShootingBool, true);
+        yield return null;
         TryHit(target);
+        yield return null;
+        animator.SetBool(AnimationConstants.ShootingBool, false);
+
+        animator.Play(AnimationConstants.HidingPistol);
+        yield return new WaitUntil(() => IsAnimationFinished(animator, AnimationConstants.HidingPistol));
+
         action?.Invoke();
-        yield break; ;
+        yield break;
     }
     #endregion
 }

@@ -5,6 +5,6 @@ using UnityEngine;
 
 public interface IAttackable 
 {
-    public void Setup(CharacterInfo characterInfo);
+    public void Setup(CharacterInfo characterInfo, Animator animator);
     public void Attack(IDamagable target, Action onEndCorutineAction);
 }

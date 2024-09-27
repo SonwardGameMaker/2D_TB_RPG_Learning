@@ -40,7 +40,7 @@ public class Movable : BaseControllerLogic, IMovable
     #region coroutines
     private IEnumerator MovePathCoroutine(List<TileNode> path, Animator animator, Action action)
     {
-        float step = Speed * Time.deltaTime;
+        float step = Speed * Time.fixedDeltaTime;
         CharacterInfo character = _characterInfo;
         if (character == null) throw new ArgumentNullException("Character");
 
@@ -52,7 +52,7 @@ public class Movable : BaseControllerLogic, IMovable
             {
                 path[i - 1].TryRemoveCharacter();
 
-                float distance = (path[i].X != path[i - 1].X && path[i].Y != path[i - 1].Y) ? 1.4f : 1.0f;
+                //float distance = (path[i].X != path[i - 1].X && path[i].Y != path[i - 1].Y) ? 1.4f : 1.0f;
 
                 Vector3 targetPosition = path[i].WorldPositionOfCenter;
                 while (!character.transform.position.Equals(targetPosition))
@@ -64,12 +64,12 @@ public class Movable : BaseControllerLogic, IMovable
             }
             else
             {
-                animator.SetBool("Walking", false);
+                animator.SetBool(AnimationConstants.WalkingBool, false);
                 action?.Invoke();
                 yield break;
             }
         }
-        animator.SetBool("Walking", false);
+        animator.SetBool(AnimationConstants.WalkingBool, false);
         action?.Invoke();
     }
 

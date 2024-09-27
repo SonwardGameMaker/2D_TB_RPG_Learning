@@ -43,7 +43,7 @@ public class CharacterIngameController : MonoBehaviour
         _attackable = GetComponentInChildren<IAttackable>();
 
         _movable.Setup(_characterInfo, _animator);
-        _attackable.Setup(_characterInfo);
+        _attackable.Setup(_characterInfo, _animator);
     }
 
     #region properties
