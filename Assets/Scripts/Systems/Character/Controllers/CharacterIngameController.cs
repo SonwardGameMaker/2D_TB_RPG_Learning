@@ -8,24 +8,47 @@ public class CharacterIngameController : MonoBehaviour
 {
     protected CharacterInfo _characterInfo;
     protected Coroutine _coroutine;
+    protected Animator _animator;
 
     private ControllerStates _controllerState;
 
     private IMovable _movable;
     private IAttackable _attackable;
 
+    // State machine -------------------------------------------------------------------------------------------
+    //private CharacterStateMachine _stateMachine;
+
+    //private CharacterIdleState _idleState;
+
+    //private void Awake()
+    //{
+
+
+    //    _stateMachine = new CharacterStateMachine();
+
+    //    _idleState = new CharacterIdleState(GetComponent<CharacterBlank>(), this, _stateMachine);
+    //}
+    // ---------------------------------------------------------------------------------------------------------
+
     public void Start()
     {
+        _characterInfo = GetComponent<CharacterInfo>();
+        _animator = GetComponentInChildren<Animator>();
+
         _controllerState = ControllerStates.Idle;
 
-        _characterInfo = GetComponent<CharacterInfo>();
+        //_stateMachine.Setup(_idleState);
 
         _movable = GetComponentInChildren<IMovable>();
-        _attackable = GetComponent<IAttackable>();
+        _attackable = GetComponentInChildren<IAttackable>();
 
-        _movable.Setup(_characterInfo);
+        _movable.Setup(_characterInfo, _animator);
         _attackable.Setup(_characterInfo);
     }
+
+    #region properties
+    //internal CharacterStateMachine CharacterStateMachine { get => _stateMachine; }
+    #endregion
 
     public void Rotate(Vector3 targetPosition)
     {

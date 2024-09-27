@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attackable : MonoBehaviour, IAttackable
+public class Attackable : BaseControllerLogic, IAttackable
 {
     private CharacterInfo _characterInfo;
-
-    private Coroutine _coroutine;
 
     public void Setup(CharacterInfo characterInfo)
     {

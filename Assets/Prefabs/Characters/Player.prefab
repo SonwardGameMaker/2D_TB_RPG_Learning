@@ -89,6 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37463e05732911a4d8ab518d493cae83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 3
 --- !u!114 &6042011264021227986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,15 +132,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2599852580004614311, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2599852580004614311, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2599852580004614311, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2599852580004614311, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -210,6 +211,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2439107568581601456, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7215304541712984246}
+    - targetCorrespondingSourceObject: {fileID: 2439107568581601456, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 393816038012917050}
   m_SourcePrefab: {fileID: 100100000, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
 --- !u!1 &7137971773217601936 stripped
 GameObject:
@@ -228,7 +232,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c10e2e43f60153748bc7ecef1478f3f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
 --- !u!4 &7156794664646433411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2599852580004614311, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
@@ -291,3 +294,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &393816038012917050
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7394894752554050196}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 14af84e653347dc4b96f8b6de2a80c3a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IMovable
 {
-    public void Setup(CharacterInfo characterInfo);
+    public void Setup(CharacterInfo characterInfo, Animator animator);
     public void Rotate(Vector3 targetPosition, Action onEndCoroutineAction);
     public void Move(List<TileNode> path, Action onEndCoroutineAction);
 }
