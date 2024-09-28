@@ -30,6 +30,10 @@ public class TileNode : NodeBase
     public Vector3 WorldPositionOfCenter { get => _grid.Grid.GetWorlPositionOfTileCenter(X, Y); }
     #endregion
 
+    #region events
+    public event Action OnDataChanged;
+    #endregion
+
     #region exteranal interactions
     public bool TrySetCharacter(CharacterInfo character)
     {
@@ -40,6 +44,7 @@ public class TileNode : NodeBase
         if (_characterOnTile == null)
         {
             _characterOnTile = character;
+            OnDataChanged?.Invoke();
             return true;
         }
         return false;
@@ -50,6 +55,7 @@ public class TileNode : NodeBase
         if (_characterOnTile != null)
         {
             _characterOnTile = null;
+            OnDataChanged?.Invoke();
             return true;
         } 
         return false;
@@ -63,6 +69,7 @@ public class TileNode : NodeBase
         {
             _environmentOnTile = environment;
             _isWalkable = environment.IsWalkable;
+            OnDataChanged?.Invoke();
             return true;
         }
         return false;
@@ -74,6 +81,7 @@ public class TileNode : NodeBase
         {
             _environmentOnTile = null;
             _isWalkable = true;
+            OnDataChanged?.Invoke();
             return true;
         }
         return false;

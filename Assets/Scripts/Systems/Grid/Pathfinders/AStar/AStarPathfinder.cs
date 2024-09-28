@@ -20,10 +20,17 @@ public class AStarPathfinder : PathfinderBase
     }
 
     #region eternal calculations
-    public override List<PathfinderNodeBase> FindPath(Vector2Int startNodeCoord, Vector2Int targetNodeCoord, int distanceFromTarget = 0)
+    public override List<PathfinderNodeBase> FindPath(
+        Vector2Int startNodeCoord,
+        Vector2Int targetNodeCoord,
+        List<Vector2> ignoringNodes = null,
+        int distanceFromTarget = 0)
     {
         AStarNode startNode = _pathGrid.GetNode(startNodeCoord.x, startNodeCoord.y);
         AStarNode targetNode = _pathGrid.GetNode(targetNodeCoord.x, targetNodeCoord.y);
+
+        if (ignoringNodes == null)
+            ignoringNodes = new List<Vector2>();
 
         CharacterInfo character = startNode.TargetNode.CharacterOnTile;
 
