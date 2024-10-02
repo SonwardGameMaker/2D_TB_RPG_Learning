@@ -41,9 +41,10 @@ public class GridManager : MonoBehaviour
     #endregion
 
     #region external interactions
-    public List<PathfinderNodeBase> FindPath(Vector2Int start, Vector2Int target, int distanceFromTarget = 0)
+    public List<PathfinderNodeBase> FindPath(Vector2Int start, Vector2Int target, List<Vector2> ignoringNodes, int distanceFromTarget = 0)
     {
-        List<PathfinderNodeBase> result = _pathfinder.FindPath(start, target, distanceFromTarget);
+
+        List<PathfinderNodeBase> result = _pathfinder.FindPath(start, target, ignoringNodes, distanceFromTarget);
 
         //Debug.Log($"Path nodes count: {result.Count}");
 
@@ -54,8 +55,8 @@ public class GridManager : MonoBehaviour
 
         return result;
     }
-    public List<PathfinderNodeBase> FindPath(Vector3 start, Vector3 target, int distanceFromTarget = 0)
-        => FindPath(_logicalGrid.Grid.GetNode(start).Coordinates, _logicalGrid.Grid.GetNode(target).Coordinates, distanceFromTarget);
+    public List<PathfinderNodeBase> FindPath(Vector3 start, Vector3 target, List<Vector2> ignoringNodes, int distanceFromTarget = 0)
+        => FindPath(_logicalGrid.Grid.GetNode(start).Coordinates, _logicalGrid.Grid.GetNode(target).Coordinates, ignoringNodes, distanceFromTarget);
     #endregion
 
     #region debug

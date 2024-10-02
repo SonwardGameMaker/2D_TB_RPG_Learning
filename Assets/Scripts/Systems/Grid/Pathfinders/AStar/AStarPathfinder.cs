@@ -34,8 +34,8 @@ public class AStarPathfinder : PathfinderBase
 
         CharacterInfo character = startNode.TargetNode.CharacterOnTile;
 
-        if (!targetNode.TargetNode.IsWalkable) return null;
-        else if (!targetNode.TargetNode.CanCharacerWalk(character))
+        // TODO maybe change it
+        if (!targetNode.IsWalkable && !ignoringNodes.Contains(targetNodeCoord))
             if (distanceFromTarget <= 0)
                 distanceFromTarget = 1;
 
@@ -62,7 +62,7 @@ public class AStarPathfinder : PathfinderBase
             AStarNode currentNode = GetLowestFCostNode(_openList);
             if (currentNode == targetNode
                 || (CalculateDistance(currentNode, targetNode) <= distanceFromTarget)
-                && CheckIfCanShoot(currentNode, targetNode))
+                && CheckLineOfSight(currentNode, targetNode))
                 return CalculatePath(currentNode);
 
             _openList.Remove(currentNode);
@@ -71,10 +71,11 @@ public class AStarPathfinder : PathfinderBase
             foreach (AStarNode neigbourNode in GetNeighbourList(currentNode))
             {
                 if (_closedList.Contains(neigbourNode)
-                    || !CanDiagonalMove(currentNode, neigbourNode, character))
+                    || !CanDiagonalMove(currentNode, neigbourNode, ignoringNodes))
                         continue; 
 
-                if (!neigbourNode.TargetNode.CanCharacerWalk(character)
+                if (!neigbourNode.IsWalkable
+                    && !ignoringNodes.Contains(neigbourNode.Coordinates)
                     && neigbourNode != targetNode)
                 {
                     _closedList.Add(neigbourNode);
@@ -165,22 +166,19 @@ public class AStarPathfinder : PathfinderBase
         return result;
     }
 
-    private bool CanDiagonalMove(AStarNode tile, AStarNode neigbour, CharacterInfo character)
+    private bool CanDiagonalMove(AStarNode tile, AStarNode neigbour, List<Vector2> ignoringNodes)
     {
         int xDiff = neigbour.X - tile.X;
         int yDiff = neigbour.Y - tile.Y;
 
         if (xDiff != 0 && yDiff != 0)
         {
-            bool xWalkable = _pathGrid.GetNode(tile.X + xDiff, tile.Y).TargetNode.CanCharacerWalk(character);
-            bool yWalkable = _pathGrid.GetNode(tile.X, tile.Y + yDiff).TargetNode.CanCharacerWalk(character);
-            //Debug.Log($"Diagonal move: {neigbour.X}, {neigbour.Y}. \nxDiff: {tile.X + xDiff}, {tile.Y}\nyDiff: {tile.X}, {tile.Y + yDiff}");
-
-            if (!xWalkable || !yWalkable)
-            {
-                //Debug.Log("Cannot move diagonal");
-                return false;
-            }
+            bool xWalkable = _pathGrid.GetNode(tile.X + xDiff, tile.Y).IsWalkable 
+                || ignoringNodes.Contains(new Vector2(tile.X + xDiff, tile.Y));
+            bool yWalkable = _pathGrid.GetNode(tile.X, tile.Y + yDiff).IsWalkable 
+                || ignoringNodes.Contains(new Vector2(tile.X, tile.Y + yDiff));
+            
+            if (!xWalkable || !yWalkable) return false;
             else return true;
         }
         return true;
@@ -198,18 +196,18 @@ public class AStarPathfinder : PathfinderBase
         return result;
     }
 
-    private bool CheckIfCanShoot(AStarNode a, AStarNode b)
+    private bool CheckLineOfSight(AStarNode a, AStarNode b)
     {
         List<AStarNode> cells = General.GetLineCells(new Vector2Int(a.X, a.Y), new Vector2Int(b.X, b.Y))
             .Select(cr => _pathGrid.GetNode(cr.x, cr.y)).ToList();
 
         foreach (AStarNode cell in cells)
-            if (!CheckCellShootThrought(cell))
+            if (!CheckCellOnLineOfSight(cell))
                 return false;
         return true;
     }
 
-    private bool CheckCellShootThrought(AStarNode a)
+    private bool CheckCellOnLineOfSight(AStarNode a)
         => a.TargetNode.EnvironmentOnTile == null 
         || a.TargetNode.EnvironmentOnTile.ThroughtShootable;
     #endregion

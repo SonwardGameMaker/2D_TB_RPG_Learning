@@ -37,26 +37,40 @@ public class InputHandler : MonoBehaviour
 
         if (hit.collider != null)
         {
-            if (hit.collider.gameObject.tag == "Grid")
+            if (_playerController.ControllerState == ControllerStates.Idle)
             {
-                List<PathfinderNodeBase> path;
-                CharacterInfo characterOnTargetTile = _grid.Grid.Grid.GetNode(mousePosition).CharacterOnTile;
-                if (characterOnTargetTile != null && characterOnTargetTile.tag == "Characters"
-                    && characterOnTargetTile.GetComponentInChildren<IDamagable>() != null)
+                if (hit.collider.gameObject.tag == "Grid")
                 {
-                    //path = _grid.FindPath(_playerController.transform.position, mousePosition, _characterInfo.CharacterCombatStats.WeaponRange);
-                    path = _grid.FindPath(_playerController.transform.position, mousePosition, _attackRadius);
-                    _playerController.WalkAndAttack(path,
-                        characterOnTargetTile.GetComponentInChildren<IDamagable>(),
-                        _grid.Grid.Grid.GetNode(mousePosition).WorldPositionOfCenter);
+                    List<PathfinderNodeBase> path;
+                    TileNode targetNode = _grid.Grid.Grid.GetNode(mousePosition);
+                    if (!targetNode.IsWalkable) return;
+                    CharacterInfo characterOnTargetTile = targetNode.CharacterOnTile;
+                    Vector3 playerPosition = _playerController.transform.position;
+                    List<Vector2> ignoringNodes = new List<Vector2>();
+                    ignoringNodes.Add(_grid.Grid.Grid.GetPositionOnGrid(playerPosition));
+
+                    if (characterOnTargetTile != null && characterOnTargetTile.tag == "Characters"
+                        && characterOnTargetTile.GetComponentInChildren<IDamagable>() != null)
+                    {
+                        ignoringNodes.Add(_grid.Grid.Grid.GetPositionOnGrid(mousePosition));
+                        path = _grid.FindPath(playerPosition, mousePosition, ignoringNodes, _attackRadius);
+                        _playerController.WalkAndAttack(path,
+                            characterOnTargetTile.GetComponentInChildren<IDamagable>(),
+                            _grid.Grid.Grid.GetNode(mousePosition).WorldPositionOfCenter);
+                    }
+                    else
+                    {
+                        path = _grid.FindPath(playerPosition, mousePosition, ignoringNodes);
+                        _playerController.Walk(path);
+                    }
+
                 }
-                else
-                {
-                    path = _grid.FindPath(_playerController.transform.position, mousePosition);
-                    _playerController.Walk(path);
-                }
-                
             }
+            else
+            {
+                Debug.Log("Character still busy");
+            }
+            
         }
     }
     private int CalculatePathCost(List<PathfinderNodeBase> path)

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class CharacterIngameController : MonoBehaviour
 {
+    private CharacterBlank _character;
     protected CharacterInfo _characterInfo;
     protected Coroutine _coroutine;
     protected Animator _animator;
@@ -14,6 +15,8 @@ public class CharacterIngameController : MonoBehaviour
 
     private IMovable _movable;
     private IAttackable _attackable;
+
+    private ActionCommandList _commandList;
 
     // State machine -------------------------------------------------------------------------------------------
     //private CharacterStateMachine _stateMachine;
@@ -44,12 +47,16 @@ public class CharacterIngameController : MonoBehaviour
 
         _movable.Setup(_characterInfo, _animator);
         _attackable.Setup(_characterInfo, _animator);
+
+        _commandList = new ActionCommandList();
     }
 
     #region properties
     //internal CharacterStateMachine CharacterStateMachine { get => _stateMachine; }
+    public ControllerStates ControllerState { get => _controllerState; }
     #endregion
 
+    #region external interactions
     public void Rotate(Vector3 targetPosition)
     {
         if (_controllerState == ControllerStates.Busy) return;
@@ -63,13 +70,17 @@ public class CharacterIngameController : MonoBehaviour
         if (path == null) throw new Exception("Path is null");
         if (_controllerState == ControllerStates.Busy)
         {
-            Debug.Log("Corutine still runnig");
-            return;
+            throw new Exception("Character still busy");
         }
 
         SetBusyState();
-        List<TileNode> nodePath = path.Select(pnb => pnb.TargetNode).ToList();
-        _movable.Move(nodePath, SetIdleState);
+        (bool, string) result = _movable.Move(path, SetIdleState);
+
+        if (result.Item1 == false)
+        {
+            //TODO maybe it's need to be an error throw
+            Debug.Log(result.Item2);
+        }
     }
 
     public void Attack(IDamagable target)
@@ -94,14 +105,34 @@ public class CharacterIngameController : MonoBehaviour
         }
 
         SetBusyState();
-        List<TileNode> nodePath = path.Select(pnb => pnb.TargetNode).ToList();
-        if (nodePath == null) throw new Exception("NodePath is null");
-        _movable.Move(nodePath, 
-            () => _movable.Rotate(targetPosition,
-            () => _attackable.Attack(target, SetIdleState))
-            );
+        (bool, string) result = _movable.Move(path, () => { });
+        if (result.Item1 == false)
+        {
+            //TODO maybe it's need to be an error throw
+            Debug.Log(result.Item2);
+            SetIdleState();
+            return;
+        }
+        result = _movable.Rotate(targetPosition, () => { });
+        if (result.Item1 == false)
+        {
+            //TODO maybe it's need to be an error throw
+            Debug.Log(result.Item2);
+            SetIdleState();
+            return;
+        }
+        result = _attackable.Attack(target, SetIdleState);
+        if (result.Item1 == false)
+        {
+            //TODO maybe it's need to be an error throw
+            Debug.Log(result.Item2);
+            SetIdleState();
+            return;
+        }
     }
+    #endregion
 
+    #region internal oprations
     private void SetIdleState()
     {
         _controllerState = ControllerStates.Idle;
@@ -110,4 +141,5 @@ public class CharacterIngameController : MonoBehaviour
     {
         _controllerState = ControllerStates.Busy;
     }
+    #endregion
 }

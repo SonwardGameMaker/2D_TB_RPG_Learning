@@ -57,7 +57,7 @@ public class SampleGameManagerForGrid : MonoBehaviour
                 GridManager grid = hit.collider.GetComponent<GridManager>();
                 Vector2 nodeCoordinates = hit.collider.GetComponent<LogicalGrid>().Grid.GetNode(mousePosition).Coordinates;
                 Vector2 startCoordinates = new Vector2(0, 0);
-                grid.FindPath(startCoordinates, nodeCoordinates);
+                grid.FindPath(startCoordinates, nodeCoordinates, new List<Vector2> { startCoordinates, nodeCoordinates});
             }
         }
     }

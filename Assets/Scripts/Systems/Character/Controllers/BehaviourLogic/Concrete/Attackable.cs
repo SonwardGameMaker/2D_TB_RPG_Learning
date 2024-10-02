@@ -14,9 +14,11 @@ public class Attackable : BaseControllerLogic, IAttackable
         _animator = animator;
     }
 
-    public void Attack(IDamagable target, Action onEndCorutineAction)
+    public (bool, string) Attack(IDamagable target, Action onEndCorutineAction)
     {
         _coroutine = StartCoroutine(AttackCoroutine(target, _animator, onEndCorutineAction));
+        // TODO make rotation to consume movement points
+        return (true, "Attack was successful");
     }
 
     #region internal operations

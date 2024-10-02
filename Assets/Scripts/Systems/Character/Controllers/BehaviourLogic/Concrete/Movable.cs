@@ -1,30 +1,51 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class Movable : BaseControllerLogic, IMovable
 {
     public float Speed;
 
     private CharacterInfo _characterInfo;
+    private ApMpSystem _apMpSystem;
     private Animator _animator;
 
     public void Setup(CharacterInfo characterInfo, Animator animator)
     {
         _characterInfo = characterInfo; 
+        _apMpSystem = characterInfo.GetComponent<CharacterBlank>().ApMpSystem;
         _animator = animator;
     }
 
-    public void Move(List<TileNode> path, Action onEndCoroutineAction)
+    #region external interactions
+    public (bool, string) Move(List<PathfinderNodeBase> path, Action onEndCoroutineAction)
     {
-        _coroutine = StartCoroutine(MovePathCoroutine(path, _animator, onEndCoroutineAction));
+        //if (EnoughtMoveResources(PathCost(path)))
+        //{
+        //    _coroutine = StartCoroutine(MovePathCoroutine(path.Select(pn => pn.TargetNode).ToList(),
+        //        _animator, onEndCoroutineAction));
+        //    return new(true, "The path was completed successfully");
+        //}
+        //else
+        //{
+        //    onEndCoroutineAction?.Invoke();
+        //    return new(false, "Not enought movement points");
+        //}
+        _coroutine = StartCoroutine(MovePathCoroutine(path.Select(pn => pn.TargetNode).ToList(),
+                _animator, onEndCoroutineAction));
+        return new(true, "The path was completed successfully");
     }
 
-    public void Rotate(Vector3 targetPosition, Action onEndCoroutineAction)
+    public (bool, string) Rotate(Vector3 targetPosition, Action onEndCoroutineAction)
     {
         _coroutine = StartCoroutine(ChangeRotationCorutine(targetPosition, onEndCoroutineAction));
+        // TODO make rotation to consume movement points
+        return (true, "Rotation was successful");
     }
+    #endregion
 
     #region internal operations
     private void RotateTowards(Vector3 targetPosition)
@@ -35,6 +56,11 @@ public class Movable : BaseControllerLogic, IMovable
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.parent.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
     }
+    private int PathCost(List<PathfinderNodeBase> path)
+        => path.Sum(pn => pn.CameFromCost);
+    private bool EnoughtMoveResources(int comparable)
+        => _apMpSystem.MovementPoints.CurrentValue
+            + _apMpSystem.ActionPoints.CurrentValue >= comparable;
     #endregion
 
     #region coroutines
@@ -44,7 +70,7 @@ public class Movable : BaseControllerLogic, IMovable
         CharacterInfo character = _characterInfo;
         if (character == null) throw new ArgumentNullException("Character");
 
-        animator.SetBool("Walking", true);
+        animator.SetBool(AnimationConstants.WalkingBool, true);
 
         for (int i = 1; i < path.Count; i++)
         {
