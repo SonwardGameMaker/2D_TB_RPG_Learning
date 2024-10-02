@@ -62,7 +62,9 @@ public class CharacterIngameController : MonoBehaviour
         if (_controllerState == ControllerStates.Busy) return;
 
         SetBusyState();
-        _movable.Rotate(targetPosition, SetIdleState);
+        //_movable.Rotate(targetPosition, SetIdleState);
+
+        _commandList.ExecuteCommands(new RotateCommand(_movable, targetPosition), SetIdleState);
     }
 
     public void Walk(List<PathfinderNodeBase> path)
@@ -74,13 +76,15 @@ public class CharacterIngameController : MonoBehaviour
         }
 
         SetBusyState();
-        (bool, string) result = _movable.Move(path, SetIdleState);
+        //(bool, string) result = _movable.Move(path, SetIdleState);
 
-        if (result.Item1 == false)
-        {
-            //TODO maybe it's need to be an error throw
-            Debug.Log(result.Item2);
-        }
+        //if (result.Item1 == false)
+        //{
+        //    //TODO maybe it's need to be an error throw
+        //    Debug.Log(result.Item2);
+        //}
+        List<ActionCommandBase> commands = new List<ActionCommandBase>();
+        _commandList.ExecuteCommands(new MoveCommand(_movable, path), SetIdleState);
     }
 
     public void Attack(IDamagable target)
@@ -105,30 +109,11 @@ public class CharacterIngameController : MonoBehaviour
         }
 
         SetBusyState();
-        (bool, string) result = _movable.Move(path, () => { });
-        if (result.Item1 == false)
-        {
-            //TODO maybe it's need to be an error throw
-            Debug.Log(result.Item2);
-            SetIdleState();
-            return;
-        }
-        result = _movable.Rotate(targetPosition, () => { });
-        if (result.Item1 == false)
-        {
-            //TODO maybe it's need to be an error throw
-            Debug.Log(result.Item2);
-            SetIdleState();
-            return;
-        }
-        result = _attackable.Attack(target, SetIdleState);
-        if (result.Item1 == false)
-        {
-            //TODO maybe it's need to be an error throw
-            Debug.Log(result.Item2);
-            SetIdleState();
-            return;
-        }
+        List<ActionCommandBase > commands = new List<ActionCommandBase>();
+        commands.Add(new MoveCommand(_movable, path));
+        commands.Add(new RotateCommand(_movable, targetPosition));
+        commands.Add(new AttackCommand(_attackable, target));
+        _commandList.ExecuteCommands(commands, SetIdleState);
     }
     #endregion
 
