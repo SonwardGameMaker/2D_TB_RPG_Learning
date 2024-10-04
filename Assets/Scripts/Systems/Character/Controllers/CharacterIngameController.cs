@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class CharacterIngameController : MonoBehaviour
@@ -49,10 +50,11 @@ public class CharacterIngameController : MonoBehaviour
         _attackable.Setup(_characterInfo, _animator);
 
         _commandList = new ActionCommandList();
+
     }
 
     #region properties
-    //internal CharacterStateMachine CharacterStateMachine { get => _stateMachine; }
+    public GridManager GridManager { get; set; }
     public ControllerStates ControllerState { get => _controllerState; }
     #endregion
 
@@ -67,24 +69,16 @@ public class CharacterIngameController : MonoBehaviour
         _commandList.ExecuteCommands(new RotateCommand(_movable, targetPosition), SetIdleState);
     }
 
-    public void Walk(List<PathfinderNodeBase> path)
+    public void Walk(Vector3 targetPosition)
     {
-        if (path == null) throw new Exception("Path is null");
         if (_controllerState == ControllerStates.Busy)
         {
             throw new Exception("Character still busy");
         }
 
         SetBusyState();
-        //(bool, string) result = _movable.Move(path, SetIdleState);
-
-        //if (result.Item1 == false)
-        //{
-        //    //TODO maybe it's need to be an error throw
-        //    Debug.Log(result.Item2);
-        //}
         List<ActionCommandBase> commands = new List<ActionCommandBase>();
-        _commandList.ExecuteCommands(new MoveCommand(_movable, path), SetIdleState);
+        _commandList.ExecuteCommands(new MoveCommand(_movable, CalculatePath(targetPosition)), SetIdleState);
     }
 
     public void Attack(IDamagable target)
@@ -96,12 +90,11 @@ public class CharacterIngameController : MonoBehaviour
         }
 
         SetBusyState();
-        _attackable.Attack(target, SetIdleState);
+        _commandList.ExecuteCommands(new AttackCommand(_attackable, target), SetIdleState);
     }
 
-    public void WalkAndAttack(List<PathfinderNodeBase> path, IDamagable target, Vector3 targetPosition)
+    public void WalkAndAttack(IDamagable target, Vector3 targetPosition, int interactDistance)
     {
-        if (path == null) throw new Exception("Path is null");
         if (_controllerState == ControllerStates.Busy)
         {
             Debug.Log("Corutine still runnig");
@@ -110,7 +103,7 @@ public class CharacterIngameController : MonoBehaviour
 
         SetBusyState();
         List<ActionCommandBase > commands = new List<ActionCommandBase>();
-        commands.Add(new MoveCommand(_movable, path));
+        commands.Add(new MoveCommand(_movable, CalculatePath(targetPosition, interactDistance)));
         commands.Add(new RotateCommand(_movable, targetPosition));
         commands.Add(new AttackCommand(_attackable, target));
         _commandList.ExecuteCommands(commands, SetIdleState);
@@ -125,6 +118,20 @@ public class CharacterIngameController : MonoBehaviour
     private void SetBusyState()
     {
         _controllerState = ControllerStates.Busy;
+    }
+    private List<PathfinderNodeBase> CalculatePath(Vector3 targetPosition, int interactDistance = 0)
+    {
+        List<Vector2> ignoringNodes = new List<Vector2>();
+        Vector2Int startNodeCoord = GridManager.Grid.Grid.GetPositionOnGrid(transform.position);
+        Vector2Int targetNodeCoord = GridManager.Grid.Grid.GetPositionOnGrid(targetPosition);
+        List<PathfinderNodeBase> path = GridManager.FindPath(
+            startNodeCoord,
+            targetNodeCoord,
+            new List<Vector2> { startNodeCoord, targetNodeCoord },
+            interactDistance);
+        if (path == null) throw new Exception("Path is null");
+
+        return path;
     }
     #endregion
 }

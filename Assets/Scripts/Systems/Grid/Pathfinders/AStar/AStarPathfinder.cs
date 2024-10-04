@@ -19,7 +19,7 @@ public class AStarPathfinder : PathfinderBase
         _pathGrid = new PathfinderGridSystem<AStarNode>(targetGrid, (int x, int y, TileNode tn) => new AStarNode(x, y, tn));
     }
 
-    #region eternal calculations
+    #region external calculations
     public override List<PathfinderNodeBase> FindPath(
         Vector2Int startNodeCoord,
         Vector2Int targetNodeCoord,
@@ -35,7 +35,7 @@ public class AStarPathfinder : PathfinderBase
         CharacterInfo character = startNode.TargetNode.CharacterOnTile;
 
         // TODO maybe change it
-        if (!targetNode.IsWalkable && !ignoringNodes.Contains(targetNodeCoord))
+        if (!targetNode.IsWalkable)
             if (distanceFromTarget <= 0)
                 distanceFromTarget = 1;
 

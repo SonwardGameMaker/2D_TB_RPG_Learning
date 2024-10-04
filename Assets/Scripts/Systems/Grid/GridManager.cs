@@ -21,6 +21,15 @@ public class GridManager : MonoBehaviour
     #region init
     private void Start()
     {
+        List<(Vector3, CharacterInfo)> characters = _charactersContainer.GetCharacters();
+        foreach (var character in characters)
+        {
+            if (character.Item2.TryGetComponent(out CharacterIngameController characterIngameController))
+            {
+                characterIngameController.GridManager = this;
+            }
+        }
+
         _logicalGrid.SetUp(_width, _height, _cellSize, transform.position,
             _environmentContainer.GetEnvironments(),
             _charactersContainer.GetCharacters());

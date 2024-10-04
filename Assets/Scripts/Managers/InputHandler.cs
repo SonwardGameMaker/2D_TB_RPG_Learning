@@ -41,27 +41,20 @@ public class InputHandler : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "Grid")
                 {
-                    List<PathfinderNodeBase> path;
                     TileNode targetNode = _grid.Grid.Grid.GetNode(mousePosition);
                     if (!targetNode.IsWalkable) return;
                     CharacterInfo characterOnTargetTile = targetNode.CharacterOnTile;
-                    Vector3 playerPosition = _playerController.transform.position;
-                    List<Vector2> ignoringNodes = new List<Vector2>();
-                    ignoringNodes.Add(_grid.Grid.Grid.GetPositionOnGrid(playerPosition));
 
                     if (characterOnTargetTile != null && characterOnTargetTile.tag == "Characters"
                         && characterOnTargetTile.GetComponentInChildren<IDamagable>() != null)
                     {
-                        ignoringNodes.Add(_grid.Grid.Grid.GetPositionOnGrid(mousePosition));
-                        path = _grid.FindPath(playerPosition, mousePosition, ignoringNodes, _attackRadius);
-                        _playerController.WalkAndAttack(path,
-                            characterOnTargetTile.GetComponentInChildren<IDamagable>(),
-                            _grid.Grid.Grid.GetNode(mousePosition).WorldPositionOfCenter);
+                        _playerController.WalkAndAttack(characterOnTargetTile.GetComponentInChildren<IDamagable>(),
+                            mousePosition,
+                            _attackRadius);
                     }
                     else
                     {
-                        path = _grid.FindPath(playerPosition, mousePosition, ignoringNodes);
-                        _playerController.Walk(path);
+                        _playerController.Walk(mousePosition);
                     }
 
                 }
