@@ -21,12 +21,14 @@ public class GridManager : MonoBehaviour
     #region init
     private void Start()
     {
+        Debug.Log("Grid manager start");
+
         List<(Vector3, CharacterInfo)> characters = _charactersContainer.GetCharacters();
         foreach (var character in characters)
         {
-            if (character.Item2.TryGetComponent(out CharacterIngameController characterIngameController))
+            if (character.Item2.TryGetComponent(out ControllerManagerBase controllerManager))
             {
-                characterIngameController.GridManager = this;
+                controllerManager.GridManager = this;
             }
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class InputHandler : MonoBehaviour
+public class OldManagerInputHandler : MonoBehaviour
 {
     [SerializeField] private PlayerIngameController _playerController;
     [SerializeField] private GridManager _grid;

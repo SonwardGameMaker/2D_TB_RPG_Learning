@@ -9,15 +9,18 @@ public class CharacterIngameController : MonoBehaviour
 {
     private CharacterBlank _character;
     protected CharacterInfo _characterInfo;
-    protected Coroutine _coroutine;
     protected Animator _animator;
-
-    private ControllerStates _controllerState;
 
     private IMovable _movable;
     private IAttackable _attackable;
 
+    private ControllerStates _controllerState;
     private ActionCommandList _commandList;
+
+
+    #region events
+    public event Action ExecutionComplited;
+    #endregion
 
     // State machine -------------------------------------------------------------------------------------------
     //private CharacterStateMachine _stateMachine;
@@ -132,6 +135,12 @@ public class CharacterIngameController : MonoBehaviour
         if (path == null) throw new Exception("Path is null");
 
         return path;
+    }
+
+    private void OnExecutionComplete()
+    {
+        SetIdleState();
+        ExecutionComplited?.Invoke();
     }
     #endregion
 }
