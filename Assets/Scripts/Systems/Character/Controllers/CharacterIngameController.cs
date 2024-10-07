@@ -36,6 +36,7 @@ public class CharacterIngameController : MonoBehaviour
 
     public void Start()
     {
+        Debug.Log("Character ingame controller started");
         _characterInfo = GetComponent<CharacterInfo>();
         _animator = GetComponentInChildren<Animator>();
 
