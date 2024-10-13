@@ -4,20 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ControllerManagerBase : MonoBehaviour
+public abstract class ControllerManagerBase : MonoBehaviour
 {
-    protected GridManager _gridManager;
+    public GridManager GridManager { get; set; }
+    public GameManager GameManager { get; set; }
 
-    public GridManager GridManager 
+    public abstract void NewTurn();
+    public void EndTurn()
     {
-        get { return _gridManager; }
-        set
-        {
-            if (value == null) { Debug.Log("GridManager is null"); return; }
-            _gridManager = value;
-            Debug.Log($"Grid manager is set on {GetComponent<CharacterInfo>().name}");
-            if ( _gridManager == null ) { Debug.Log("GridManager is still null"); }
-        } 
+        
     }
 
     protected List<PathfinderNodeBase> CalculatePath(Vector3 targetPosition, int interactDistance = 0)
@@ -34,6 +29,4 @@ public class ControllerManagerBase : MonoBehaviour
 
         return path;
     }
-    protected int CalculatePathCost(List<PathfinderNodeBase> path)
-        => path.Sum(pn => pn.CameFromCost);
 }

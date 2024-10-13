@@ -4,32 +4,66 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ActionCommandList
+internal class ActionCommandList
 {
+    private CharacterBlank _character;
     private List<ActionCommandBase> _commandList;
     private int _count;
+    private bool _isBusy;
 
-    public ActionCommandList()
+    #region events
+    public event Action<bool, string> ExecutionEnded;
+    #endregion
+
+    #region init
+    public ActionCommandList(CharacterBlank character)
     {
+        _character = character;
         Reset();
     }
+    #endregion
 
-    public void ExecuteCommands(List<ActionCommandBase> commandList, Action onCommandsEndeds)
+    #region external interctions
+    public void ExecuteCommands(List<ActionCommandBase> commandList)
     {
+        if (_isBusy)
+        {
+            OnExecutionEnded(false, "Character is busy");
+            return;
+        }
+        _isBusy = true;
+
         Reset();
         _commandList = commandList;
         for (int i = 0; i < _commandList.Count - 1; i++)
         {
             _commandList[i].OnExecutionEnded += ExecuteNext;
         }
-        _commandList[_commandList.Count - 1].OnExecutionEnded += onCommandsEndeds;
+        _commandList[_commandList.Count - 1].OnExecutionEnded += OnExecutionEnded;
 
         _commandList[0].Execute();
     }
-    public void ExecuteCommands(ActionCommandBase command, Action onCommandsEndeds)
-        => ExecuteCommands(new List<ActionCommandBase> { command }, onCommandsEndeds);
+    public void ExecuteCommands(ActionCommandBase command)
+        => ExecuteCommands(new List<ActionCommandBase> { command });
+    #endregion
 
-    public void Reset()
+    #region internal operations
+    private void ExecuteNext(bool status, string message)
+    {
+        if (!status)
+        {
+            OnExecutionEnded(status, message);
+            return;
+        }
+
+        _count++;
+        if (_count >= _commandList.Count)
+            throw new Exception("Execution list in not valid");
+
+        _commandList[_count].Execute();
+    }
+
+    private void Reset()
     {
         if (_commandList == null)
             _commandList = new List<ActionCommandBase>();
@@ -38,13 +72,19 @@ public class ActionCommandList
 
         _count = 0;
     }
+    #endregion
 
-    private void ExecuteNext()
+    #region event triggers
+    private void OnExecutionEnded(bool status, string message)
     {
-        _count++;
-        if (_count >= _commandList.Count)
-            throw new Exception("Execution list in not valid");
+        ExecutionEnded?.Invoke(status, message);
+        _isBusy = false;
 
-        _commandList[_count].Execute();
+        for (int i = 0; i < _commandList.Count - 1; i++)
+        {
+            _commandList[i].OnExecutionEnded -= ExecuteNext;
+        }
+        _commandList[_commandList.Count - 1].OnExecutionEnded -= OnExecutionEnded;
     }
+    #endregion
 }

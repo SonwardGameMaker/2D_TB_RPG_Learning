@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,14 +12,13 @@ public class CharResourceControllerBase : MonoBehaviour
     [SerializeField] protected CharResourceFieldType crFieldType;
 
     protected PlayerIngameController _playerIngameController;
-    protected CharResourseInfo _currentCrField;
+    protected CharResourceInfo _currentCrField;
     protected Transform _valueTextHolder;
     protected int _amount = 0;
 
-    protected void Init()
+    protected void Init(CharResourceInfo resource)
     {
-        //_currentCrField = charResourceSystem.GetFieldByEnum(crFieldType);
-        _currentCrField = characterInfo.CharacterCombatStats.Health;
+        _currentCrField = resource;
         _currentCrField.SubscribeToAll(OnResourceValueChanged);
 
         _valueTextHolder = transform.GetChild(1);
@@ -27,6 +27,10 @@ public class CharResourceControllerBase : MonoBehaviour
         // Input init
         Transform InputAmount = transform.Find("InputField (Amount)");
         InputAmount?.GetComponent<TMP_InputField>().onValueChanged.AddListener(OnInputValueChanged);
+    }
+    protected void Init()
+    {
+        Init(characterInfo.CharacterCombatStats.Health);
     }
     protected void MyDestroy()
     {

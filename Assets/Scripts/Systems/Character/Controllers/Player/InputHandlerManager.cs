@@ -11,11 +11,14 @@ public class InputHandlerManager : ControllerManagerBase
     [Header("Debug")]
     [SerializeField] private int _attackRadius = 0;
 
+    #region init
     private void Start()
     {
-        Debug.Log("Player manager start");
+        _player = GetComponent<CharacterInfo>();
 
         _playerController = GetComponent<PlayerIngameController>();
+        _playerController.ExecutionEnded += ExecutionEndedHandler;
+
         _inputHandler = GetComponentInChildren<IInputHandler>();
         _inputHandler.LMB_Pressed += Select;
         _inputHandler.RMB_Pressed += Interact;
@@ -26,7 +29,16 @@ public class InputHandlerManager : ControllerManagerBase
         _inputHandler.LMB_Pressed -= Select;
         _inputHandler.RMB_Pressed -= Interact;
     }
+    #endregion
 
+    #region external interactions
+    public override void NewTurn()
+    {
+        _playerController.NewTurn();
+    }
+    #endregion
+
+    #region input event handlers
     private void Select()
     {
         TileNode nodeSelected = GetNodeByMousePosition(GetMousePosition());
@@ -40,7 +52,7 @@ public class InputHandlerManager : ControllerManagerBase
 
     private void Interact()
     {
-        if (_gridManager == null)
+        if (GridManager == null)
         {
             Debug.Log("Grid not set");
             return;
@@ -56,51 +68,46 @@ public class InputHandlerManager : ControllerManagerBase
         if (characterOnTargetTile != null && characterOnTargetTile.tag == "Characters"
             && characterOnTargetTile.GetComponentInChildren<IDamagable>() != null)
         {
-            _playerController.WalkAndAttack(characterOnTargetTile.GetComponentInChildren<IDamagable>(),
+            _playerController.WalkAndAttack(
+                CalculatePath(mousePosition, _attackRadius),
+                characterOnTargetTile.GetComponentInChildren<IDamagable>(),
                 mousePosition,
                 _attackRadius);
         }
         else
         {
-            _playerController.Walk(GetMousePosition());
+            _playerController.Walk(CalculatePath(mousePosition));
         }
     }
+    #endregion 
 
+    #region event handlers
+    private void ExecutionEndedHandler(bool status, string message)
+    {
+        if (!status)
+        {
+            Debug.Log(message);
+        }
+    }
+    #endregion
+
+    #region internal operations
     private Vector2 GetMousePosition()
         => Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
     private TileNode GetNodeByMousePosition(Vector2 mousePosition)
     {
-        Debug.Log("Funck started");
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-
-        Debug.Log("Hitted");
 
         if (hit.collider != null)
         {
-            Debug.Log("Hitted collider");
-            if (_playerController.ControllerState == ControllerStates.Idle)
+            if (hit.collider.gameObject.tag == "Grid")
             {
-                if (hit.collider.gameObject.tag == "Grid")
-                {
-                    Debug.Log("trying to get node");
-                    return _gridManager.Grid.Grid.GetNode(mousePosition);
-                }
-                else
-                {
-                    Debug.Log("Didn't hit the Grid. Hitted the " + hit.collider.gameObject.tag);
-                }
+                return GridManager.Grid.Grid.GetNode(mousePosition);
             }
-            else
-            {
-                Debug.Log("Controller is busy");
-            }
-        }
-        else
-        {
-            Debug.Log("Hit is null");
         }
 
         return null;
     }
+    #endregion
 }

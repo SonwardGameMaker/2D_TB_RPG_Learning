@@ -111,11 +111,18 @@ public class AStarPathfinder : PathfinderBase
         PathfinderNodeBase currentNode = endNode;
         while (currentNode.CameFromNode != null)
         {
-            currentNode.CameFromCost = CalculateCameFromCost(currentNode.CameFromNode, currentNode);
             result.Add(currentNode.CameFromNode);
             currentNode = currentNode.CameFromNode;
         }
         result.Reverse();
+        if (result.Count > 0)
+        {
+            result[0].CameFromCost = 0;
+            for (int i = 1; i < result.Count; i++)
+            {
+                result[i].CameFromCost = CalculateCameFromCost(result[i-1], result[i]);
+            }
+        }
         return result;
     }
 
@@ -190,8 +197,6 @@ public class AStarPathfinder : PathfinderBase
         int yDistance = Mathf.Abs(a.Y - b.Y);
 
         int result = (int)Mathf.Sqrt(xDistance * xDistance + yDistance * yDistance);
-
-        //Debug.Log($"Distance: {result}");
 
         return result;
     }

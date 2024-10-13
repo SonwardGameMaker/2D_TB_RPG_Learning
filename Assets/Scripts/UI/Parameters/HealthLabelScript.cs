@@ -10,7 +10,7 @@ public class HealthLabelScript : MonoBehaviour
     public CharacterInfo _characterInfo;
 
     private PlayerIngameController _playerIngameController;
-    private CharResourseInfo _health;
+    private CharResourceInfo _health;
     private int _amount = 0;
 
     // Start is called before the first frame update

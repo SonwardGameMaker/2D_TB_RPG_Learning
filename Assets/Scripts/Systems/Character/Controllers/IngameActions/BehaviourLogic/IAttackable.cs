@@ -5,6 +5,7 @@ using UnityEngine;
 
 public interface IAttackable 
 {
+    public int ApCost { get; }
     public void Setup(CharacterInfo characterInfo, Animator animator);
-    public (bool, string) Attack(IDamagable target, Action onEndCorutineAction);
+    public void Attack(IDamagable target, Action<bool, string> onEndCorutineAction);
 }

@@ -6,6 +6,8 @@ using UnityEngine;
 public interface IMovable
 {
     public void Setup(CharacterInfo characterInfo, Animator animator);
+    public float MpApCostModifier { get; }
+    public bool CheckIfEnoughtResources(List<PathfinderNodeBase> path);
     /// <summary>
     /// Method that make character to rotate to the set point
     /// </summary>
@@ -16,7 +18,7 @@ public interface IMovable
     /// <returns>
     /// Bool returns tells if operation was successful. String returns is a log with more detailed information.
     /// </returns>
-    public (bool, string) Rotate(Vector3 targetPosition, Action onEndCoroutineAction);
+    public void Rotate(Vector3 targetPosition, Action<bool, string> onEndCoroutineAction);
     /// <summary>
     /// Method that make character to move within game grid
     /// </summary>
@@ -29,5 +31,5 @@ public interface IMovable
     /// <returns>
     /// Bool returns tells if operation was successful. String returns is a log with more detailed information.
     /// </returns>
-    public (bool, string) Move(List<PathfinderNodeBase> path, Action onEndCoroutineAction);
+    public void Move(List<PathfinderNodeBase> path, Action<bool, string> onEndCoroutineAction);
 }

@@ -41,9 +41,9 @@ public class ApMpSystem : ICharResourseFieldGettable
     #endregion
 
     #region properties
-    public CharResourseInfo ActionPoints { get => new CharResourseInfo(_actionPoints); }
+    public CharResourceInfo ActionPoints { get => new CharResourceInfo(_actionPoints); }
 
-    public CharResourseInfo MovementPoints { get => new CharResourseInfo(_movementPoints); }
+    public CharResourceInfo MovementPoints { get => new CharResourceInfo(_movementPoints); }
     #endregion
 
     public event Action ApChanged;

@@ -32,9 +32,9 @@ public class CharacterCombatStats
     #endregion
 
     #region properties
-    public CharResourseInfo Health { get => _character.Health.HealthInfo; }
-    public CharResourseInfo ActionPoints { get => _character.ApMpSystem.ActionPoints; }
-    public CharResourseInfo MovementPoints { get => _character.ApMpSystem.MovementPoints; }
+    public CharResourceInfo Health { get => _character.Health.HealthInfo; }
+    public CharResourceInfo ActionPoints { get => _character.ApMpSystem.ActionPoints; }
+    public CharResourceInfo MovementPoints { get => _character.ApMpSystem.MovementPoints; }
     public StatInfo DodgeSkill { get => new StatInfo(_character.Stats.Dodge); }
     public StatInfo WeaponSkill { get => new StatInfo(_weaponSkill); }
     public (float, float) WeaponDamage { get => (_currnetWeapon.MinDamage, _currnetWeapon.MaxDamage); }

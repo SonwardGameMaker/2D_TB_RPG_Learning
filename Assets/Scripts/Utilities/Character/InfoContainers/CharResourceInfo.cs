@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharResourseInfo : CharacterDataBaseInfo
+public class CharResourceInfo : CharacterDataBaseInfo
 {
     private CharResource _resource;
 
-    public CharResourseInfo(CharResource resource)
+    public CharResourceInfo(CharResource resource)
     {
         _resource = resource;
     }

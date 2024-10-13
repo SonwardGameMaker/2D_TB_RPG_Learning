@@ -11,14 +11,14 @@ public class ApMpController : CharResourceControllerBase
 
     void Start()
     {
+        CharResourceInfo charResourceInfo;
         if (crFieldType == CharResourceFieldType._actionPoints)
-            _currentCrField = characterInfo.CharacterCombatStats.ActionPoints;
+            charResourceInfo = characterInfo.CharacterCombatStats.ActionPoints;
         else
-            _currentCrField = characterInfo.CharacterCombatStats.MovementPoints;
+            charResourceInfo = characterInfo.CharacterCombatStats.MovementPoints;
 
+        Init(charResourceInfo);
         transform.GetChild(0).GetComponent<TMP_Text>().text = _currentCrField.Name;
-        Init();
-        
 
         if (crFieldType == CharResourceFieldType._actionPoints)
             InitColour(ApColor);

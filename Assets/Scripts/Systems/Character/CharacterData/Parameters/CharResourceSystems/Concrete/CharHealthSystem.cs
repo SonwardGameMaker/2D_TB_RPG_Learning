@@ -42,7 +42,7 @@ public class CharHealthSystem : ICharResourseFieldGettable
     #endregion
 
     #region properties
-    public CharResourseInfo HealthInfo { get => new CharResourseInfo(_health); }
+    public CharResourceInfo HealthInfo { get => new CharResourceInfo(_health); }
     #endregion
 
     #region extrnal interation

@@ -37,33 +37,28 @@ public class OldManagerInputHandler : MonoBehaviour
 
         if (hit.collider != null)
         {
-            if (_playerController.ControllerState == ControllerStates.Idle)
+            if (hit.collider.gameObject.tag == "Grid")
             {
-                if (hit.collider.gameObject.tag == "Grid")
+                TileNode targetNode = _grid.Grid.Grid.GetNode(mousePosition);
+                if (!targetNode.IsWalkable) return;
+                CharacterInfo characterOnTargetTile = targetNode.CharacterOnTile;
+
+                if (characterOnTargetTile != null && characterOnTargetTile.tag == "Characters"
+                    && characterOnTargetTile.GetComponentInChildren<IDamagable>() != null)
                 {
-                    TileNode targetNode = _grid.Grid.Grid.GetNode(mousePosition);
-                    if (!targetNode.IsWalkable) return;
-                    CharacterInfo characterOnTargetTile = targetNode.CharacterOnTile;
-
-                    if (characterOnTargetTile != null && characterOnTargetTile.tag == "Characters"
-                        && characterOnTargetTile.GetComponentInChildren<IDamagable>() != null)
-                    {
-                        _playerController.WalkAndAttack(characterOnTargetTile.GetComponentInChildren<IDamagable>(),
-                            mousePosition,
-                            _attackRadius);
-                    }
-                    else
-                    {
-                        _playerController.Walk(mousePosition);
-                    }
-
+                    //_playerController.WalkAndAttack(characterOnTargetTile.GetComponentInChildren<IDamagable>(),
+                    //    mousePosition,
+                    //    _attackRadius);
+                }
+                else
+                {
+                    //_playerController.Walk(mousePosition);
                 }
             }
             else
             {
                 Debug.Log("Character still busy");
             }
-            
         }
     }
     private int CalculatePathCost(List<PathfinderNodeBase> path)
