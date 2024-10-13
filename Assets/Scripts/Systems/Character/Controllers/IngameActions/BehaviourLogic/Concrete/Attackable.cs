@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class Attackable : IngameActionBase, IAttackable
+internal class Attackable : IngameActionBase, IAttackable, IApCosted
 {
     private CharacterInfo _characterInfo;
     private Animator _animator;
