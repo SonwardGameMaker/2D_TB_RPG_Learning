@@ -7,9 +7,8 @@ public class PlayerIngameController : CharacterIngameController
 {
     private CharacterStatsSystem _stats;
 
-    public new void Start()
+    private void Start()
     {
-        base.Start();
         _stats = GetComponent<CharacterBlank>().Stats;
     }
 

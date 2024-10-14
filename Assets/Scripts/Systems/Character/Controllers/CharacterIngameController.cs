@@ -21,7 +21,7 @@ public class CharacterIngameController : MonoBehaviour
     public event Action<bool, string> ExecutionEnded;
     #endregion
 
-    public void Start()
+    private void Start()
     {
         _character = GetComponent<CharacterBlank>();
         _characterInfo = GetComponent<CharacterInfo>();
@@ -33,7 +33,7 @@ public class CharacterIngameController : MonoBehaviour
         _movable.Setup(_characterInfo, _animator);
         _attackable.Setup(_characterInfo, _animator);
 
-        _commandList = new ActionCommandList(_character);
+        _commandList = new ActionCommandList();
         _commandList.ExecutionEnded += CommnadListExecutionEndedHandler;
 
     }

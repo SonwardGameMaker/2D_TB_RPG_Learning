@@ -5,8 +5,8 @@ using UnityEngine;
 
 internal class AttackCommand : ActionCommandBase
 {
-    IAttackable _object;
-    IDamagable _target;
+    private IAttackable _object;
+    private IDamagable _target;
 
     public AttackCommand(IAttackable @object, IDamagable target) : base(@object)
     {
@@ -16,6 +16,6 @@ internal class AttackCommand : ActionCommandBase
 
     public override void Execute()
     {
-        _object.Attack(_target, base.Execute);
+        _object.Attack(_target, Execute);
     }
 }

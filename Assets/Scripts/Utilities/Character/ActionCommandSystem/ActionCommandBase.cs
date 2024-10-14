@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Linq;
-using UnityEngine;
 
 internal abstract class ActionCommandBase
 {
@@ -11,7 +7,7 @@ internal abstract class ActionCommandBase
     #region init
     public ActionCommandBase(object objectBase, Action<bool, string> onExecutionEnded)
     {
-        OnExecutionEnded = onExecutionEnded;
+        ExecutionEnded = onExecutionEnded;
         SetObjectBase(objectBase);
     }
     public ActionCommandBase(object objectBase) : this(objectBase, null) { }
@@ -20,7 +16,7 @@ internal abstract class ActionCommandBase
     #region external interactions
     public void Execute(bool status, string message)
     {
-        OnExecutionEnded?.Invoke(status, message);
+        ExecutionEnded?.Invoke(status, message);
     }
     public abstract void Execute();
 
@@ -29,7 +25,7 @@ internal abstract class ActionCommandBase
     #endregion
 
     #region events
-    public event Action<bool, string> OnExecutionEnded;
+    public event Action<bool, string> ExecutionEnded;
     #endregion
 
     #region internal operations

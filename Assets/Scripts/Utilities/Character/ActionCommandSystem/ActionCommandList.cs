@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 
 internal class ActionCommandList
 {
-    private CharacterBlank _character;
     private List<ActionCommandBase> _commandList;
     private int _count;
     private bool _isBusy;
@@ -16,9 +15,8 @@ internal class ActionCommandList
     #endregion
 
     #region init
-    public ActionCommandList(CharacterBlank character)
+    public ActionCommandList()
     {
-        _character = character;
         Reset();
     }
     #endregion
@@ -37,9 +35,9 @@ internal class ActionCommandList
         _commandList = commandList;
         for (int i = 0; i < _commandList.Count - 1; i++)
         {
-            _commandList[i].OnExecutionEnded += ExecuteNext;
+            _commandList[i].ExecutionEnded += ExecuteNext;
         }
-        _commandList[_commandList.Count - 1].OnExecutionEnded += OnExecutionEnded;
+        _commandList[_commandList.Count - 1].ExecutionEnded += OnExecutionEnded;
 
         _commandList[0].Execute();
     }
@@ -82,9 +80,9 @@ internal class ActionCommandList
 
         for (int i = 0; i < _commandList.Count - 1; i++)
         {
-            _commandList[i].OnExecutionEnded -= ExecuteNext;
+            _commandList[i].ExecutionEnded -= ExecuteNext;
         }
-        _commandList[_commandList.Count - 1].OnExecutionEnded -= OnExecutionEnded;
+        _commandList[_commandList.Count - 1].ExecutionEnded -= OnExecutionEnded;
     }
     #endregion
 }
