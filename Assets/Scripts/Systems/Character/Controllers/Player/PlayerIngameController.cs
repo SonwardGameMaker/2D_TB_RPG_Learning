@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerIngameController : CharacterIngameController
 {
-    private CharacterStatsSystem _stats;
+    protected CharacterStatsSystem _stats;
 
     private void Start()
     {
