@@ -60,7 +60,7 @@ public class CharacterStatsSystem
     public CharacterStatsSystem()
     {
         SetUp();
-        _interactions = new List<ParInteraction>();
+        _interactions = SetUpInteractions();
     }
     public CharacterStatsSystem(StatsInitSO statsInitSO)
     {
@@ -68,10 +68,12 @@ public class CharacterStatsSystem
         {
             Debug.LogError("Stats Init SO is null. Object initialized with default constructor");
             SetUp();
-            return;
+        }
+        else
+        {
+            SetUp(statsInitSO);
         }
 
-        SetUp(statsInitSO);
         _interactions = SetUpInteractions();
     }
 
@@ -177,7 +179,7 @@ public class CharacterStatsSystem
     private Stat InitDdefaultSkill(string name) => new Stat(name, DEFAULT_MAX_VALUE_FOR_SKILL, DEFAULT_MIN_VALUE_FOR_SKILL, DEFAULT_CURRENT_VALUE_FOR_SKILL);
     #endregion
 
-    #region external_interaction
+    #region external interaction
     public void UpDownAttribute(Stat attribute, bool increase)
     {
         attribute.CurrentValueBase = increase ? attribute.CurrentValueBase + 1
@@ -202,7 +204,7 @@ public class CharacterStatsSystem
 
     #endregion
 
-    #region calculation_methods
+    #region calculation methods
     private static void LevelAffectionOnSkills(ref List<CharParameterBase> level, ref List<CharParameterBase> skills)
         => UtilityFunctionsParam.AffectorsCompareTargetsEvery(ref level, ref skills, UtilityFunctionsParam.GetCurrentValFloat, UtilityFunctionsParam.GetMaxValueMod, CalculateLevelLogic);
     private static void AttributeAffectionOnSkills(ref List<CharParameterBase> attributes, ref List<CharParameterBase> skills)

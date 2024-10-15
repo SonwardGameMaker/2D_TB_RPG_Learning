@@ -85,6 +85,22 @@ public class CharResource : CharParameterBase, IMinValUnmod, ICurrValUnmod, IMax
     public bool TryRemoveMaxValueAllModifiersOf(object source) => _maxValue.TryRemoveAllModifiersOf(source);
     #endregion
 
+    #region external operations
+    public void SubscribeToAll(Action action)
+    {
+        MinValChanged += action;
+        CurrentValChanged += action;
+        MaxValChanged += action;
+    }
+
+    public void UnsubscribeToAll(Action action)
+    {
+        MinValChanged -= action;
+        CurrentValChanged -= action;
+        MaxValChanged -= action;
+    }
+    #endregion
+
     public event Action MinValChanged;
     public event Action CurrentValChanged;
     public event Action MaxValChanged;

@@ -4,6 +4,6 @@ using UnityEngine;
 
 public static class DsUtils
 {
-    public static T GetDataSystem<T>(List<object> list) where T : class
-        => list.Find(o => o is T) as T;
+    public static T GetDataSystem<T>(List<CharacterDataSystemBase> systems) where T : class
+        => systems.Find(o => o is T) as T;
 }

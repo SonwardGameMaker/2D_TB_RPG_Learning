@@ -20,23 +20,13 @@ public class ApMpSystem : ICharResourseFieldGettable
         _actionPoints = new CharResource(DEFAULT_AP_NAME, DEFAULT_AP_MAX_VALUE, 0.0f, DEFAULT_AP_MAX_VALUE);
         _movementPoints = new CharResource(DEFAULT_MP_NAME, DEFAULT_MP_MAX_VALUE, 0.0f, DEFAULT_MP_MAX_VALUE);
 
-        _actionPoints.MaxValChanged += HandleApEvents;
-        _actionPoints.MinValChanged += HandleApEvents;
-        _actionPoints.CurrentValChanged += HandleApEvents;
-
-        _movementPoints.MaxValChanged += HandleMpEvents;
-        _movementPoints.MinValChanged += HandleMpEvents;
-        _movementPoints.CurrentValChanged += HandleMpEvents;
+        _actionPoints.SubscribeToAll(HandleApEvents);
+        _movementPoints.SubscribeToAll(HandleMpEvents);
     }
     ~ApMpSystem()
     {
-        _actionPoints.MaxValChanged -= HandleApEvents;
-        _actionPoints.MinValChanged -= HandleApEvents;
-        _actionPoints.CurrentValChanged -= HandleApEvents;
-
-        _movementPoints.MaxValChanged -= HandleMpEvents;
-        _movementPoints.MinValChanged -= HandleMpEvents;
-        _movementPoints.CurrentValChanged -= HandleMpEvents;
+        _actionPoints.UnsubscribeToAll(HandleApEvents);
+        _movementPoints.UnsubscribeToAll(HandleMpEvents);
     }
     #endregion
 
