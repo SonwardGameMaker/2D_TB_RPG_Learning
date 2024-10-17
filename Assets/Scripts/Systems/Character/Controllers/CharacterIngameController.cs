@@ -21,7 +21,7 @@ public class CharacterIngameController : MonoBehaviour
     public event Action<bool, string> ExecutionEnded;
     #endregion
 
-    private void Start()
+    protected virtual void Start()
     {
         _character = GetComponent<CharacterBlank>();
         _characterInfo = GetComponent<CharacterInfo>();

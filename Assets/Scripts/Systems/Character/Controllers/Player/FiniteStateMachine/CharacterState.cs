@@ -2,29 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class CharacterState
+internal abstract class CharacterState
 {
-    protected CharacterBlank _character;
+    protected GridManager _gridManager;
     protected CharacterIngameController _characterController;
+    protected IInputHandler _inputHandler;
     protected CharacterStateMachine _stateMachine;
 
     public CharacterState(
-        CharacterBlank character, 
+        GridManager gridManager, 
         CharacterIngameController characterController,
+        IInputHandler inputHandler,
         CharacterStateMachine stateMachine)
     {
-        _character = character;
+        _gridManager = gridManager;
         _characterController = characterController;
+        _inputHandler = inputHandler;
         _stateMachine = stateMachine;
     }
 
-    public virtual void Enter()
-    {
+    public abstract void EnterState();
 
-    }
-
-    public virtual void Exit()
-    {
-
-    }
+    public abstract void ExitState();
 }

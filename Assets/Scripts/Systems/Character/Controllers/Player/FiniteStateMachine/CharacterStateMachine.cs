@@ -9,15 +9,15 @@ internal class CharacterStateMachine
     public void Setup(CharacterState startingState)
     {
         _currentState = startingState;
-        _currentState.Enter();
+        _currentState.EnterState();
     }
 
     public CharacterState CurrentState { get => _currentState; }
 
     public void ChangeState(CharacterState newState)
     {
-        _currentState.Exit();
+        _currentState.ExitState();
         _currentState = newState;
-        _currentState.Enter();
+        _currentState.EnterState();
     }
 }
