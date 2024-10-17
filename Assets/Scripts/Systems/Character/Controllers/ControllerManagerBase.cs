@@ -6,7 +6,7 @@ using UnityEngine;
 
 public abstract class ControllerManagerBase : MonoBehaviour
 {
-    public GridManager GridManager { get; set; }
+    public virtual GridManager GridManager { get; set; }
     public GameManager GameManager { get; set; }
 
     public abstract void NewTurn();

@@ -21,6 +21,7 @@ public class GridManager : MonoBehaviour
     #region init
     private void Start()
     {
+        Debug.Log("Grid manager");
         List<(Vector3, CharacterInfo)> characters = _charactersContainer.GetCharacters();
         foreach (var character in characters)
         {
