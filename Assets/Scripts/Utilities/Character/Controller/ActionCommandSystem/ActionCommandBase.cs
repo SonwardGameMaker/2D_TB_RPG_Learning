@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 internal abstract class ActionCommandBase
 {
@@ -31,10 +32,16 @@ internal abstract class ActionCommandBase
     #region internal operations
     private void SetObjectBase(object obj)
     {
+        if (obj == null)
+        {
+            Debug.Log("Object is null");
+            return;
+        }
+        Debug.Log($"{obj.GetType()}");
         if (obj is IngameActionBase iObj)
             _objectBase = iObj;
         else
-            throw new Exception($"Object boes not inheratate from {typeof(IngameActionBase)}");
+            throw new Exception($"Object does not inheratate from {typeof(IngameActionBase)}");
     }
     #endregion
 }

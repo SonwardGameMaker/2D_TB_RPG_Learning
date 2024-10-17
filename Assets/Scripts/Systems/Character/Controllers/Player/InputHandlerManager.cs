@@ -26,6 +26,8 @@ public class InputHandlerManager : ControllerManagerBase
 
     private void OnDestroy()
     {
+        _playerController.ExecutionEnded -= ExecutionEndedHandler;
+
         _inputHandler.LMB_Pressed -= Select;
         _inputHandler.RMB_Pressed -= Interact;
     }
