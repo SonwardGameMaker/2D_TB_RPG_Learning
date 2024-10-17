@@ -33,13 +33,9 @@ public class InputHandlerManager : ControllerManagerBase
 
     #region properties
     public override GridManager GridManager 
-    { 
-        get => base.GridManager;
-        set
-        {
-            _stateMachine.GridManager = value;
-            base.GridManager = value;
-        } 
+    {
+        get => _stateMachine.GridManager;
+        set => _stateMachine.GridManager = value;
     }
     #endregion
 

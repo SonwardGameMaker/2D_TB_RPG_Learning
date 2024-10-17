@@ -5,6 +5,7 @@ using UnityEngine;
 internal class PlayerStateMachine
 {
     private PlayerState _currentState;
+    private GridManager _gridManager;
 
     #region init
     public PlayerStateMachine(PlayerState startingState, int attackRadius)
@@ -25,7 +26,20 @@ internal class PlayerStateMachine
 
     #region properties
     public PlayerState CurrentState { get => _currentState; }
-    public GridManager GridManager { get; set; }
+    public GridManager GridManager 
+    { 
+        get => _gridManager;
+        set
+        {
+            if (value == null)
+                Debug.Log("Grid value is null");
+            else
+            {
+                _gridManager = value;
+                Debug.Log("Grid value is set");
+            }
+        }
+    }
     public int AttackRadius { get; set; }
     #endregion
 
