@@ -32,12 +32,6 @@ internal abstract class ActionCommandBase
     #region internal operations
     private void SetObjectBase(object obj)
     {
-        if (obj == null)
-        {
-            Debug.Log("Object is null");
-            return;
-        }
-        Debug.Log($"{obj.GetType()}");
         if (obj is IngameActionBase iObj)
             _objectBase = iObj;
         else
