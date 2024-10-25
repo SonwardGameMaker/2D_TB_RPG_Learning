@@ -7,7 +7,7 @@ public interface IDamagable
 {
     public event Action<CharacterInfo, bool, float, Damage> CharacterHitted;
 
-    public void TakeHit(HitDataContainer hit);
+    public bool TakeHit(HitDataContainer hit);
     public Damage TakeDamage(Damage damage);
     public void TakeHealing(float amount);
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-internal class Movable : IngameActionBase, IMovable
+internal class Movable : BehaviourScriptBase, IMovable
 {
     private CharacterInfo _characterInfo;
     private ApMpSystem _apMpSystem;
@@ -16,6 +16,17 @@ internal class Movable : IngameActionBase, IMovable
     [SerializeField] private float _mpApCostModifier;
 
     #region init
+    public Movable() { }
+    public Movable(CharacterBlank character, Animator animator) : base(character)
+    {
+        _animator = animator;
+        _characterInfo = _character.GetComponent<CharacterInfo>();
+        _apMpSystem = _character.ApMpSystem;
+    }
+
+    protected override void SetActionName()
+        => _name = typeof(Movable).Name;
+
     private void Awake()
     {
         _name = typeof(Movable).Name;

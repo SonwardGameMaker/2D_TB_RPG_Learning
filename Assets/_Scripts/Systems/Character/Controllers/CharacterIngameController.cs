@@ -44,9 +44,6 @@ public class CharacterIngameController : MonoBehaviour
         _commandList.ExecutionEnded -= CommnadListExecutionEndedHandler;
     }
 
-    #region properties
-    #endregion
-
     #region external interactions
     public void NewTurn()
     {

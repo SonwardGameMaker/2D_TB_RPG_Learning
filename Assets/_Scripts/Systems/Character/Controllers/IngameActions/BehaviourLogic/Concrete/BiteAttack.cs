@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
+internal class BiteAttack : BehaviourScriptBase, IAttackable, IApCosted
 {
     private CharacterInfo _characterInfo;
     private Animator _animator;
@@ -12,20 +12,20 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
     [SerializeField] private int _apCost;
 
     #region init
-    public Attackable() { }
-    public Attackable(CharacterBlank character, Animator animator) : base(character)
+    public BiteAttack() { }
+    public BiteAttack(CharacterBlank character, Animator animator) : base(character)
     {
-        _characterInfo = character.GetComponent<CharacterInfo>();
         _animator = animator;
+        _characterInfo = character.GetComponent<CharacterInfo>();
         _apMpSystem = character.ApMpSystem;
     }
 
     protected override void SetActionName()
-        => _name = typeof(Attackable).Name;
+        => _name = typeof(BiteAttack).Name;
 
     private void Awake()
     {
-        _name = typeof(Attackable).Name;
+        _name = typeof(BiteAttack).Name;
     }
 
     public void Setup(CharacterInfo characterInfo, Animator animator)
@@ -34,7 +34,7 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
         Setup(characterInfo.GetComponent<CharacterBlank>(), 0);
         _apMpSystem = _character.ApMpSystem;
 
-        _characterInfo = characterInfo; 
+        _characterInfo = characterInfo;
         _animator = animator;
     }
     #endregion
@@ -43,21 +43,22 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
     public int ApCost { get => _apCost; }
     #endregion
 
-    #region external interactions
     public void Attack(IDamagable target, Action<bool, string> onEndCorutineAction)
     {
-        if (TryConsumeResources())
-        {
-            _coroutine = StartCoroutine(AttackCoroutine(target, _animator, onEndCorutineAction));
-        }
-        else
-        {
-            onEndCorutineAction?.Invoke(false, NOT_ENOUGHT_AP_MEASSAGE);
-        }
+        throw new NotImplementedException();
     }
-    #endregion
 
     #region internal operations
+    public override bool CheckIfEnoughtResources()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void ConsumeResources()
+    {
+        throw new System.NotImplementedException();
+    }
+
     private void TryHit(IDamagable target)
     {
         HitDataContainer hitData = _characterInfo.CalculateHitData();
@@ -70,26 +71,10 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         return stateInfo.IsName(animationName) && stateInfo.normalizedTime >= 1f;
     }
-
-    public override bool CheckIfEnoughtResources()
-        => _apMpSystem.ActionPoints.CurrentValue >= _apCost;
-
-    public override void ConsumeResources()
-        => _apMpSystem.TryChangeCurrAp(-_apCost);
-
-    public override bool TryConsumeResources()
-    {
-        if (CheckIfEnoughtResources())
-        {
-            ConsumeResources();
-            return true;
-        }
-        return false;
-    }
     #endregion
 
     #region coroutines
-    private IEnumerator AttackCoroutine(IDamagable target, Animator animator, Action<bool,string> action)
+    private IEnumerator AttackCoroutine(IDamagable target, Animator animator, Action<bool, string> action)
     {
         animator.Play(AnimationConstants.PreparingToShootPistol);
         yield return new WaitUntil(() => IsAnimationFinished(animator, AnimationConstants.PreparingToShootPistol));

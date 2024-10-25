@@ -16,13 +16,8 @@ public class Damagable : MonoBehaviour, IDamagable
     public event Action<CharacterInfo, bool, float, Damage> CharacterHitted;
 
     #region external interactions
-    public void TakeHit(HitDataContainer hit)
+    public bool TakeHit(HitDataContainer hit)
     {
-        //Debug.Log($"TakeHit method in Damagable" +
-        //    $"\nChar name: {GetComponentInParent<CharacterInfo>().name}" +
-        //    $"\nAttacking skill: {hit.WeaponSkill}" +
-        //    $"\nDefencive skill: {_thisCharacter.Stats.Dodge.CurrentValue}" +
-        //    $"\nPossible damage: {hit.Damage.Amount}");
         // TODO make dependency from equipment weapon
         float attackValue = UnityEngine.Random.Range(0, 100);
         float chanceToHit = CalculateChanceToHit(_thisCharacter.Stats.Dodge.CurrentValue, hit.WeaponSkill);
@@ -33,6 +28,7 @@ public class Damagable : MonoBehaviour, IDamagable
             damageTaken = TakeDamage(hit.Damage);
         }
         CharacterHitted?.Invoke(GetComponentInParent<CharacterInfo>(), hitted, chanceToHit, damageTaken);
+        return hitted;
     }
     public Damage TakeDamage(Damage damage)
     {

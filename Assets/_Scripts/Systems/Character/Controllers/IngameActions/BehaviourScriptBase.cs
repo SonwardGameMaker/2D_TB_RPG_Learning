@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal abstract class IngameActionBase : MonoBehaviour
+internal abstract class BehaviourScriptBase : MonoBehaviour
 {
     protected const string SUCCESSFUL_EXECUTION_MEASSAGE = "Execution successfuly complited";
     protected const string NOT_ENOUGHT_AP_MEASSAGE = "Not enought Action points";
@@ -16,9 +16,18 @@ internal abstract class IngameActionBase : MonoBehaviour
     protected Coroutine _coroutine;
 
     #region init
+    public BehaviourScriptBase() { }
+    public BehaviourScriptBase(CharacterBlank character)
+    {
+        SetActionName();
+        _character = character;
+    }
+
+    protected abstract void SetActionName();
+
     private void Awake()
     {
-        _name = typeof(IngameActionBase).Name;
+        _name = typeof(BehaviourScriptBase).Name;
     }
 
     public virtual void Setup(CharacterBlank character, int cooldown)

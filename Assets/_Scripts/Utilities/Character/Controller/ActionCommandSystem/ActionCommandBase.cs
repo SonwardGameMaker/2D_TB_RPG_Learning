@@ -3,7 +3,7 @@ using UnityEngine;
 
 internal abstract class ActionCommandBase
 {
-    protected IngameActionBase _objectBase;
+    protected BehaviourScriptBase _objectBase;
 
     #region init
     public ActionCommandBase(object objectBase, Action<bool, string> onExecutionEnded)
@@ -32,10 +32,10 @@ internal abstract class ActionCommandBase
     #region internal operations
     private void SetObjectBase(object obj)
     {
-        if (obj is IngameActionBase iObj)
+        if (obj is BehaviourScriptBase iObj)
             _objectBase = iObj;
         else
-            throw new Exception($"Object does not inheratate from {typeof(IngameActionBase)}");
+            throw new Exception($"Object does not inheratate from {typeof(BehaviourScriptBase)}");
     }
     #endregion
 }
