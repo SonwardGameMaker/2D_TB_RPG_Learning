@@ -27,6 +27,7 @@ public class InputHandlerNIS : MonoBehaviour, IInputHandler
     public event Action AttackMode_Pressed;
     public event Action AttackMode_Released;
     public event Action FirstCellButton_Pressed;
+    public event Action SecondCellButton_Pressed;
     public event Action CancelButton_Pressed;
 
     private void Awake()

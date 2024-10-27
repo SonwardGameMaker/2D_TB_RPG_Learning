@@ -16,13 +16,6 @@ internal abstract class BehaviourScriptBase : MonoBehaviour
     protected Coroutine _coroutine;
 
     #region init
-    public BehaviourScriptBase() { }
-    public BehaviourScriptBase(CharacterBlank character)
-    {
-        SetActionName();
-        _character = character;
-    }
-
     protected abstract void SetActionName();
 
     private void Awake()
@@ -30,10 +23,9 @@ internal abstract class BehaviourScriptBase : MonoBehaviour
         _name = typeof(BehaviourScriptBase).Name;
     }
 
-    public virtual void Setup(CharacterBlank character, int cooldown)
+    public virtual void Setup(CharacterBlank character)
     {
         _character = character;
-        _cooldown = cooldown;
     }
     #endregion
 

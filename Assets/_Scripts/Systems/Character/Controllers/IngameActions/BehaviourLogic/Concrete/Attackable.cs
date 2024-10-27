@@ -12,14 +12,6 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
     [SerializeField] private int _apCost;
 
     #region init
-    public Attackable() { }
-    public Attackable(CharacterBlank character, Animator animator) : base(character)
-    {
-        _characterInfo = character.GetComponent<CharacterInfo>();
-        _animator = animator;
-        _apMpSystem = character.ApMpSystem;
-    }
-
     protected override void SetActionName()
         => _name = typeof(Attackable).Name;
 
@@ -31,11 +23,19 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
     public void Setup(CharacterInfo characterInfo, Animator animator)
     {
         // Add ApCost for attacks
-        Setup(characterInfo.GetComponent<CharacterBlank>(), 0);
+        Setup(characterInfo.GetComponent<CharacterBlank>());
         _apMpSystem = _character.ApMpSystem;
 
         _characterInfo = characterInfo; 
         _animator = animator;
+    }
+
+    public override void Setup(CharacterBlank character)
+    {
+        base.Setup(character);
+        _characterInfo = character.GetComponent<CharacterInfo>();
+        _animator = character.GetComponentInChildren<Animator>();
+        _apMpSystem = character.ApMpSystem;
     }
     #endregion
 

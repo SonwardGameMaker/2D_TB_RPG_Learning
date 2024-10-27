@@ -14,6 +14,7 @@ public class CharacterIngameController : MonoBehaviour
 
     private IMovable _movable;
     private IAttackable _attackable;
+    private ActionList _skills;
 
     private ActionCommandList _commandList;
 
@@ -29,7 +30,8 @@ public class CharacterIngameController : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
 
         _movable = GetComponentInChildren<IMovable>();
-        _attackable = GetComponentInChildren<IAttackable>();
+        _attackable = GetComponentInChildren<Attackable>();
+        _skills = GetComponentInChildren<ActionList>();
 
         _movable.Setup(_characterInfo, _animator);
         _attackable.Setup(_characterInfo, _animator);

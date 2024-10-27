@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 
 internal class ActionList : MonoBehaviour
 {
+    [SerializeField] private GameObject _skillContainer;
+
     private List<BehaviourScriptBase> _baseActions;
     private List<BehaviourScriptBase> _actions;
     private List<BehaviourScriptBase> _skillActions;
@@ -25,9 +29,18 @@ internal class ActionList : MonoBehaviour
         CharacterBlank character = transform.parent.GetComponent<CharacterBlank>();
         Animator animator = transform.parent.GetComponentInChildren<Animator>();
 
-        _baseActions.Add(new Movable(character, animator));
-        Debug.Log(_baseActions[0].GetType());
+        _baseActions.Add(GetComponent<Movable>());
+
+        _skillActions.AddRange(_skillContainer.GetComponents<BehaviourScriptBase>());
+        foreach (var skill in _skillActions)
+            skill.Setup(character);
     }
+
+    #region properties
+    public IReadOnlyList<BehaviourScriptBase> BaseActions { get => _baseActions ; }
+    public IReadOnlyList<BehaviourScriptBase> Actions { get => _actions; }
+    public IReadOnlyList<BehaviourScriptBase> Skills {  get => _skillActions; }
+    #endregion
 
     #region getters
     public T GetBaseAction<T>() where T : BehaviourScriptBase

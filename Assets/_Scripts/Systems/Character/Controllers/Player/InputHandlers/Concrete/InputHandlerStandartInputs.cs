@@ -10,6 +10,7 @@ public class InputReaderStandartInputs : MonoBehaviour, IInputHandler
     public event Action AttackMode_Pressed;
     public event Action AttackMode_Released;
     public event Action FirstCellButton_Pressed;
+    public event Action SecondCellButton_Pressed;
     public event Action CancelButton_Pressed;
 
     private void Update()
@@ -22,19 +23,26 @@ public class InputReaderStandartInputs : MonoBehaviour, IInputHandler
         {
             RMB_Pressed?.Invoke();
         }
+
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             AttackMode_Pressed?.Invoke();
         }
-        if ( Input.GetKeyUp(KeyCode.LeftControl))
+        if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             AttackMode_Released?.Invoke();
         }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             FirstCellButton_Pressed?.Invoke();
         }
-        if ( Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            SecondCellButton_Pressed?.Invoke();
+        }
+
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
             CancelButton_Pressed?.Invoke();
         }

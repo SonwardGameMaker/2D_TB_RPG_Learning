@@ -4,8 +4,6 @@ using UnityEngine;
 
 internal class PlayerIdleState : PlayerState
 {
-    private PlayerHoldAttackState _holdAttackState;
-
     #region init
     public PlayerIdleState(
         PlayerStateMachine stateMachine,
@@ -23,6 +21,7 @@ internal class PlayerIdleState : PlayerState
         _inputHandler.RMB_Pressed += Interact;
 
         _inputHandler.FirstCellButton_Pressed += ChangeToAttackMode;
+        _inputHandler.SecondCellButton_Pressed += ChangeToBiteAttackState;
 
         _inputHandler.AttackMode_Pressed += ChangeToHoldAttackMode;
     }
@@ -35,6 +34,7 @@ internal class PlayerIdleState : PlayerState
         _inputHandler.RMB_Pressed -= Interact;
 
         _inputHandler.FirstCellButton_Pressed -= ChangeToAttackMode;
+        _inputHandler.SecondCellButton_Pressed -= ChangeToBiteAttackState;
 
         _inputHandler.AttackMode_Pressed -= ChangeToHoldAttackMode;
     }
@@ -86,7 +86,16 @@ internal class PlayerIdleState : PlayerState
     }
 
     private void ChangeToAttackMode()
-        => _stateMachine.ChangeState<PlayerAttackState>();
+    {
+        _stateMachine.GetState<PlayerAttackState>().Setup(_stateMachine.AttackRadius);
+        _stateMachine.ChangeState<PlayerAttackState>();
+    }
+        
+    private void ChangeToBiteAttackState()
+    {
+        _stateMachine.GetState<PlayerAttackState>().Setup(_player.GetComponentInChildren<ActionList>().GetSkillAction<BiteAttack>(), 1);
+        _stateMachine.ChangeState<PlayerAttackState>();
+    }
     #endregion
 
     #region event handlers

@@ -38,6 +38,7 @@ internal class PlayerStateMachine
 
     #region properties
     public PlayerState CurrentState { get => _currentState; }
+
     public GridManager GridManager 
     { 
         get => _gridManager;
@@ -54,5 +55,8 @@ internal class PlayerStateMachine
         _currentState = _stateList.Find(s => s as T is T) as T;
         _currentState.EnterState();
     }
+
+    public T GetState<T>() where T : PlayerState
+        => _stateList.Find(s => s is T) as T;
     #endregion
 }

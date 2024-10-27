@@ -8,18 +8,11 @@ internal class BiteAttack : BehaviourScriptBase, IAttackable, IApCosted
     private CharacterInfo _characterInfo;
     private Animator _animator;
     private ApMpSystem _apMpSystem;
+    private IDamagable _selfDamagable;
 
     [SerializeField] private int _apCost;
 
     #region init
-    public BiteAttack() { }
-    public BiteAttack(CharacterBlank character, Animator animator) : base(character)
-    {
-        _animator = animator;
-        _characterInfo = character.GetComponent<CharacterInfo>();
-        _apMpSystem = character.ApMpSystem;
-    }
-
     protected override void SetActionName()
         => _name = typeof(BiteAttack).Name;
 
@@ -30,12 +23,21 @@ internal class BiteAttack : BehaviourScriptBase, IAttackable, IApCosted
 
     public void Setup(CharacterInfo characterInfo, Animator animator)
     {
-        // Add ApCost for attacks
-        Setup(characterInfo.GetComponent<CharacterBlank>(), 0);
+        Setup(characterInfo.GetComponent<CharacterBlank>());
         _apMpSystem = _character.ApMpSystem;
+        _selfDamagable = characterInfo.GetComponentInChildren<IDamagable>();
 
         _characterInfo = characterInfo;
         _animator = animator;
+    }
+
+    public override void Setup(CharacterBlank character)
+    {
+        base.Setup(character);
+        _characterInfo = character.GetComponent<CharacterInfo>();
+        _selfDamagable = character.GetComponentInChildren<IDamagable>();
+        _animator = character.GetComponentInChildren<Animator>();
+        _apMpSystem = character.ApMpSystem;
     }
     #endregion
 
@@ -45,25 +47,30 @@ internal class BiteAttack : BehaviourScriptBase, IAttackable, IApCosted
 
     public void Attack(IDamagable target, Action<bool, string> onEndCorutineAction)
     {
-        throw new NotImplementedException();
+        if (TryConsumeResources())
+        {
+            _coroutine = StartCoroutine(AttackCoroutine(target, _animator, onEndCorutineAction));
+        }
+        else
+        {
+            onEndCorutineAction?.Invoke(false, NOT_ENOUGHT_AP_MEASSAGE);
+        }
     }
 
     #region internal operations
     public override bool CheckIfEnoughtResources()
-    {
-        throw new System.NotImplementedException();
-    }
+         => _apMpSystem.ActionPoints.CurrentValue >= _apCost;
 
     public override void ConsumeResources()
-    {
-        throw new System.NotImplementedException();
-    }
+        => _apMpSystem.TryChangeCurrAp(-_apCost);
 
     private void TryHit(IDamagable target)
     {
-        HitDataContainer hitData = _characterInfo.CalculateHitData();
-
-        target.TakeHit(hitData);
+        if (target.TakeHit(new HitDataContainer(_characterInfo, 15, DamageType.Mechanical, _character.Stats.Melee.CurrentValue)))
+        {
+            Debug.Log("Healing");
+            _selfDamagable.TakeHealing(15);
+        } 
     }
 
     private bool IsAnimationFinished(Animator animator, string animationName)

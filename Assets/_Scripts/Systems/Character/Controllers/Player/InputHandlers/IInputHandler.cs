@@ -9,6 +9,7 @@ public interface IInputHandler
     public event Action RMB_Pressed;
 
     public event Action FirstCellButton_Pressed;
+    public event Action SecondCellButton_Pressed;
 
     public event Action AttackMode_Pressed;
     public event Action AttackMode_Released;

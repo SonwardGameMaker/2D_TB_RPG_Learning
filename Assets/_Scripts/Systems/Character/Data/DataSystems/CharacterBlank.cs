@@ -40,6 +40,10 @@ internal class CharacterBlank : MonoBehaviour
 
 
         GetComponent<CharacterInfo>().SetUp(this);
+
+        // Debug
+        if (TryGetComponent(out CharacterStateChangingDebug stateDebug))
+            stateDebug.Setup(this);
     }
     #endregion
 }

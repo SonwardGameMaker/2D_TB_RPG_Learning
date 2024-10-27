@@ -16,14 +16,6 @@ internal class Movable : BehaviourScriptBase, IMovable
     [SerializeField] private float _mpApCostModifier;
 
     #region init
-    public Movable() { }
-    public Movable(CharacterBlank character, Animator animator) : base(character)
-    {
-        _animator = animator;
-        _characterInfo = _character.GetComponent<CharacterInfo>();
-        _apMpSystem = _character.ApMpSystem;
-    }
-
     protected override void SetActionName()
         => _name = typeof(Movable).Name;
 
@@ -34,7 +26,7 @@ internal class Movable : BehaviourScriptBase, IMovable
 
     public void Setup(CharacterInfo characterInfo, Animator animator)
     {
-        Setup(characterInfo.GetComponent<CharacterBlank>(), 0);
+        Setup(characterInfo.GetComponent<CharacterBlank>());
 
         _characterInfo = characterInfo; 
         _apMpSystem = _character.ApMpSystem;

@@ -60,6 +60,18 @@ public class CharHealthSystem : ICharResourseFieldGettable
         _isHealthFull = IsHealthFull();
 
     }
+    public void SetHp(float amount)
+    {
+        if (amount <= _health.MinValue)
+        {
+            _health.CurrentValue = amount;
+            Death();
+        }
+        else if (amount > _health.MaxValue)
+            _health.CurrentValue = _health.MaxValue;
+        else 
+            _health.CurrentValue = amount;
+    }
     public void Death()
     {
         IsAlive = false;

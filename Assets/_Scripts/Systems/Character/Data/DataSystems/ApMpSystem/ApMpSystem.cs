@@ -50,7 +50,7 @@ public class ApMpSystem : ICharResourseFieldGettable
     }
     #endregion
 
-    #region extrnal interation
+    #region extrnal interations
     public CharResource GetFieldByEnum(CharResourceFieldType fieldType)
     {
         //CharResource result = (CharResource)GetType().GetField(fieldType.ToString()).GetValue(this);
@@ -89,6 +89,23 @@ public class ApMpSystem : ICharResourseFieldGettable
             return true;
         }
     }
+
+    public void SetMp(float amount)
+    {
+        if (amount < _movementPoints.MinValue)
+            _movementPoints.CurrentValue = _movementPoints.MinValue;
+        else
+            _movementPoints.CurrentValue = amount;
+    }
+
+    public void SetAp(float amount)
+    {
+        if (amount < _actionPoints.MinValue)
+            _actionPoints.CurrentValue = _actionPoints.MinValue;
+        else
+            _actionPoints.CurrentValue = amount;
+    }
+
     public void ResetAp() => _actionPoints.CurrentValue = _actionPoints.MaxValue;
     public void ResetMp() => _movementPoints.CurrentValue = _movementPoints.MaxValue;
     public void ResetAll()
