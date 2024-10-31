@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
+internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted, IGridManagerInteractabe
 {
-    private CharacterInfo _characterInfo;
-    private Animator _animator;
-    private ApMpSystem _apMpSystem;
+    protected CharacterInfo _characterInfo;
+    protected Animator _animator;
+    protected ApMpSystem _apMpSystem;
+    protected GridManager _gridManager;
 
-    [SerializeField] private CharResource _apCost;
-    [SerializeField] private int _attackRadius;
+    [SerializeField] protected CharResource _apCost;
+    [SerializeField] protected int _attackRadius;
 
     #region init
     protected override void SetActionName()
@@ -38,6 +39,11 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
         _animator = character.GetComponentInChildren<Animator>();
         _apMpSystem = character.ApMpSystem;
     }
+
+    public void SetupGridManager(GridManager gridManager)
+    {
+        _gridManager = gridManager;
+    }
     #endregion
 
     #region properties
@@ -58,27 +64,6 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
         }
     }
 
-    public override PlayerBehaviourScriptContainer GenerateScriptContainer()
-        => new AttackableContainer(this);
-
-    public ParInteraction CreateApCostEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
-        => new ParInteraction(affectors, _apCost, CalculateLogic);
-    #endregion
-
-    #region internal operations
-    private void TryHit(IDamagable target)
-    {
-        HitDataContainer hitData = _characterInfo.CalculateHitData();
-
-        target.TakeHit(hitData);
-    }
-
-    private bool IsAnimationFinished(Animator animator, string animationName)
-    {
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        return stateInfo.IsName(animationName) && stateInfo.normalizedTime >= 1f;
-    }
-
     public override bool CheckIfEnoughtResources()
         => _apMpSystem.ActionPoints.CurrentValue >= _apCost.CurrentValue;
 
@@ -93,6 +78,27 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
             return true;
         }
         return false;
+    }
+
+    public override PlayerBehaviourScriptContainer GenerateScriptContainer()
+        => new AttackableContainer(this);
+
+    public ParInteraction CreateApCostEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
+        => new ParInteraction(affectors, _apCost, CalculateLogic);
+    #endregion
+
+    #region internal operations
+    protected void TryHit(IDamagable target)
+    {
+        HitDataContainer hitData = _characterInfo.CalculateHitData();
+
+        target.TakeHit(hitData);
+    }
+
+    protected bool IsAnimationFinished(Animator animator, string animationName)
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        return stateInfo.IsName(animationName) && stateInfo.normalizedTime >= 1f;
     }
     #endregion
 
