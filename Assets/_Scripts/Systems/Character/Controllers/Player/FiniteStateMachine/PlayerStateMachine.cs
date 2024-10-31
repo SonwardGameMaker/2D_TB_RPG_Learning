@@ -9,10 +9,19 @@ internal class PlayerStateMachine
     private UiManager _uiManager;
 
     private List<PlayerState> _stateList;
+    private List<PlayerBehaviourScriptContainer> _actions;
+
+    #region fixed actions
+    private PlayerBehaviourScriptContainer _firstCellContainer;
+    private PlayerBehaviourScriptContainer _secondCellContainer;
+    private PlayerBehaviourScriptContainer _thirdCellContainer;
+    // ...
+    #endregion
 
     #region init
     public PlayerStateMachine(UiManager uiManager, InputHandlerManager inputHandler)
     {
+        Debug.Log($"{typeof(PlayerStateMachine)}");
         _uiManager = uiManager;
 
         PlayerIngameController controller = inputHandler.GetComponent<PlayerIngameController>();
@@ -23,6 +32,14 @@ internal class PlayerStateMachine
         _stateList.Add(new PlayerIdleState(this, controller, input, player));
         _stateList.Add(new PlayerHoldAttackState(this, controller, input, player));
         _stateList.Add(new PlayerAttackState(this, controller, input, player));
+
+        _actions = inputHandler.GetComponentInChildren<ActionList>().AllActionsContainer();
+        foreach (var container in _actions)
+            container.SetStateMachine(this);
+
+        // Debug
+        _firstCellContainer = _actions.Find(a => a is AttackableContainer) as AttackableContainer;
+        _secondCellContainer = _actions.Find(a => a is BiteAttackContainer) as BiteAttackContainer;
     }
     public void Setup<T>() where T : PlayerState
     {
@@ -38,6 +55,9 @@ internal class PlayerStateMachine
 
     #region properties
     public PlayerState CurrentState { get => _currentState; }
+    public PlayerBehaviourScriptContainer FirstCell { get => _firstCellContainer; }
+    public PlayerBehaviourScriptContainer SecondCell { get => _secondCellContainer; }
+    public PlayerBehaviourScriptContainer ThirdCell { get => _thirdCellContainer; }
 
     public GridManager GridManager 
     { 

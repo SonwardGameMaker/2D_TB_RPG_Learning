@@ -10,7 +10,8 @@ internal class BiteAttack : BehaviourScriptBase, IAttackable, IApCosted
     private ApMpSystem _apMpSystem;
     private IDamagable _selfDamagable;
 
-    [SerializeField] private int _apCost;
+    [SerializeField] private CharResource _apCost;
+    [SerializeField] private int _attackRadius;
 
     #region init
     protected override void SetActionName()
@@ -42,9 +43,11 @@ internal class BiteAttack : BehaviourScriptBase, IAttackable, IApCosted
     #endregion
 
     #region properties
-    public int ApCost { get => _apCost; }
+    public int ApCost { get => (int)_apCost.CurrentValue; }
+    public int AttackRadius { get => _attackRadius; }
     #endregion
 
+    #region external interactions
     public void Attack(IDamagable target, Action<bool, string> onEndCorutineAction)
     {
         if (TryConsumeResources())
@@ -57,12 +60,19 @@ internal class BiteAttack : BehaviourScriptBase, IAttackable, IApCosted
         }
     }
 
+    public override PlayerBehaviourScriptContainer GenerateScriptContainer()
+        => new BiteAttackContainer(this);
+
+    public ParInteraction CreateApCostEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
+        => new ParInteraction(affectors, _apCost, CalculateLogic);
+    #endregion
+
     #region internal operations
     public override bool CheckIfEnoughtResources()
-         => _apMpSystem.ActionPoints.CurrentValue >= _apCost;
+         => _apMpSystem.ActionPoints.CurrentValue >= _apCost.CurrentValue;
 
     public override void ConsumeResources()
-        => _apMpSystem.TryChangeCurrAp(-_apCost);
+        => _apMpSystem.TryChangeCurrAp(-_apCost.CurrentValue);
 
     private void TryHit(IDamagable target)
     {

@@ -5,11 +5,9 @@ using UnityEngine;
 
 public class InputHandlerManager : ControllerManagerBase
 {
-    [SerializeField] private UiManager _uiManager;
-
-    #region state machine variables
     private PlayerStateMachine _stateMachine;
-    #endregion
+
+    [SerializeField] private UiManager _uiManager;
 
     [Header("Debug")]
     [SerializeField] private int _attackRadius = 0;

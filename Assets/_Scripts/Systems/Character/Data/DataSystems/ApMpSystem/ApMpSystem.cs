@@ -119,6 +119,7 @@ public class ApMpSystem : ICharResourseFieldGettable
         => CreateApEffect(new List<CharParameterBase> { affector }, CalculateLogic);
     public ParInteraction CreateApEffect((List<CharParameterBase>, ModValueCalculateLogic) parameters)
         => new ParInteraction(parameters.Item1, _actionPoints, parameters.Item2);
+
     public ParInteraction CreateMpEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
         => new ParInteraction(affectors, _movementPoints, CalculateLogic);
     public ParInteraction CreateMpEffect(CharParameterBase affector, ModValueCalculateLogic CalculateLogic)

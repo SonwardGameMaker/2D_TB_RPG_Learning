@@ -87,6 +87,9 @@ internal class Movable : BehaviourScriptBase, IMovable
         else
             return false;
     }
+
+    public override PlayerBehaviourScriptContainer GenerateScriptContainer()
+        => new MovableContainer(this);
     #endregion
 
     #region internal operations

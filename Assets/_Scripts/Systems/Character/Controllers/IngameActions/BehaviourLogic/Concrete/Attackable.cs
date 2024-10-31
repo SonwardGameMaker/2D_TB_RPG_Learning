@@ -9,7 +9,8 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
     private Animator _animator;
     private ApMpSystem _apMpSystem;
 
-    [SerializeField] private int _apCost;
+    [SerializeField] private CharResource _apCost;
+    [SerializeField] private int _attackRadius;
 
     #region init
     protected override void SetActionName()
@@ -40,7 +41,8 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
     #endregion
 
     #region properties
-    public int ApCost { get => _apCost; }
+    public int ApCost { get => (int)_apCost.CurrentValue; }
+    public int AttackRadius { get => _attackRadius; }
     #endregion
 
     #region external interactions
@@ -55,6 +57,12 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
             onEndCorutineAction?.Invoke(false, NOT_ENOUGHT_AP_MEASSAGE);
         }
     }
+
+    public override PlayerBehaviourScriptContainer GenerateScriptContainer()
+        => new AttackableContainer(this);
+
+    public ParInteraction CreateApCostEffect(List<CharParameterBase> affectors, ModValueCalculateLogic CalculateLogic)
+        => new ParInteraction(affectors, _apCost, CalculateLogic);
     #endregion
 
     #region internal operations
@@ -72,10 +80,10 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted
     }
 
     public override bool CheckIfEnoughtResources()
-        => _apMpSystem.ActionPoints.CurrentValue >= _apCost;
+        => _apMpSystem.ActionPoints.CurrentValue >= _apCost.CurrentValue;
 
     public override void ConsumeResources()
-        => _apMpSystem.TryChangeCurrAp(-_apCost);
+        => _apMpSystem.TryChangeCurrAp(-_apCost.CurrentValue);
 
     public override bool TryConsumeResources()
     {

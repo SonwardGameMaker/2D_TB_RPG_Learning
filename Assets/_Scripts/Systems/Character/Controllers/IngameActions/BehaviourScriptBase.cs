@@ -50,6 +50,7 @@ internal abstract class BehaviourScriptBase : MonoBehaviour
             return false;
     }
 
+    public abstract PlayerBehaviourScriptContainer GenerateScriptContainer();
 
     public void StopExecuting()
         => StopCoroutine(_coroutine);

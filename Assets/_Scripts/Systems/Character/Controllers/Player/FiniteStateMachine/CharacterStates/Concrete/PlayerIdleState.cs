@@ -20,8 +20,8 @@ internal class PlayerIdleState : PlayerState
         _inputHandler.LMB_Pressed += Select;
         _inputHandler.RMB_Pressed += Interact;
 
-        _inputHandler.FirstCellButton_Pressed += ChangeToAttackMode;
-        _inputHandler.SecondCellButton_Pressed += ChangeToBiteAttackState;
+        _inputHandler.FirstCellButton_Pressed += ActivateFirstCell;
+        _inputHandler.SecondCellButton_Pressed += ActivateSecondCell;
 
         _inputHandler.AttackMode_Pressed += ChangeToHoldAttackMode;
     }
@@ -33,8 +33,8 @@ internal class PlayerIdleState : PlayerState
         _inputHandler.LMB_Pressed -= Select;
         _inputHandler.RMB_Pressed -= Interact;
 
-        _inputHandler.FirstCellButton_Pressed -= ChangeToAttackMode;
-        _inputHandler.SecondCellButton_Pressed -= ChangeToBiteAttackState;
+        _inputHandler.FirstCellButton_Pressed -= ActivateFirstCell;
+        _inputHandler.SecondCellButton_Pressed -= ActivateSecondCell;
 
         _inputHandler.AttackMode_Pressed -= ChangeToHoldAttackMode;
     }
@@ -85,16 +85,14 @@ internal class PlayerIdleState : PlayerState
         _stateMachine.ChangeState<PlayerHoldAttackState>();
     }
 
-    private void ChangeToAttackMode()
+    private void ActivateFirstCell()
     {
-        _stateMachine.GetState<PlayerAttackState>().Setup(_stateMachine.AttackRadius);
-        _stateMachine.ChangeState<PlayerAttackState>();
+        _stateMachine.FirstCell.Activate();
     }
         
-    private void ChangeToBiteAttackState()
+    private void ActivateSecondCell()
     {
-        _stateMachine.GetState<PlayerAttackState>().Setup(_player.GetComponentInChildren<ActionList>().GetSkillAction<BiteAttack>(), 1);
-        _stateMachine.ChangeState<PlayerAttackState>();
+        _stateMachine.SecondCell.Activate();
     }
     #endregion
 

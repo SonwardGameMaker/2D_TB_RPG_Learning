@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.Utilities;
@@ -20,6 +21,7 @@ internal class ActionList : MonoBehaviour
 
     public void Setup()
     {
+        Debug.Log($"{typeof(ActionList)}");
         CharacterBlank characterBlank = GetComponent<CharacterBlank>();
 
         _baseActions = new List<BehaviourScriptBase>();
@@ -30,6 +32,7 @@ internal class ActionList : MonoBehaviour
         Animator animator = transform.parent.GetComponentInChildren<Animator>();
 
         _baseActions.Add(GetComponent<Movable>());
+        _baseActions.Add(GetComponent<Attackable>());
 
         _skillActions.AddRange(_skillContainer.GetComponents<BehaviourScriptBase>());
         foreach (var skill in _skillActions)
@@ -51,5 +54,25 @@ internal class ActionList : MonoBehaviour
 
     public T GetSkillAction<T>() where T : BehaviourScriptBase
         => _skillActions.Find(a => a is T) as T;
+    #endregion
+
+    #region external interactions
+    public List<PlayerBehaviourScriptContainer> BaseActionContainers() 
+        => _baseActions.Select(a => a.GenerateScriptContainer()).ToList();
+
+    public List<PlayerBehaviourScriptContainer> ActionContainers()
+        => _actions.Select(a => a.GenerateScriptContainer()).ToList();
+
+    public List<PlayerBehaviourScriptContainer> SkillActionContainers()
+        => _skillActions.Select(a => a.GenerateScriptContainer()).ToList();
+
+    public List<PlayerBehaviourScriptContainer> AllActionsContainer()
+    {
+        List<PlayerBehaviourScriptContainer> result = new List<PlayerBehaviourScriptContainer>();
+        result.AddRange(BaseActionContainers());
+        result.AddRange(ActionContainers());
+        result.AddRange(SkillActionContainers());
+        return result;
+    }
     #endregion
 }
