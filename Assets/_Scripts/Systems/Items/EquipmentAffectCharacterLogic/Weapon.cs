@@ -3,15 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WeaponType { Melee, Rangeed }
-public enum WeaponWeight { Light, Normal }
+public enum WeaponType { Light, Normal }
 [Serializable]
 internal class Weapon : Item, IEquipable, IDurable
 {
     [SerializeField] private WeaponSO _weaponSO;
 
+    [SerializeField] private AttackRangeType _weaponRangeType;
     [SerializeField] private WeaponType _weaponType;
-    [SerializeField] private WeaponWeight _weaponWeight;
     [SerializeField] private DamageType _damageType;
     [SerializeField] private WeaponDamageParam _weaponDamage;
     [SerializeField] private int _weaponRange;
@@ -82,8 +81,8 @@ internal class Weapon : Item, IEquipable, IDurable
         Price = weaponSO.Price;
         ImageUI = weaponSO.ImageUI;
 
-        _weaponType = weaponSO.WeaponType;
-        _weaponWeight = weaponSO.WeaponWeight;
+        _weaponRangeType = weaponSO.WeaponRangeType;
+        _weaponType = weaponSO.WeaponWeight;
         _damageType = weaponSO.DamageType;
         _weaponDamage = weaponSO.WeaponDamage;
         _weaponRange = weaponSO.WeaponRange;
@@ -101,8 +100,8 @@ internal class Weapon : Item, IEquipable, IDurable
     #endregion
 
     #region properties
+    public AttackRangeType WeaponRangeType { get => _weaponRangeType; }
     public WeaponType WeaponType { get => _weaponType; }
-    public WeaponWeight WeaponWeight { get => _weaponWeight; }
     public DamageType DamageType { get => _damageType; }
     public float MaxDamage { get => _weaponDamage.MaxValue; }
     public float MinDamage { get => _weaponDamage.MinValue; }

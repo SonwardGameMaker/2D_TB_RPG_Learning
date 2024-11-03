@@ -1,16 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted, IGridManagerInteractabe
+internal abstract class Attackable : BehaviourScriptBase, IAttackable, IApCosted, IGridManagerInteractabe
 {
     protected CharacterInfo _characterInfo;
     protected Animator _animator;
     protected ApMpSystem _apMpSystem;
     protected GridManager _gridManager;
 
-    [SerializeField] protected CharResource _apCost;
+    [SerializeField] protected AttackRangeType _attackRangeType;
+    [SerializeField] protected FlatParameter _apCost = new FlatParameter("ApCost", 0);
     [SerializeField] protected int _attackRadius;
 
     #region init
@@ -47,12 +49,13 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted, IGridMa
     #endregion
 
     #region properties
+    public AttackRangeType AttackRangeType { get => _attackRangeType; }
     public int ApCost { get => (int)_apCost.CurrentValue; }
     public int AttackRadius { get => _attackRadius; }
     #endregion
 
     #region external interactions
-    public void Attack(IDamagable target, Action<bool, string> onEndCorutineAction)
+    public virtual void Attack(IDamagable target, Action<bool, string> onEndCorutineAction)
     {
         if (TryConsumeResources())
         {
@@ -100,22 +103,23 @@ internal class Attackable : BehaviourScriptBase, IAttackable, IApCosted, IGridMa
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         return stateInfo.IsName(animationName) && stateInfo.normalizedTime >= 1f;
     }
+
+    protected float GetAnimationLength(Animator animator, string animationName)
+        => animator.runtimeAnimatorController.animationClips.First(anim => anim.name == animationName).length;
     #endregion
 
     #region coroutines
     private IEnumerator AttackCoroutine(IDamagable target, Animator animator, Action<bool,string> action)
     {
         animator.Play(AnimationConstants.PreparingToShootPistol);
-        yield return new WaitUntil(() => IsAnimationFinished(animator, AnimationConstants.PreparingToShootPistol));
+        yield return new WaitForSeconds(GetAnimationLength(animator, AnimationConstants.PreparingToShootPistol));
 
-        animator.SetBool(AnimationConstants.ShootingBool, true);
-        yield return null;
+        animator.Play(AnimationConstants.PistolShooting);
+        yield return new WaitForSeconds(GetAnimationLength(animator, AnimationConstants.PistolShooting));
         TryHit(target);
-        yield return null;
-        animator.SetBool(AnimationConstants.ShootingBool, false);
 
         animator.Play(AnimationConstants.HidingPistol);
-        yield return new WaitUntil(() => IsAnimationFinished(animator, AnimationConstants.HidingPistol));
+        yield return new WaitForSeconds(GetAnimationLength(animator, AnimationConstants.HidingPistol));
 
         action?.Invoke(true, SUCCESSFUL_EXECUTION_MEASSAGE);
         yield break;

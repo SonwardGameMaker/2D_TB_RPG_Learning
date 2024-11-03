@@ -21,7 +21,6 @@ internal class ActionList : MonoBehaviour
 
     public void Setup()
     {
-        Debug.Log($"{typeof(ActionList)}");
         CharacterBlank characterBlank = GetComponent<CharacterBlank>();
 
         _baseActions = new List<BehaviourScriptBase>();

@@ -89,7 +89,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cooldown: 0
-  _apCost: 5
+  _apCost:
+    _name: Default_Name
+    _minValue: 0
+    _currentValue: 30
+    _maxValue:
+      baseValue: 30
+      IsLowerBounded: 1
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  _attackRadius: 1
 --- !u!1 &4662719778396440409
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +154,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3111139323615814662}
   - component: {fileID: 4760708013891544911}
-  - component: {fileID: 6042011264021227986}
+  - component: {fileID: 4218039495676780974}
   - component: {fileID: 8859687626547572284}
   m_Layer: 0
   m_Name: BehaviourLogic
@@ -184,7 +194,7 @@ MonoBehaviour:
   _cooldown: 0
   _speed: 1
   _mpApCostModifier: 0.1
---- !u!114 &6042011264021227986
+--- !u!114 &4218039495676780974
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,11 +203,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 7513023553363331499}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d43ca2e2f981a347bab382f0c8e74b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b29d40c31eb10f4bb710a473d66a9a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _cooldown: 0
-  _apCost: 5
+  _attackRangeType: 0
+  _apCost:
+    _name: ApCost
+    _currentValue:
+      baseValue: 5
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 30
+  _attackRadius: 0
 --- !u!114 &8859687626547572284
 MonoBehaviour:
   m_ObjectHideFlags: 0

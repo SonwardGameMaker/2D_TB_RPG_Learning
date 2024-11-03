@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class FlatParameter : CharParameterBase, ICurrValModifiable
 {
     [SerializeField] private ModVar _currentValue;

@@ -21,7 +21,6 @@ internal class PlayerStateMachine
     #region init
     public PlayerStateMachine(UiManager uiManager, InputHandlerManager inputHandler)
     {
-        Debug.Log($"{typeof(PlayerStateMachine)}");
         _uiManager = uiManager;
 
         PlayerIngameController controller = inputHandler.GetComponent<PlayerIngameController>();

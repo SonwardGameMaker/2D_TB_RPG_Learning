@@ -7,8 +7,8 @@ using UnityEngine;
 [Serializable]
 internal class WeaponSO : ItemBaseSO
 {
-    public WeaponType WeaponType;
-    public WeaponWeight WeaponWeight;
+    public AttackRangeType WeaponRangeType;
+    public WeaponType WeaponWeight;
     public DamageType DamageType;
     public WeaponDamageParam WeaponDamage;
     public int WeaponRange;

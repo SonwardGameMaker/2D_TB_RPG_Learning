@@ -12,8 +12,6 @@ internal class CharacterBlank : MonoBehaviour
     [SerializeField] private ApMpSystem _apMpSystem;
     [SerializeField] private OtherParameters _ingameParameters;
 
-    //private CharacterInventory _inventory;
-
     private List<ParInteraction> _interactions;
 
     public string Name { get => _name; }

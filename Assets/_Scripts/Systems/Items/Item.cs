@@ -9,6 +9,7 @@ public class Item
     public string Description { get; protected set; }
     public Sprite ImageUI { get; set; }
     public int Amount { get; protected set; }
+    public bool CanBeSold { get; protected set; }
     public virtual float Price { get; protected set; }
 
     public Item() { }
