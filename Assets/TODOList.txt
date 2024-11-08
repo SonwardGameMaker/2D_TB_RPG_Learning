@@ -22,3 +22,4 @@ III. Pathfinder and character controller
 //—-----------------------------------------------------------------------------------------------------------------
 1. Make moving to consume Movement and Action points
 
+ - delete all SO with logic

@@ -7,44 +7,41 @@ using UnityEngine;
 public class CharacterInfo : MonoBehaviour
 {
     private CharacterBlank _character;
+    private CharHealthSystem _healthSystem;
 
-    public CharacterCombatStats CharacterCombatStats;
+    public CharacterCombatInfo CharacterCombatInfo;
     public CharacterStatsInfo CharacterStats;
 
 
     #region init
-    private void OnDestroy()
-    {
-        _character.GetComponent<CharacterBlank>().Health.CharDeath -= HandleCharDeath;
-    }
-
     internal void SetUp(CharacterBlank character)
     {
         _character = character;
-        character.GetComponent<CharacterBlank>().Health.CharDeath += HandleCharDeath;
+        _healthSystem = character.GetComponent<CharacterBlank>().Health;
+        
 
-        CharacterCombatStats = new CharacterCombatStats(character);
+        CharacterCombatInfo = new CharacterCombatInfo(this, character);
         CharacterStats = new CharacterStatsInfo(character.Stats);
 
-        //Debug.Log($"{nameof(CharacterInfo)} enabled");
+        _healthSystem.CharDeath += HandleCharDeath;
     }
 
+    private void OnDestroy()
+    {
+        _healthSystem.CharDeath -= HandleCharDeath;
+    }
     #endregion
 
     public string GetBaseInfoString()
     {
-        return $"Name: {_character.Name}, Health: {CharacterCombatStats.Health.CurrentValue}/{CharacterCombatStats.Health.MaxValue}";
+        return $"Name: {_character.Name}, Health: {CharacterCombatInfo.Health.CurrentValue}/{CharacterCombatInfo.Health.MaxValue}";
     }
+    public override string ToString()
+        => GetBaseInfoString();
 
     #region events
     public event Action<GameObject> CharDeath;
     #endregion
-
-    public HitDataContainer CalculateHitData()
-    {
-        //Debug.Log($"Attackin skill: {CharacterCombatStats.WeaponSkill.CurrentValue}");
-        return new HitDataContainer(this, CharacterCombatStats.CalculateDamage(), CharacterCombatStats.WeaponSkill.CurrentValue);
-    }
 
     private void HandleCharDeath() => CharDeath?.Invoke(gameObject);
 }

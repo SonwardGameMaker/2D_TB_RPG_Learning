@@ -17,7 +17,7 @@ public class HealthLabelScript : MonoBehaviour
     void Start()
     {
         _playerIngameController = _characterInfo.GetComponent<PlayerIngameController>();
-        _health = _characterInfo.CharacterCombatStats.Health;
+        _health = _characterInfo.CharacterCombatInfo.Health;
         OnHealthValueChanged();
         _health.SubscribeToAll(OnHealthValueChanged);
         _characterInfo.CharDeath += CharDeathEventHandler;

@@ -22,6 +22,12 @@ public enum StatType
     Mercantile
 }
 
+public enum StatValueWorkerType
+{
+    CurrentValue,
+    MaxValue
+}
+
 public enum AttributeType
 {
     Strength,

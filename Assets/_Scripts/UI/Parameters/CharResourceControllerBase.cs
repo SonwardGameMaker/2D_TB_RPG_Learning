@@ -30,7 +30,7 @@ public class CharResourceControllerBase : MonoBehaviour
     }
     protected void Init()
     {
-        Init(characterInfo.CharacterCombatStats.Health);
+        Init(characterInfo.CharacterCombatInfo.Health);
     }
     protected void MyDestroy()
     {

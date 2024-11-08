@@ -99,6 +99,7 @@ public static class UtilityFunctionsParam
     public static MinValueWorker GetMinValueMod(CharParameterBase parameter) => new MinValueWorker(parameter);
     public static CurrentValueWorker GetCurrValueMod(CharParameterBase parameter) => new CurrentValueWorker(parameter);
     public static TrashholdValueWorker GetTrashholdValueMod(CharParameterBase parameter) => new TrashholdValueWorker(parameter);
+    public static MitigationValueWorker GetMitigationValueMod(CharParameterBase parameter) => new MitigationValueWorker(parameter);
     #endregion
 
     #region CheckObject functions

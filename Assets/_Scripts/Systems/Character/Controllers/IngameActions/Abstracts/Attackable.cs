@@ -19,11 +19,6 @@ internal abstract class Attackable : BehaviourScriptBase, IAttackable, IApCosted
     protected override void SetActionName()
         => _name = typeof(Attackable).Name;
 
-    private void Awake()
-    {
-        _name = typeof(Attackable).Name;
-    }
-
     public void Setup(CharacterInfo characterInfo, Animator animator)
     {
         // Add ApCost for attacks
@@ -93,7 +88,7 @@ internal abstract class Attackable : BehaviourScriptBase, IAttackable, IApCosted
     #region internal operations
     protected void TryHit(IDamagable target)
     {
-        HitDataContainer hitData = _characterInfo.CalculateHitData();
+        HitDataContainer hitData = _characterInfo.CharacterCombatInfo.CalculateHitData();
 
         target.TakeHit(hitData);
     }

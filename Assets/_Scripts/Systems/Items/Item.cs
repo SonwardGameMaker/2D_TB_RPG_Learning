@@ -8,20 +8,37 @@ public class Item
     public string Name { get; protected set; }
     public string Description { get; protected set; }
     public Sprite ImageUI { get; set; }
-    public int Amount { get; protected set; }
+    
     public bool CanBeSold { get; protected set; }
     public virtual float Price { get; protected set; }
 
-    public Item() { }
-    public Item(string name, string description, float price, int amount = 1)
+    #region init
+    public Item() { Init(); }
+    public Item(string name, string description, float price)
     {
         Name = name;
         Description = description;
-        Amount = amount;
         Price = price;
+
+        Init();
     }
-    public Item(string name, string description, float price, Sprite imageUI, int amount = 1) : this(name, description, price, amount)
+    public Item(string name, string description, float price, Sprite imageUI) : this(name, description, price)
     {
         ImageUI = imageUI;
+
+        Init();
     }
+    public Item(ItemBaseSO itemSO)
+    {
+        Name = itemSO.Name;
+        Description = itemSO.Description;
+        ImageUI = itemSO.ImageUI;
+        CanBeSold = itemSO.CanBeSold;
+        Price = itemSO.Price;
+
+        Init();
+    }
+
+    protected virtual void Init() { }
+    #endregion
 }

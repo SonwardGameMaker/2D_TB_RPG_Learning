@@ -13,9 +13,9 @@ public class ApMpController : CharResourceControllerBase
     {
         CharResourceInfo charResourceInfo;
         if (crFieldType == CharResourceFieldType._actionPoints)
-            charResourceInfo = characterInfo.CharacterCombatStats.ActionPoints;
+            charResourceInfo = characterInfo.CharacterCombatInfo.ActionPoints;
         else
-            charResourceInfo = characterInfo.CharacterCombatStats.MovementPoints;
+            charResourceInfo = characterInfo.CharacterCombatInfo.MovementPoints;
 
         Init(charResourceInfo);
         transform.GetChild(0).GetComponent<TMP_Text>().text = _currentCrField.Name;

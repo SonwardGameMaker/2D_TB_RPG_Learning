@@ -16,9 +16,9 @@ MonoBehaviour:
   Description: Your feet aren't protected.
   ImageUI: {fileID: 0}
   Price: 0
-  _armourType: 2
-  _damageResistances: []
-  _durability:
+  DamageResistances: []
+  Durability:
+    _name: Default_Name
     _minValue: 0
     _currentValue: 30
     _maxValue:
@@ -27,5 +27,16 @@ MonoBehaviour:
       LowerBound: 0
       IsUpperBounded: 0
       UpperBound: 30
-  _isBroken: 0
-  _equipAffectCharBase: []
+  IsBroken: 0
+  EquipAffectChar:
+  - ModifierAmount: 0
+    ModifierType: 0
+  - ModifierAmount: 0
+    ModifierType: 0
+  - ModifierAmount: 0
+    ModifierType: 0
+  - ModifierAmount: 0
+    ModifierType: 0
+  - ModifierAmount: 0
+    ModifierType: 0
+  ItemEffectsOnStats: []

@@ -16,9 +16,37 @@ MonoBehaviour:
   Description: Your body isn't protected.
   ImageUI: {fileID: 0}
   Price: 0
-  _armourType: 1
-  _damageResistances: []
-  _durability:
+  DamageResistances:
+  - _name: 
+    _damageResistanceType: 0
+    _trashhold:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 0
+    _mitigation:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 0
+  - _name: 
+    _damageResistanceType: 1
+    _trashhold:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 0
+    _mitigation:
+      baseValue: 0
+      IsLowerBounded: 0
+      LowerBound: 0
+      IsUpperBounded: 0
+      UpperBound: 0
+  Durability:
+    _name: Default_Name
     _minValue: 0
     _currentValue: 30
     _maxValue:
@@ -27,5 +55,12 @@ MonoBehaviour:
       LowerBound: 0
       IsUpperBounded: 0
       UpperBound: 30
-  _isBroken: 0
-  _equipAffectCharBase: []
+  IsBroken: 0
+  EffectsOnStats:
+  - ModifierAmount: 0
+    ModifierType: 0
+    StatType: 0
+  EffectsOnResourses:
+  - ModifierAmount: 0
+    ModifierType: 0
+    CharResourceType: 0
