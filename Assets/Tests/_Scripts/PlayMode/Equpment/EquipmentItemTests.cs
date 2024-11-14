@@ -1,29 +1,18 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
-[Serializable]
-public class EquipmentItemTests
+namespace Tests._Scripts.PlayMode.Equpment
 {
-    
-
-    // A Test behaves as an ordinary method
-    [Test]
-    public void EquipmentItemTestsSimplePasses()
+    [Serializable]
+    public class EquipmentItemTests
     {
-        
-    }
-
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator EquipmentItemTestsWithEnumeratorPasses()
-    {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
-        yield return null;
+        // A Test behaves as an ordinary method
+        [Test]
+        public void EquipmentItemTestsSimplePasses()
+        {
+            var a = new EquipmentItem("name", "description", 0);
+            Debug.LogError(a);
+        }
     }
 }
