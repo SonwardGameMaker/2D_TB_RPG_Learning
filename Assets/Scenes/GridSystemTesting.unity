@@ -1141,6 +1141,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8493875357050579685, guid: 4499e358111673e4ca9c0ef4e6f0bb94, type: 3}
+      propertyPath: _inventoryInitSO
+      value: 
+      objectReference: {fileID: 11400000, guid: f7dc56d16588c26488f7c59f21dc8820, type: 2}
+    - target: {fileID: 8493875357050579685, guid: 4499e358111673e4ca9c0ef4e6f0bb94, type: 3}
+      propertyPath: _defaultEquipmentSO
+      value: 
+      objectReference: {fileID: 11400000, guid: e4e3c83ba85950b4aa7ec40cbbc64e2a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2014,6 +2022,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 8436021979611733595, guid: b9668335e1d109e429ab47d1a6411f7a, type: 3}
+      propertyPath: _defaultEquipmentSO
+      value: 
+      objectReference: {fileID: 11400000, guid: e4e3c83ba85950b4aa7ec40cbbc64e2a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

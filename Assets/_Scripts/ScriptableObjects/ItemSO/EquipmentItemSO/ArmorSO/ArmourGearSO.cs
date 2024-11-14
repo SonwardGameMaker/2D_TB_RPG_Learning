@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptables/Items/ArmorSO")]
+[CreateAssetMenu(menuName = "Scriptables/Items/Armour/ArmorSO")]
 [Serializable]
-internal class ArmourSO : EquipmentItemSO
+public class ArmourGearSO : EquipmentItemSO
 {
     [SerializeField] private List<DamageResistance> _damageResistances;
     [SerializeField] private CharResource _durability;
@@ -29,4 +29,6 @@ internal class ArmourSO : EquipmentItemSO
 
         return result;
     }
+
+    public override Item CreateItem() => new ArmourGear(this);
 }

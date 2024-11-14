@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd5e05eba7c14b54fbc7ffee7b6e44ea, type: 3}
+  m_Name: SampleEquipment
+  m_EditorClassIdentifier: 
+  _weapon1: {fileID: 11400000, guid: 3d7334dbc4720ec4e89f879e7a58c4ec, type: 2}
+  _weapon2: {fileID: 0}
+  _headEquipment: {fileID: 11400000, guid: 1cd66366af40ae9449f434bf44bf1b5f, type: 2}
+  _torsoEquipment: {fileID: 11400000, guid: 362e966bda13532468e1a96a6017bbee, type: 2}
+  _boots: {fileID: 11400000, guid: 40192b0569c37ec41a9382012fc31977, type: 2}
+  _combatTool1: {fileID: 11400000, guid: 9d6594462544e2946a473ca4b95f0226, type: 2}
+  _combatTool2: {fileID: 0}
+  _combatTool3: {fileID: 0}
+  _combatTool4: {fileID: 0}
+  _combatTool5: {fileID: 0}

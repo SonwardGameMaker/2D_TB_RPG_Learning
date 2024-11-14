@@ -35,4 +35,6 @@ public class WeaponSO : EquipmentItemSO
         if (_attackRange <= 0)
             _attackRange = 1;
     }
+
+    public override Item CreateItem() => new Weapon(this);
 }

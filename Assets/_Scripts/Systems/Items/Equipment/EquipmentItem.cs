@@ -29,6 +29,7 @@ public partial class EquipmentItem : Item, IDurable
     public EquipmentItem(EquipmentItemSO itemSO) : base(itemSO)
     {
         _itemEffectCreators = itemSO.GetParInteractionCreators();
+        _durability = itemSO.CreateDurabilityResource();
     }
 
     ~EquipmentItem()
