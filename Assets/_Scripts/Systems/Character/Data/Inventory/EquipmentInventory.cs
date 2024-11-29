@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -31,26 +29,39 @@ public class EquipmentInventory
     public EquipmentInventory(CharacterBlank character, DefaultEquipmentSO defaultEquipmentSO, EquipmentInventorySO equipmentSO = null) : this(character)
     {
 
-        if (defaultEquipmentSO == null || defaultEquipmentSO.DefaultWeaponSOs.Count == 0) throw new System.Exception("Default Equiopment doesn't set");
+        if (defaultEquipmentSO == null 
+            || ScriptablebjectsExistUtils.IsDynamicallyGenerated(defaultEquipmentSO) 
+            || defaultEquipmentSO.DefaultWeaponSOs.Count == 0) throw new System.Exception("Default Equiopment doesn't set");
 
         _defaultWeapon = defaultEquipmentSO.DefaultWeaponSOs[0];
 
         if (equipmentSO != null)
         {
-            EquipIn(_weapon1, equipmentSO.Weapon_1.CreateItem() as Weapon);
-            EquipIn(_weapon2, equipmentSO.Weapon_2.CreateItem() as Weapon);
+            if (ScriptablebjectsExistUtils.IsDynamicallyGenerated(equipmentSO.Weapon_1))
+                EquipIn(ref _weapon1, _defaultWeapon.CreateItem() as Weapon);
+            else
+                EquipIn(ref _weapon1, equipmentSO.Weapon_1.CreateItem() as Weapon);
+            
+            if (ScriptablebjectsExistUtils.IsDynamicallyGenerated(equipmentSO.Weapon_2))
+                EquipIn(ref _weapon2, _defaultWeapon.CreateItem() as Weapon);
+            else
+                EquipIn(ref _weapon2, equipmentSO.Weapon_2.CreateItem() as Weapon);
 
-            EquipIn(_headEquipment, equipmentSO.HeadEquipment.CreateItem() as HeadGear);
-            EquipIn(_torsoEquipment, equipmentSO.TorsoEquipment.CreateItem() as TorsoGear);
-            EquipIn(_boots, equipmentSO.Boots.CreateItem() as Boots);
+            EquipIn(ref _headEquipment, equipmentSO.HeadEquipment.CreateItem() as HeadGear);
+            EquipIn(ref _torsoEquipment, equipmentSO.TorsoEquipment.CreateItem() as TorsoGear);
+            EquipIn(ref _boots, equipmentSO.Boots.CreateItem() as Boots);
 
-            EquipIn(_combatTool1, equipmentSO.CombatTool_1.CreateItem() as CombatTool);
-            EquipIn(_combatTool2, equipmentSO.CombatTool_2.CreateItem() as CombatTool);
-            EquipIn(_combatTool3, equipmentSO.CombatTool_3.CreateItem() as CombatTool);
-            EquipIn(_combatTool4, equipmentSO.CombatTool_4.CreateItem() as CombatTool);
-            EquipIn(_combatTool5, equipmentSO.CombatTool_5.CreateItem() as CombatTool);
+            EquipIn(ref _combatTool1, equipmentSO.CombatTool_1.CreateItem() as CombatTool);
+            EquipIn(ref _combatTool2, equipmentSO.CombatTool_2.CreateItem() as CombatTool);
+            EquipIn(ref _combatTool3, equipmentSO.CombatTool_3.CreateItem() as CombatTool);
+            EquipIn(ref _combatTool4, equipmentSO.CombatTool_4.CreateItem() as CombatTool);
+            EquipIn(ref _combatTool5, equipmentSO.CombatTool_5.CreateItem() as CombatTool);
         }
-       
+        else
+        {
+            EquipIn(ref _weapon1, _defaultWeapon.CreateItem() as Weapon);
+            EquipIn(ref _weapon2, _defaultWeapon.CreateItem() as Weapon);
+        }
     }
     #endregion
 
@@ -73,38 +84,38 @@ public class EquipmentInventory
     public void EquipWeapon(Weapon weaponToEquip, WeaponSlot slot)
     {
         if (slot == WeaponSlot.Slot_1)
-            EquipIn(_weapon1, weaponToEquip);
+            EquipIn(ref _weapon1, weaponToEquip);
         else
-            EquipIn(_weapon2, weaponToEquip);
+            EquipIn(ref _weapon2, weaponToEquip);
     }
 
     public void EquipHeadGear(HeadGear headGear)
-        => EquipIn(_headEquipment, headGear);
+        => EquipIn(ref _headEquipment, headGear);
 
     public void EquipTorsoGear(TorsoGear torsoGear)
-        => EquipIn(_torsoEquipment, torsoGear);
+        => EquipIn(ref _torsoEquipment, torsoGear);
 
     public void EquipBoots(Boots boots)
-        => EquipIn(_boots, boots);
+        => EquipIn(ref _boots, boots);
 
     public void EquipCombatTool(CombatTool combatTool, CombatToolSlot slot)
     {
         switch (slot)
         {
             case CombatToolSlot.Slot_1:
-                EquipIn(_combatTool1, combatTool);
+                EquipIn(ref _combatTool1, combatTool);
                 break;
             case CombatToolSlot.Slot_2:
-                EquipIn(_combatTool2, combatTool);
+                EquipIn(ref _combatTool2, combatTool);
                 break;
             case CombatToolSlot.Slot_3:
-                EquipIn(_combatTool3, combatTool);
+                EquipIn(ref _combatTool3, combatTool);
                 break;
             case CombatToolSlot.Slot_4:
-                EquipIn(_combatTool4, combatTool);
+                EquipIn(ref _combatTool4, combatTool);
                 break;
             case CombatToolSlot.Slot_5:
-                EquipIn(_combatTool5, combatTool);
+                EquipIn(ref _combatTool5, combatTool);
                 break;
         }
     }
@@ -115,61 +126,62 @@ public class EquipmentInventory
     {
         if (slot == WeaponSlot.Slot_1)
         {
-            UnequipOut(_weapon1);
-            EquipIn(_weapon1, _defaultWeapon.CreateItem() as Weapon);
+            UnequipOut(ref _weapon1);
+            EquipIn(ref _weapon1, _defaultWeapon.CreateItem() as Weapon);
         }
         else
         {
-            UnequipOut(_weapon2);
-            EquipIn(_weapon2, _defaultWeapon.CreateItem() as Weapon);
+            UnequipOut(ref _weapon2);
+            EquipIn(ref _weapon2, _defaultWeapon.CreateItem() as Weapon);
         }
     }
 
     public void UnequipHeadGear(HeadGear headGear)
-        => UnequipOut(_headEquipment);
+        => UnequipOut(ref _headEquipment);
 
     public void UnequipTorsoGear(TorsoGear torsoGear)
-        => UnequipOut(_torsoEquipment);
+        => UnequipOut(ref _torsoEquipment);
 
     public void UnequipBoots(Boots boots)
-        => UnequipOut(_boots);
+        => UnequipOut(ref _boots);
 
-    public void UnequipCombatTool(CombatTool combatTool, CombatToolSlot slot)
+    public void UnequipCombatTool(CombatToolSlot slot)
     {
         switch (slot)
         {
             case CombatToolSlot.Slot_1:
-                UnequipOut(_combatTool1);
+                UnequipOut(ref _combatTool1);
                 break;
             case CombatToolSlot.Slot_2:
-                UnequipOut(_combatTool2);
+                UnequipOut(ref _combatTool2);
                 break;
             case CombatToolSlot.Slot_3:
-                UnequipOut(_combatTool3);
+                UnequipOut(ref _combatTool3);
                 break;
             case CombatToolSlot.Slot_4:
-                UnequipOut(_combatTool4);
+                UnequipOut(ref _combatTool4);
                 break;
             case CombatToolSlot.Slot_5:
-                UnequipOut(_combatTool5);
+                UnequipOut(ref _combatTool5);
                 break;
         }
     }
     #endregion
 
     #region internal operations
-    private void EquipIn(EquipmentItem slot, EquipmentItem equipment)
+    private void EquipIn<T>(ref T slot, T equipment) where T : EquipmentItem
     {
+        if (equipment == null)
+            return;
+
         if (slot != null)
-        {
-            UnequipOut(slot);
-        }
+            UnequipOut(ref slot);
 
         slot = equipment;
         slot.Equip(_character);
     }
 
-    private void UnequipOut(EquipmentItem slot)
+    private void UnequipOut<T>(ref T slot) where T : EquipmentItem
     {
         slot.Unequip();
         slot = null;
@@ -178,7 +190,7 @@ public class EquipmentInventory
     private void SetupDefaultWeapon()
     {
         if (_weapon1 == null)
-            EquipIn(_weapon1, _defaultWeapon.CreateItem() as Weapon);
+            EquipIn(ref _weapon1, _defaultWeapon.CreateItem() as Weapon);
     }
 
     #endregion

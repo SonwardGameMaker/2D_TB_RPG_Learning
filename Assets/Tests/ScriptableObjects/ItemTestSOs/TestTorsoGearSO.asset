@@ -12,26 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56c192cfbd7a17241b7f9e798e61caae, type: 3}
   m_Name: TestTorsoGearSO
   m_EditorClassIdentifier: 
-  _name: 
-  _description: 
+  _name: TestTorso
+  _description: Torso SO for testing
   _imageUI: {fileID: 0}
-  _price: 0
+  _price: 15
   _canBeSold: 0
-  _weight: 0
-  _currentDurability: 0
-  _maxDurability: 0
+  _weight: 15
+  _currentDurability: 300
+  _maxDurability: 600
   _minDurability: 0
   _effectsOnStats: []
   _effectsOnResourses: []
   _damageResistances: []
-  _durability:
-    _name: Default_Name
-    _minValue: 0
-    _currentValue: 30
-    _maxValue:
-      baseValue: 30
-      IsLowerBounded: 1
-      LowerBound: 0
-      IsUpperBounded: 0
-      UpperBound: 30
   _isBroken: 0

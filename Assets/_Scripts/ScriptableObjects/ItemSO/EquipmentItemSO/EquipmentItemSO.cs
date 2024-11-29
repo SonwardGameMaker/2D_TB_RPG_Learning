@@ -12,6 +12,17 @@ public class EquipmentItemSO : ItemSO
     [SerializeField] protected List<StatEffectCreator> _effectsOnStats;
     [SerializeField] protected List<ResourceAffectorCreator> _effectsOnResourses;
 
+    public EquipmentItemSO() { }
+    public EquipmentItemSO(int currentDurability, int maxDurability, int minDurability, List<StatEffectCreator> effectsOnStats, List<ResourceAffectorCreator> effectsOnResourses)
+    {
+        _currentDurability = currentDurability;
+        _maxDurability = maxDurability;
+        _minDurability = minDurability;
+        _effectsOnStats = effectsOnStats;
+        _effectsOnResourses = effectsOnResourses;
+    }
+
+
     #region properties
     public int CurrentDurability { get => _currentDurability; }
     public int MaxDurability { get => _maxDurability; }
@@ -23,8 +34,10 @@ public class EquipmentItemSO : ItemSO
     public virtual List<ParInteractionCreator> GetParInteractionCreators()
     {
         List<ParInteractionCreator> result = new List<ParInteractionCreator>();
-        result.AddRange(_effectsOnStats.Select(sec => new StatEffectCreator(sec)));
-        result.AddRange(_effectsOnResourses.Select(rec => new ResourceAffectorCreator(rec)));
+        if (_effectsOnStats != null && _effectsOnStats.Count > 0)
+            result.AddRange(_effectsOnStats.Select(sec => new StatEffectCreator(sec)));
+        if (_effectsOnResourses != null && _effectsOnResourses.Count > 0)
+            result.AddRange(_effectsOnResourses.Select(rec => new ResourceAffectorCreator(rec)));
         return result;
     }
 

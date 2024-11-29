@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +12,7 @@ public class CharacterInventory : MonoBehaviour
     private ItemContainer _itemContainer;
 
     #region init
-    // ? - Awake
-    private void Start()
+    public void Setup()
     {
         if (_defaultEquipmentSO == null) throw new System.Exception("Default Equiopment doesn't set");
 
@@ -23,14 +23,9 @@ public class CharacterInventory : MonoBehaviour
         }
         else
         {
-            Setup();
+            _equipment = new EquipmentInventory(GetComponent<CharacterBlank>(), _defaultEquipmentSO);
+            _itemContainer = new ItemContainer();
         }
-    }
-
-    public void Setup()
-    {
-        _equipment = new EquipmentInventory(GetComponent<CharacterBlank>());
-        _itemContainer = new ItemContainer();
     }
     #endregion
 

@@ -36,7 +36,7 @@ public class CharacterBlank : MonoBehaviour
         _interactions.Add(_ingameParameters.CreateLightMeleeCriticalChanceCoefEffect(_stats.DexterityAffectLightMeleeCritChance()));
         _interactions.Add(_ingameParameters.CreateFirearmCriticalChanceCoefEffect(_stats.PerceptionAffectFirearmCritChance()));
 
-
+        GetComponent<CharacterInventory>().Setup();
         GetComponent<CharacterInfo>().SetUp(this);
 
         // Debug

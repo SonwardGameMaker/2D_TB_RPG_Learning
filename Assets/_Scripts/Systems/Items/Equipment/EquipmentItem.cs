@@ -29,6 +29,8 @@ public partial class EquipmentItem : Item, IDurable
     {
         _itemEffectCreators = itemSO.GetParInteractionCreators();
         _durability = itemSO.CreateDurabilityResource();
+
+        _durability.CurrentValChanged += BrokenStateObserver;
     }
 
     ~EquipmentItem()
@@ -47,8 +49,6 @@ public partial class EquipmentItem : Item, IDurable
 
         _itemBehaviours = new List<ItemBehaviourBase>();
         ResetItemBehaviours();
-
-        _durability.CurrentValChanged += BrokenStateObserver;
     }
     #endregion
 
@@ -76,7 +76,9 @@ public partial class EquipmentItem : Item, IDurable
         if (_isEquipped)
             Unequip();
 
-        _itemEffects.AddRange(_itemEffectCreators.Select(pic => pic.CreateParInteraction(bearer)));
+        if (_itemEffectCreators != null && _itemEffectCreators.Count > 0)
+            _itemEffects.AddRange(_itemEffectCreators.Select(pic => pic.CreateParInteraction(bearer)));
+
         _isEquipped = true;
     }
 

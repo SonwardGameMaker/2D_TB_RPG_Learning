@@ -11,6 +11,8 @@ public interface IInputHandler
     public event Action FirstCellButton_Pressed;
     public event Action SecondCellButton_Pressed;
 
+    public event Action ChangeWeapon_Pressed;
+
     public event Action AttackMode_Pressed;
     public event Action AttackMode_Released;
 

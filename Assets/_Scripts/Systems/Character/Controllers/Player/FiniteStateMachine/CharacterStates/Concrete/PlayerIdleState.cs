@@ -20,6 +20,8 @@ internal class PlayerIdleState : PlayerState
         _inputHandler.LMB_Pressed += Select;
         _inputHandler.RMB_Pressed += Interact;
 
+        _inputHandler.ChangeWeapon_Pressed += ChangeWeapon;
+
         _inputHandler.FirstCellButton_Pressed += ActivateFirstCell;
         _inputHandler.SecondCellButton_Pressed += ActivateSecondCell;
 
@@ -32,6 +34,8 @@ internal class PlayerIdleState : PlayerState
 
         _inputHandler.LMB_Pressed -= Select;
         _inputHandler.RMB_Pressed -= Interact;
+
+        _inputHandler.ChangeWeapon_Pressed -= ChangeWeapon;
 
         _inputHandler.FirstCellButton_Pressed -= ActivateFirstCell;
         _inputHandler.SecondCellButton_Pressed -= ActivateSecondCell;
@@ -78,6 +82,11 @@ internal class PlayerIdleState : PlayerState
         {
             _playerController.Walk(CalculatePath(mousePosition));
         }
+    }
+
+    private void ChangeWeapon()
+    {
+        _player.CharacterCombatInfo.ChangeWeapon();
     }
 
     private void ChangeToHoldAttackMode()

@@ -21,6 +21,7 @@ public class WeaponDamageParam : CharParameterBase, IMinValModifiable, IMaxValMo
         _name = name;
         _minValue = new ModVar(minValue);
         _maxValue = new ModVar(maxValue);
+        _damgeMod = new ModVar(0);
 
         _minValue.IsUpperBounded = true;
         _minValue.UpperBound = _maxValue.RealValue;

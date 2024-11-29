@@ -12,6 +12,7 @@ public class InputReaderStandartInputs : MonoBehaviour, IInputHandler
     public event Action FirstCellButton_Pressed;
     public event Action SecondCellButton_Pressed;
     public event Action CancelButton_Pressed;
+    public event Action ChangeWeapon_Pressed;
 
     private void Update()
     {
@@ -31,6 +32,11 @@ public class InputReaderStandartInputs : MonoBehaviour, IInputHandler
         if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             AttackMode_Released?.Invoke();
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            ChangeWeapon_Pressed?.Invoke();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))

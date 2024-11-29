@@ -19,17 +19,25 @@ public class EquipmentInventorySO : ScriptableObject
     [SerializeField] private CombatToolSO _combatTool5;
 
     #region properties
-    public WeaponSO Weapon_1 { get => _weapon1; }
-    public WeaponSO Weapon_2 { get => _weapon2; }
+    public WeaponSO Weapon_1 { get => GetEquipmentItem(_weapon1); }
+    public WeaponSO Weapon_2 { get => GetEquipmentItem(_weapon2); }
 
-    public HeadGearSO HeadEquipment { get => _headEquipment; }
-    public TorsoGearSO TorsoEquipment { get => _torsoEquipment; }
-    public BootsSO Boots { get => _boots; }
+    public HeadGearSO HeadEquipment { get => GetEquipmentItem(_headEquipment); }
+    public TorsoGearSO TorsoEquipment { get => GetEquipmentItem(_torsoEquipment); }
+    public BootsSO Boots { get => GetEquipmentItem(_boots); }
 
-    public CombatToolSO CombatTool_1 { get => _combatTool1; }
-    public CombatToolSO CombatTool_2 { get => _combatTool2; }
-    public CombatToolSO CombatTool_3 { get => _combatTool3; }
-    public CombatToolSO CombatTool_4 { get => _combatTool4; }
-    public CombatToolSO CombatTool_5 { get => _combatTool5; }
+    public CombatToolSO CombatTool_1 { get => GetEquipmentItem(_combatTool1); }
+    public CombatToolSO CombatTool_2 { get => GetEquipmentItem(_combatTool2); }
+    public CombatToolSO CombatTool_3 { get => GetEquipmentItem(_combatTool3); }
+    public CombatToolSO CombatTool_4 { get => GetEquipmentItem(_combatTool4); }
+    public CombatToolSO CombatTool_5 { get => GetEquipmentItem(_combatTool5); }
     #endregion
+
+    private T GetEquipmentItem<T>(T item) where T : EquipmentItemSO
+    {
+        if (item == null)
+            return CreateInstance<T>();
+        else
+            return item;
+    }
 }
