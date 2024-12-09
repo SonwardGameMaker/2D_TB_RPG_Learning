@@ -30,19 +30,18 @@ public class EquipmentInventory
     {
 
         if (defaultEquipmentSO == null 
-            || ScriptablebjectsExistUtils.IsDynamicallyGenerated(defaultEquipmentSO) 
             || defaultEquipmentSO.DefaultWeaponSOs.Count == 0) throw new System.Exception("Default Equiopment doesn't set");
 
         _defaultWeapon = defaultEquipmentSO.DefaultWeaponSOs[0];
 
         if (equipmentSO != null)
         {
-            if (ScriptablebjectsExistUtils.IsDynamicallyGenerated(equipmentSO.Weapon_1))
+            if (ItemSoUtilities.IsItemSoNameIsNullOrEmpty(equipmentSO.Weapon_1))
                 EquipIn(ref _weapon1, _defaultWeapon.CreateItem() as Weapon);
             else
                 EquipIn(ref _weapon1, equipmentSO.Weapon_1.CreateItem() as Weapon);
             
-            if (ScriptablebjectsExistUtils.IsDynamicallyGenerated(equipmentSO.Weapon_2))
+            if (ItemSoUtilities.IsItemSoNameIsNullOrEmpty(equipmentSO.Weapon_2))
                 EquipIn(ref _weapon2, _defaultWeapon.CreateItem() as Weapon);
             else
                 EquipIn(ref _weapon2, equipmentSO.Weapon_2.CreateItem() as Weapon);
