@@ -9,7 +9,7 @@ public class ApMpController : CharResourceControllerBase
     [SerializeField] private Color ApColor;
     [SerializeField] private Color MpColor;
 
-    void Start()
+    public override void Setup()
     {
         CharResourceInfo charResourceInfo;
         if (crFieldType == CharResourceFieldType._actionPoints)

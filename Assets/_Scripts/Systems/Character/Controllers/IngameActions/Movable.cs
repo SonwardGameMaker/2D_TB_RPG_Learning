@@ -19,14 +19,9 @@ internal class Movable : BehaviourScriptBase, IMovable
     protected override void SetActionName()
         => _name = typeof(Movable).Name;
 
-    private void Awake()
-    {
-        _name = typeof(Movable).Name;
-    }
-
     public void Setup(CharacterInfo characterInfo, Animator animator)
     {
-        Setup(characterInfo.GetComponent<CharacterBlank>());
+        base.Setup(characterInfo.GetComponent<CharacterBlank>());
 
         _characterInfo = characterInfo; 
         _apMpSystem = _character.ApMpSystem;

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal abstract class BehaviourScriptBase : MonoBehaviour
+public abstract class BehaviourScriptBase : MonoBehaviour
 {
     protected const string SUCCESSFUL_EXECUTION_MEASSAGE = "Execution successfuly complited";
     protected const string NOT_ENOUGHT_AP_MEASSAGE = "Not enought Action points";
@@ -14,24 +14,28 @@ internal abstract class BehaviourScriptBase : MonoBehaviour
     protected string _name;
     protected CharacterBlank _character;
     protected Coroutine _coroutine;
+    protected bool _isSet = false;
 
     #region init
-    protected abstract void SetActionName();
-
-    private void Awake()
-    {
-        _name = typeof(BehaviourScriptBase).Name;
-    }
+    protected virtual void SetActionName()
+        => _name = typeof(BehaviourScriptBase).Name;
 
     public virtual void Setup(CharacterBlank character)
     {
+        if (_isSet) return;
+
+        SetActionName();
+        
         _character = character;
+
+        _isSet = true;
     }
     #endregion
 
     #region properties
     public string Name { get => _name; }
     public int Cooldown { get => _cooldown; }
+    public bool IsSet { get => _isSet; }
     #endregion
 
     #region external interactions

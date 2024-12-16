@@ -6,6 +6,11 @@ public class NpcAiBase : ControllerManagerBase
 {
     private CharacterIngameController _characterController;
 
+    public override void Setup()
+    {
+        base.Setup();
+    }
+
     public override void NewTurn()
     {
         _characterController.NewTurn();

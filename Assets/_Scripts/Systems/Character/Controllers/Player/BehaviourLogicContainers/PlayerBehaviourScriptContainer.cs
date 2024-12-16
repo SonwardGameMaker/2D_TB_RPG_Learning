@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal abstract class PlayerBehaviourScriptContainer
+public abstract class PlayerBehaviourScriptContainer
 {
     protected PlayerStateMachine _stateMachine;
 

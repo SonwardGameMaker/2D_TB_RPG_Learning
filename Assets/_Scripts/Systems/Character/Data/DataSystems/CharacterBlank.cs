@@ -21,7 +21,7 @@ public class CharacterBlank : MonoBehaviour
     public OtherParameters IngameParameters { get => _ingameParameters; }
 
     #region constructor
-    public void Awake()
+    public void Setup()
     {
         _stats = new CharacterStatsSystem(StatsInitSO);
         _health = new CharHealthSystem();
@@ -37,11 +37,18 @@ public class CharacterBlank : MonoBehaviour
         _interactions.Add(_ingameParameters.CreateFirearmCriticalChanceCoefEffect(_stats.PerceptionAffectFirearmCritChance()));
 
         GetComponent<CharacterInventory>().Setup();
-        GetComponent<CharacterInfo>().SetUp(this);
 
-        // Debug
         if (TryGetComponent(out CharacterStateChangingDebug stateDebug))
             stateDebug.Setup(this);
+        else
+            GetComponent<CharacterIngameController>().Setup();
+
+        GetComponent<ControllerManagerBase>().Setup();
+
+        foreach (BehaviourScriptBase charbehaviour in GetComponentInChildren<BehaviourLogicManager>().GetBehaviours())
+            charbehaviour.Setup(this);
+        foreach (CharInteractionBase charInteractionBase in GetComponentInChildren<InteractionBehaviourManager>().GetInteractionLogics())
+            charInteractionBase.Setup(this);
     }
     #endregion
 }

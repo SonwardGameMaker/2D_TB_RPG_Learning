@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2557320919347588017}
+  - component: {fileID: 9188885224067460520}
   - component: {fileID: 1336074932338011858}
   - component: {fileID: 8051293648375221398}
   m_Layer: 0
@@ -34,6 +35,18 @@ Transform:
   - {fileID: 2981454719684512370}
   m_Father: {fileID: 44313727326981274}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9188885224067460520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668417812629147068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18b48fc670d4c44aaca1b55deac8286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1336074932338011858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +94,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5787207700487121004}
+  - component: {fileID: 6790447968170842929}
   - component: {fileID: 832861132836455105}
   m_Layer: 0
   m_Name: InteractionLogic
@@ -104,6 +118,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 44313727326981274}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6790447968170842929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038968443651121046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb8138fc6260444491d0da9be0ef03c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &832861132836455105
 MonoBehaviour:
   m_ObjectHideFlags: 0

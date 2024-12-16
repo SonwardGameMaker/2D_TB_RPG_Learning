@@ -14,14 +14,15 @@ public class CharacterInfo : MonoBehaviour
 
 
     #region init
-    internal void SetUp(CharacterBlank character)
+    public void Setup()
     {
-        _character = character;
-        _healthSystem = character.GetComponent<CharacterBlank>().Health;
-        
+        _character = GetComponent<CharacterBlank>();
+        _character.Setup();
 
-        CharacterCombatInfo = new CharacterCombatInfo(this, character);
-        CharacterStats = new CharacterStatsInfo(character.Stats);
+        _healthSystem = _character.GetComponent<CharacterBlank>().Health;
+
+        CharacterCombatInfo = new CharacterCombatInfo(this, _character);
+        CharacterStats = new CharacterStatsInfo(_character.Stats);
 
         _healthSystem.CharDeath += HandleCharDeath;
     }

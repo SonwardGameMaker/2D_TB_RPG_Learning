@@ -19,24 +19,25 @@ public class GridManager : MonoBehaviour
     private PathfinderBase _pathfinder;
 
     #region init
-    private void Start()
+    public void Setup()
     {
         List<(Vector3, CharacterInfo)> characters = _charactersContainer.GetCharacters();
         foreach (var character in characters)
         {
+            character.Item2.Setup();
             if (character.Item2.TryGetComponent(out ControllerManagerBase controllerManager))
             {
                 controllerManager.GridManager = this;
             }
         }
 
-        _logicalGrid.SetUp(_width, _height, _cellSize, transform.position,
+        _logicalGrid.Setup(_width, _height, _cellSize, transform.position,
             _environmentContainer.GetEnvironments(),
             _charactersContainer.GetCharacters());
 
         _pathfinder = new AStarPathfinder(_logicalGrid);
 
-        _visualGrid.SetUp(_width, _height, _cellSize, transform.position);
+        _visualGrid.Setup(_width, _height, _cellSize, transform.position);
 
         _debugGid.TargetGrid = _logicalGrid;
 

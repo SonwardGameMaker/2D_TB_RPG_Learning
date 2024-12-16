@@ -13,9 +13,10 @@ public class InputHandlerManager : ControllerManagerBase
     [SerializeField] private int _attackRadius = 0;
 
     #region init
-    private void Start()
+    public override void Setup()
     {
-        _stateMachine = new PlayerStateMachine(_uiManager, this); 
+        base.Setup();
+        _stateMachine = new PlayerStateMachine(_uiManager, this);
         _stateMachine.Setup<PlayerIdleState>();
         _stateMachine.AttackRadius = _attackRadius;
     }

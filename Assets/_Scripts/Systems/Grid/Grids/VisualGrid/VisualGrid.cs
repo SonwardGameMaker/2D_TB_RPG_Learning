@@ -11,7 +11,7 @@ public class VisualGrid : MonoBehaviour
     [SerializeField] private Color _defaultTileColor;
 
     #region init
-    public void SetUp(int width, int height, float cellSize, Vector3 originPosition)
+    public void Setup(int width, int height, float cellSize, Vector3 originPosition)
     {
         _grid = new GridSystem<VisualGridNode>(width, height, cellSize, originPosition, CreateVisualNode);
         SetPositions();

@@ -8,7 +8,7 @@ public class HealthController : CharResourceControllerBase
 {
     private CharHealthSystem _health;
 
-    public void Start()
+    public override void Setup()
     {
         transform.GetChild(0).GetComponent<TMP_Text>().text = "Healths";
         Init();

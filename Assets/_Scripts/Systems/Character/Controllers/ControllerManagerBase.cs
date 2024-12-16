@@ -9,6 +9,11 @@ public abstract class ControllerManagerBase : MonoBehaviour
     public virtual GridManager GridManager { get; set; }
     public GameManager GameManager { get; set; }
 
+    public virtual void Setup()
+    {
+        GetComponentInChildren<ActionList>().Setup();
+    }
+
     public abstract void NewTurn();
     public void EndTurn()
     {

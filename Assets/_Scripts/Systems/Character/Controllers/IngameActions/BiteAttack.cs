@@ -17,11 +17,6 @@ internal class BiteAttack : BehaviourScriptBase, IAttackable, IApCosted
     protected override void SetActionName()
         => _name = typeof(BiteAttack).Name;
 
-    private void Awake()
-    {
-        _name = typeof(BiteAttack).Name;
-    }
-
     public void Setup(CharacterInfo characterInfo, Animator animator)
     {
         Setup(characterInfo.GetComponent<CharacterBlank>());

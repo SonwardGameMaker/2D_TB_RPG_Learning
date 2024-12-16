@@ -19,7 +19,7 @@ public class CharacterIngameController : MonoBehaviour
     public event Action<bool, string> ExecutionEnded;
     #endregion
 
-    protected virtual void Start()
+    public virtual void Setup()
     {
         _character = GetComponent<CharacterBlank>();
         _characterInfo = GetComponent<CharacterInfo>();
@@ -29,6 +29,7 @@ public class CharacterIngameController : MonoBehaviour
         _attackable = GetComponentInChildren<Attackable>();
         _skills = GetComponentInChildren<ActionList>();
 
+        if (_movable == null) Debug.Log("Movable is null");
         _movable.Setup(_characterInfo, _animator);
         _attackable.Setup(_characterInfo, _animator);
 
@@ -52,7 +53,10 @@ public class CharacterIngameController : MonoBehaviour
         => _commandList.ExecuteCommands(new RotateCommand(_movable, targetPosition));
 
     public void Walk(List<PathfinderNodeBase> path)
-        => _commandList.ExecuteCommands(new MoveCommand(_movable, path));
+    {
+        if (_movable == null) { Debug.Log("Movable is null"); }
+        _commandList.ExecuteCommands(new MoveCommand(_movable, path));
+    }
 
     public void Attack(IDamagable target)
         => _commandList.ExecuteCommands(new AttackCommand(_attackable, target));

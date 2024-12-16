@@ -9,7 +9,7 @@ public class UiManager : MonoBehaviour
 
     private Vector2 _cursorHotspot;
 
-    private void Start()
+    public void Setup()
     {
         SetBaseCursor();
     }

@@ -8,9 +8,9 @@ public class PlayerDebugController : PlayerIngameController
     private CharHealthSystem _healthSystem;
     private ApMpSystem _apMpSystem;
 
-    private new void Start()
+    public override void Setup()
     {
-        base.Start();
+        base.Setup();
         _character = GetComponent<CharacterBlank>();
         _healthSystem = _character.Health;
     }

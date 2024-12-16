@@ -17,7 +17,7 @@ public class CharactersContainerOnScene : MonoBehaviour
             }
 
             (Vector3, CharacterInfo) character = new(child.position, child.GetComponent<CharacterInfo>());
-            if (character.Item2 != null)
+            if (character.Item2 != null && character.Item2.isActiveAndEnabled)
                 result.Add(character);
         }
 

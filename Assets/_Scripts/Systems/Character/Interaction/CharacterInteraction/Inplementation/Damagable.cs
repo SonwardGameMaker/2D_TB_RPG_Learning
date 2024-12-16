@@ -4,15 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-public class Damagable : MonoBehaviour, IDamagable
+public class Damagable : CharInteractionBase, IDamagable
 {
-    private CharacterBlank _thisCharacter;
-
-    void Start()
-    {
-        _thisCharacter = GetComponentInParent<CharacterBlank>();
-    }
-
     public event Action<CharacterInfo, bool, float, Damage> CharacterHitted;
 
     #region external interactions

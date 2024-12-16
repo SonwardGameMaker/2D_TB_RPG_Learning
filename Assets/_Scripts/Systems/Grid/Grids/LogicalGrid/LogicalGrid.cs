@@ -9,7 +9,7 @@ public class LogicalGrid : MonoBehaviour
     
 
     #region init
-    public void SetUp(int width, int height, float cellSize, Vector3 originPosition,
+    public void Setup(int width, int height, float cellSize, Vector3 originPosition,
         List<(Vector3, Environment)> environment,
         List<(Vector3, CharacterInfo)> characters)
     {

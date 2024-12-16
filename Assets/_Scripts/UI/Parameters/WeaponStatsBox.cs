@@ -16,7 +16,7 @@ public class WeaponStatsBox : MonoBehaviour
     [SerializeField] private TMP_Text _attackRange;
     [SerializeField] private TMP_Text _damageType;
 
-    private void Start()
+    public void Setup()
     {
         _characterInfo.CharacterCombatInfo.WeaponChanged += SetText;
         SetText();

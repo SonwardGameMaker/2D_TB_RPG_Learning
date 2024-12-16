@@ -11,12 +11,6 @@ internal class ActionList : MonoBehaviour
     private List<BehaviourScriptBase> _actions;
     private List<BehaviourScriptBase> _skillActions;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Setup();
-    }
-
     public void Setup()
     {
         CharacterBlank characterBlank = GetComponent<CharacterBlank>();

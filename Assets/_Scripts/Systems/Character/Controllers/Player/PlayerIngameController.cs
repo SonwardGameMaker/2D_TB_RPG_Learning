@@ -2,9 +2,9 @@ public class PlayerIngameController : CharacterIngameController
 {
     protected CharacterStatsSystem _stats;
 
-    protected override void Start()
+    public override void Setup()
     {
-        base.Start();
+        base.Setup();
         _stats = GetComponent<CharacterBlank>().Stats;
     }
 

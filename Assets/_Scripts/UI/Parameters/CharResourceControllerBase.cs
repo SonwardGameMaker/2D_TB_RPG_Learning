@@ -12,6 +12,7 @@ public class CharResourceControllerBase : MonoBehaviour
     protected Transform _valueTextHolder;
     protected int _amount = 0;
 
+    public virtual void Setup() { }
     protected void Init(CharResourceInfo resource)
     {
         _currentCrField = resource;

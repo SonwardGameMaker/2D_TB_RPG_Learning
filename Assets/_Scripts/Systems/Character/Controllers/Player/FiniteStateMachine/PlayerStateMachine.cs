@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class PlayerStateMachine
+public class PlayerStateMachine
 {
     private PlayerState _currentState;
     private GridManager _gridManager;

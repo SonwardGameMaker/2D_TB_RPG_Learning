@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal abstract class PlayerState
+public abstract class PlayerState
 {
     protected PlayerIngameController _playerController;
     protected IInputHandler _inputHandler;
