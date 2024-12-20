@@ -14,7 +14,7 @@ public class CharactersSpriteColoursManager : MonoBehaviour
     private List<CharacterInfo> _neutrals;
 
     // Start is called before the first frame update
-    void Start()
+    public void Setup()
     {
         _neutrals = _neutralsContainer.GetCharacters().Select(cr => cr.Item2).ToList();
 

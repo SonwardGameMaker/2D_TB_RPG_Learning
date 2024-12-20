@@ -19,7 +19,7 @@ public class PlayerStateMachine
     #endregion
 
     #region init
-    public PlayerStateMachine(UiManager uiManager, InputHandlerManager inputHandler)
+    public PlayerStateMachine(UiManager uiManager, PlayerInputManager inputHandler)
     {
         _uiManager = uiManager;
 

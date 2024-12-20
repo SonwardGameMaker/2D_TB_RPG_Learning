@@ -7,7 +7,7 @@ public class EnemiesLoggerManager : MonoBehaviour
 {
     [SerializeField] private CharactersContainerOnScene _enemies;
 
-    void Start()
+    public void Setup()
     {
         List<CharacterInfo> tempEnemies = _enemies.GetCharacters().Select(cr => cr.Item2).ToList();
 

@@ -29,6 +29,9 @@ public class InputHandlerNIS : MonoBehaviour, IInputHandler
     public event Action SecondCellButton_Pressed;
     public event Action CancelButton_Pressed;
     public event Action ChangeWeapon_Pressed;
+    public event Action MouseWheel_UpScroll;
+    public event Action MouseWheel_DownScroll;
+    public event Action ChangeInventoryTabVisibility_Pressed;
 
     private void Awake()
     {

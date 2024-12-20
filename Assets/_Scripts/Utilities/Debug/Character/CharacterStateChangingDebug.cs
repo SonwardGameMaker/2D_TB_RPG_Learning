@@ -15,14 +15,6 @@ internal class CharacterStateChangingDebug : MonoBehaviour
     {
         _character = character;
 
-        //_healthPoints = (int)character.Health.HealthInfo.CurrentValue;
-        //_movementPoints = (int)character.ApMpSystem.MovementPoints.CurrentValue;
-        //_actionPoints = (int)character.ApMpSystem.ActionPoints.CurrentValue;
-
-        //character.Health.HealthInfo.SubscribeToAll(SetHp);
-        //character.ApMpSystem.MovementPoints.SubscribeToAll(SetMp);
-        //character.ApMpSystem.ActionPoints.SubscribeToAll(SetAp);
-
         if (_character != null)
         {
             _character.Health.SetHp(_healthPoints);
@@ -30,23 +22,6 @@ internal class CharacterStateChangingDebug : MonoBehaviour
             _character.ApMpSystem.SetAp(_actionPoints);
         }
     }
-
-    private void OnDestroy()
-    {
-        //_character.Health.HealthInfo.UnsubscribeToAll(SetHp);
-        //_character.ApMpSystem.MovementPoints.UnsubscribeToAll(SetMp);
-        //_character.ApMpSystem.ActionPoints.UnsubscribeToAll(SetAp);
-    }
-
-    //private void OnValidate()
-    //{
-    //    if (_character != null)
-    //    {
-    //        _character.Health.SetHp(_healthPoints);
-    //        _character.ApMpSystem.SetMp(_movementPoints);
-    //        _character.ApMpSystem.SetAp(_actionPoints);
-    //    }
-    //}
 
     private void SetHp()
         => _healthPoints = (int)_character.Health.HealthInfo.CurrentValue;

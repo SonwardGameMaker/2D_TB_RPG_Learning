@@ -20,30 +20,28 @@ public class WeaponStatsBox : MonoBehaviour
     {
         _characterInfo.CharacterCombatInfo.WeaponChanged += SetText;
         SetText();
+        _isEnabled = gameObject.activeInHierarchy;
     }
     private void OnDestroy()
     {
         _characterInfo.CharacterCombatInfo.WeaponChanged -= SetText;
     }
 
-    private void Update()
+    public void ChangeActive()
     {
-        if (Input.GetKeyUp(KeyCode.N))
+        if (_isEnabled)
         {
-            if (_isEnabled)
-            {
-                foreach (Transform t in transform)
-                    t.gameObject.SetActive(false);
+            foreach (Transform t in transform)
+                t.gameObject.SetActive(false);
 
-                _isEnabled = false;
-            }
-            else
-            {
-                foreach (Transform t in transform)
-                    t.gameObject.SetActive(true);
+            _isEnabled = false;
+        }
+        else
+        {
+            foreach (Transform t in transform)
+                t.gameObject.SetActive(true);
 
-                _isEnabled = true;
-            }
+            _isEnabled = true;
         }
     }
 

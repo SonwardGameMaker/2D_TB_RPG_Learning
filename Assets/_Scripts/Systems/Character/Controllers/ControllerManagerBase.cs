@@ -20,8 +20,4 @@ public abstract class ControllerManagerBase : MonoBehaviour
         
     }
 
-    private void SetupGridManager(GridManager gridManager)
-    {
-
-    }
 }

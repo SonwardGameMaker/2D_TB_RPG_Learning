@@ -10,10 +10,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UiManager _uiManager;
 
     private UiInitManagerBase _uiInitManagerBase;
+    private GridSystemTestingManager _gridSystemTestingManager;
     private List<ControllerManagerBase> _characters;
 
     // Temporary fields
-    private InputHandlerManager _player;
+    private PlayerInputManager _player;
 
     private void Start()
     {
@@ -23,11 +24,16 @@ public class GameManager : MonoBehaviour
         _characters = _charactersContainer.GetCharacters().Select(c=>c.Item2.GetComponent<ControllerManagerBase>()).ToList();
         
         // Temp
-        _player = _characters.Find(c=>c is InputHandlerManager) as InputHandlerManager;
+        _player = _characters.Find(c=>c is PlayerInputManager) as PlayerInputManager;
 
         _uiInitManagerBase = GetComponent<UiInitManagerBase>();
+        _gridSystemTestingManager = GetComponent<GridSystemTestingManager>();
+
         _uiInitManagerBase.Setup();
+        _gridSystemTestingManager.Setup();
     }
+
+    public PlayerInputManager Player { get => _player; }
 
     public void TemporaryEndTurnMethod()
     {

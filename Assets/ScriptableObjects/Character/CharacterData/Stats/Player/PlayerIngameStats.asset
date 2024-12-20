@@ -151,7 +151,7 @@ MonoBehaviour:
     _name: Firearm
     _minValue: 0
     _currentValue:
-      baseValue: 0
+      baseValue: 15
       IsLowerBounded: 0
       LowerBound: 0
       IsUpperBounded: 0

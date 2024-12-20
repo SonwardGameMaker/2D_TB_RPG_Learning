@@ -40,8 +40,8 @@ public class CharacterBlank : MonoBehaviour
 
         if (TryGetComponent(out CharacterStateChangingDebug stateDebug))
             stateDebug.Setup(this);
-        else
-            GetComponent<CharacterIngameController>().Setup();
+
+        GetComponent<CharacterIngameController>().Setup();
 
         GetComponent<ControllerManagerBase>().Setup();
 
