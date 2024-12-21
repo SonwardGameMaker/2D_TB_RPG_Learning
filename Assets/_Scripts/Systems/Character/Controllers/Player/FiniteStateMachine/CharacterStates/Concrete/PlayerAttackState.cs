@@ -73,8 +73,7 @@ internal class PlayerAttackState : PlayerState
             _playerController.WalkAndAct(
                 CalculatePath(mousePosition, _attackRadius),
                 new AttackCommand(_attackable, characterOnTargetTile.GetComponentInChildren<IDamagable>()),
-                mousePosition,
-                _stateMachine.AttackRadius);
+                mousePosition);
 
             ChangeToIdleState();
         }

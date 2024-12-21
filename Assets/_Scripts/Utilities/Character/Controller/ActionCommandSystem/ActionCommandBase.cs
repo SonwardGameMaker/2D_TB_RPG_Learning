@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-internal abstract class ActionCommandBase
+public abstract class ActionCommandBase
 {
     protected BehaviourScriptBase _objectBase;
 

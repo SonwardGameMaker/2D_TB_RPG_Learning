@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class CharacterIngameController : MonoBehaviour
@@ -11,9 +12,9 @@ public class CharacterIngameController : MonoBehaviour
     private IMovable _movable;
     private IAttackable _attackable;
     private ActionList _skills;
-
     private ActionCommandList _commandList;
 
+    private GridManager _gridManager;
 
     #region events
     public event Action<bool, string> ExecutionEnded;
@@ -42,6 +43,12 @@ public class CharacterIngameController : MonoBehaviour
         _commandList.ExecutionEnded -= CommnadListExecutionEndedHandler;
     }
 
+    public GridManager GridManager 
+    {  
+        get => _gridManager;
+        set => _gridManager = value;
+    }
+
     #region external interactions
     public void NewTurn()
     {
@@ -66,13 +73,18 @@ public class CharacterIngameController : MonoBehaviour
         _commandList.ExecuteCommands(commands);
     }
 
-    internal void WalkAndAct(List<PathfinderNodeBase> path, ActionCommandBase action, Vector3 targetPosition, int interactDistance)
+    public void WalkAndAct(List<PathfinderNodeBase> path, ActionCommandBase action, Vector3 targetPosition)
     {
         List<ActionCommandBase> commands = new List<ActionCommandBase>();
         commands.Add(new MoveCommand(_movable, path));
         commands.Add(new RotateCommand(_movable, targetPosition));
         commands.Add(action);
         _commandList.ExecuteCommands(commands);
+    }
+
+    public void WalkAndInteract(Vector3 targetPoisition, ActionCommandBase action, int interactionRadius)
+    {
+
     }
     #endregion
 
@@ -81,9 +93,22 @@ public class CharacterIngameController : MonoBehaviour
     {
         ExecutionEnded?.Invoke(status, message);
     }
-      
     #endregion
 
     #region internal oprations
+    protected List<PathfinderNodeBase> CalculatePath(Vector3 targetPosition, int interactDistance = 0)
+    {
+        List<Vector2> ignoringNodes = new List<Vector2>();
+        Vector2Int startNodeCoord = _gridManager.Grid.Grid.GetPositionOnGrid(transform.position);
+        Vector2Int targetNodeCoord = _gridManager.Grid.Grid.GetPositionOnGrid(targetPosition);
+        List<PathfinderNodeBase> path = _gridManager.FindPath(
+            startNodeCoord,
+            targetNodeCoord,
+            new List<Vector2> { startNodeCoord, targetNodeCoord },
+            interactDistance);
+        if (path == null) throw new Exception("Path is null");
+
+        return path;
+    }
     #endregion
 }
