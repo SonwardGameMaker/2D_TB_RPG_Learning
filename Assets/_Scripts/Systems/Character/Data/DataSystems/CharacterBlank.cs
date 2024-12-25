@@ -41,14 +41,13 @@ public class CharacterBlank : MonoBehaviour
         if (TryGetComponent(out CharacterStateChangingDebug stateDebug))
             stateDebug.Setup(this);
 
-        GetComponent<CharacterIngameController>().Setup();
+        CharacterIngameController characterIngameController = GetComponent<CharacterIngameController>();
+        characterIngameController.Setup();
 
-        GetComponent<ControllerManagerBase>().Setup();
+        GetComponentInChildren<BehaviourLogicManager>().Setup(this);
+        GetComponentInChildren<InteractionBehaviourManager>().Setup(this);
 
-        foreach (BehaviourScriptBase charbehaviour in GetComponentInChildren<BehaviourLogicManager>().GetBehaviours())
-            charbehaviour.Setup(this);
-        foreach (CharInteractionBase charInteractionBase in GetComponentInChildren<InteractionBehaviourManager>().GetInteractionLogics())
-            charInteractionBase.Setup(this);
+        GetComponent<ControllerManagerBase>().Setup(GetComponent<CharacterInfo>(), characterIngameController);
     }
     #endregion
 }

@@ -6,12 +6,10 @@ using UnityEngine;
 
 public abstract class ControllerManagerBase : MonoBehaviour
 {
-    public virtual GridManager GridManager { get; set; }
     public GameManager GameManager { get; set; }
 
-    public virtual void Setup()
+    public virtual void Setup(CharacterInfo character, CharacterIngameController characterIngameController)
     {
-        GetComponentInChildren<ActionList>().Setup();
     }
 
     public abstract void NewTurn();

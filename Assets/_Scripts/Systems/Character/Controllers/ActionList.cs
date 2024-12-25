@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-internal class ActionList : MonoBehaviour
+public class ActionList : MonoBehaviour
 {
     [SerializeField] private GameObject _skillContainer;
 
@@ -11,10 +11,8 @@ internal class ActionList : MonoBehaviour
     private List<BehaviourScriptBase> _actions;
     private List<BehaviourScriptBase> _skillActions;
 
-    public void Setup()
+    public void Setup(CharacterBlank characterBlank)
     {
-        CharacterBlank characterBlank = GetComponent<CharacterBlank>();
-
         _baseActions = new List<BehaviourScriptBase>();
         _actions = new List<BehaviourScriptBase>();
         _skillActions = new List<BehaviourScriptBase>();
@@ -31,9 +29,9 @@ internal class ActionList : MonoBehaviour
     }
 
     #region properties
-    public IReadOnlyList<BehaviourScriptBase> BaseActions { get => _baseActions ; }
-    public IReadOnlyList<BehaviourScriptBase> Actions { get => _actions; }
-    public IReadOnlyList<BehaviourScriptBase> Skills {  get => _skillActions; }
+    public List<BehaviourScriptBase> BaseActions { get => _baseActions ; }
+    public List<BehaviourScriptBase> Actions { get => _actions; }
+    public List<BehaviourScriptBase> Skills {  get => _skillActions; }
     #endregion
 
     #region getters

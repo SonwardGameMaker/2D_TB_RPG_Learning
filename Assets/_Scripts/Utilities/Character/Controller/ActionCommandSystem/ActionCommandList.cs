@@ -26,7 +26,7 @@ internal class ActionCommandList
     {
         if (_isBusy)
         {
-            OnExecutionEnded(false, "Character is busy");
+            OnExecutionDenied("Character is busy");
             return;
         }
         _isBusy = true;
@@ -84,5 +84,8 @@ internal class ActionCommandList
         }
         _commandList[_commandList.Count - 1].ExecutionEnded -= OnExecutionEnded;
     }
+
+    private void OnExecutionDenied(string message)
+        => ExecutionEnded?.Invoke(false, message);
     #endregion
 }

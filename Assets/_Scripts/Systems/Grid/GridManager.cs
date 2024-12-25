@@ -25,10 +25,8 @@ public class GridManager : MonoBehaviour
         foreach (var character in characters)
         {
             character.Item2.Setup();
-            if (character.Item2.TryGetComponent(out ControllerManagerBase controllerManager))
-            {
-                controllerManager.GridManager = this;
-            }
+            if (character.Item2.TryGetComponent(out CharacterIngameController controller))
+                controller.GridManager = this;
         }
 
         _logicalGrid.Setup(_width, _height, _cellSize, transform.position,
@@ -56,10 +54,7 @@ public class GridManager : MonoBehaviour
 
         List<PathfinderNodeBase> result = _pathfinder.FindPath(start, target, ignoringNodes, distanceFromTarget);
 
-        //Debug.Log($"Path nodes count: {result.Count}");
-
         DrawPathGizmos(result);
-        //DrawDistacneGizmos(result[result.Count - 1], _pathfinder.GetNode(target.x, target.y));
         DrawDistacneGizmos(result[result.Count - 1], _pathfinder.GetNode(target.x, target.y));
         DrawTargetingPathGizmos(result[result.Count - 1], _pathfinder.GetNode(target.x, target.y));
 

@@ -13,10 +13,11 @@ public class PlayerInputManager : ControllerManagerBase
     [SerializeField] private int _attackRadius = 0;
 
     #region init
-    public override void Setup()
+    public override void Setup(CharacterInfo character, CharacterIngameController controller)
     {
-        base.Setup();
-        _stateMachine = new PlayerStateMachine(_uiManager, this);
+        if (!(controller is PlayerIngameController)) throw new Exception("This controller is not for Player");
+
+        _stateMachine = new PlayerStateMachine(_uiManager, this, controller as PlayerIngameController, character);
         _stateMachine.Setup<PlayerIdleState>();
         _stateMachine.AttackRadius = _attackRadius;
     }
@@ -24,14 +25,6 @@ public class PlayerInputManager : ControllerManagerBase
     private void OnDestroy()
     {
         _stateMachine = null;
-    }
-    #endregion
-
-    #region properties
-    public override GridManager GridManager 
-    {
-        get => _stateMachine.GridManager;
-        set => _stateMachine.GridManager = value;
     }
     #endregion
 

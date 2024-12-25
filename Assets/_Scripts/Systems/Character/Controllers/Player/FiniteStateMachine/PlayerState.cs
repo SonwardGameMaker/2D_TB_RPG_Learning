@@ -43,19 +43,7 @@ public abstract class PlayerState
 
     #region internal operations
     protected List<PathfinderNodeBase> CalculatePath(Vector3 targetPosition, int interactDistance = 0)
-    {
-        List<Vector2> ignoringNodes = new List<Vector2>();
-        Vector2Int startNodeCoord = _stateMachine.GridManager.Grid.Grid.GetPositionOnGrid(_playerController.transform.position);
-        Vector2Int targetNodeCoord = _stateMachine.GridManager.Grid.Grid.GetPositionOnGrid(targetPosition);
-        List<PathfinderNodeBase> path = _stateMachine.GridManager.FindPath(
-            startNodeCoord,
-            targetNodeCoord,
-            new List<Vector2> { startNodeCoord, targetNodeCoord },
-            interactDistance);
-        if (path == null) throw new Exception("Path is null");
-
-        return path;
-    }
+        => _playerController.CalculatePath(targetPosition, interactDistance);
 
     protected Vector2 GetMousePosition()
         => Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -68,7 +56,7 @@ public abstract class PlayerState
         {
             if (hit.collider.gameObject.tag == "Grid")
             {
-                return _stateMachine.GridManager.Grid.Grid.GetNode(mousePosition);
+                return _playerController.GridManager.Grid.Grid.GetNode(mousePosition);
             }
         }
 

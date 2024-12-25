@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerStateMachine
 {
     private PlayerState _currentState;
-    private GridManager _gridManager;
     private UiManager _uiManager;
 
     private List<PlayerState> _stateList;
@@ -19,13 +18,11 @@ public class PlayerStateMachine
     #endregion
 
     #region init
-    public PlayerStateMachine(UiManager uiManager, PlayerInputManager inputHandler)
+    public PlayerStateMachine(UiManager uiManager, PlayerInputManager inputHandler, PlayerIngameController controller, CharacterInfo player)
     {
         _uiManager = uiManager;
 
-        PlayerIngameController controller = inputHandler.GetComponent<PlayerIngameController>();
         IInputHandler input = inputHandler.GetComponentInChildren<IInputHandler>();
-        CharacterInfo player = inputHandler.GetComponent<CharacterInfo>();
 
         _stateList = new List<PlayerState>();
         _stateList.Add(new PlayerIdleState(this, controller, input, player));
@@ -58,11 +55,6 @@ public class PlayerStateMachine
     public PlayerBehaviourScriptContainer SecondCell { get => _secondCellContainer; }
     public PlayerBehaviourScriptContainer ThirdCell { get => _thirdCellContainer; }
 
-    public GridManager GridManager 
-    { 
-        get => _gridManager;
-        set => _gridManager = value;
-    }
     public UiManager UiManager { get => _uiManager; }
     public int AttackRadius { get; set; }
     #endregion

@@ -50,6 +50,7 @@ internal class PlayerIdleState : PlayerState
         TileNode nodeSelected = GetNodeByMousePosition(GetMousePosition());
         if (nodeSelected == null)
         {
+            Debug.Log("Selected node is null");
             return;
         }
 
