@@ -8,9 +8,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2439107568581601456, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-      propertyPath: m_Name
-      value: Sprite
+    - target: {fileID: 1553466683325286984, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553466683325286984, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553466683325286984, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
+      propertyPath: m_Color.r
+      value: 0.93333334
       objectReference: {fileID: 0}
     - target: {fileID: 2599852580004614311, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -56,129 +64,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 2614807372337640372, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-      propertyPath: m_TagString
-      value: Characters
-      objectReference: {fileID: 0}
-    - target: {fileID: 5638936444899745794, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-      propertyPath: _equipmentSlots.MainHand._weaponSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 92841722451521f468f911dfa787ee90, type: 2}
-    - target: {fileID: 5638936444899745794, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-      propertyPath: _equipmentSlots.SecondHand._weaponSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 92841722451521f468f911dfa787ee90, type: 2}
-    - target: {fileID: 5638936444899745794, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-      propertyPath: _equipmentSlots.BodyEquipment._armourSO
-      value: 
-      objectReference: {fileID: 11400000, guid: f1b5f94acdd22f04ead37252d7d8fe4c, type: 2}
-    - target: {fileID: 5638936444899745794, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-      propertyPath: _equipmentSlots.FeetEquipment._armourSO
-      value: 
-      objectReference: {fileID: 11400000, guid: ce672e98bd528bf4aa36a9a2ca1debf3, type: 2}
-    - target: {fileID: 5638936444899745794, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-      propertyPath: _equipmentSlots.HeadEquipment._armourSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 01fdac5701f84094688f397573c4a51c, type: 2}
-    - target: {fileID: 8243259215531897151, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-      propertyPath: _name
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 8243259215531897151, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-      propertyPath: StatsInitSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 6c601c01c17ce0a469eff42ca1219324, type: 2}
-    m_RemovedComponents:
-    - {fileID: 6664806914561584291, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-    - {fileID: 5638936444899745794, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-    - {fileID: 4179097925582064034, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-    m_RemovedGameObjects:
-    - {fileID: 4399515326181284340, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-    - {fileID: 1645433357038303977, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2439107568581601456, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4910383071558862282}
-    - targetCorrespondingSourceObject: {fileID: 2439107568581601456, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7827850159978532966}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
---- !u!1 &382969061626393741 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2439107568581601456, guid: 68574abcbd5dd5145a99d0ecf2d669ec, type: 3}
-  m_PrefabInstance: {fileID: 2632889703072881725}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &4910383071558862282
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 382969061626393741}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0883090e0ecb35d44a2fed4aa7e9ff50, type: 3}
-  m_Color: {r: 0.93207544, g: 0, b: 0, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!95 &7827850159978532966
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 382969061626393741}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 14af84e653347dc4b96f8b6de2a80c3a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
